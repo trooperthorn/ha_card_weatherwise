@@ -1,0 +1,90 @@
+/**
+ * Dev harness: mounts the card in the two kiosk arrangements (metro and
+ * state) against the live WeatherWise services, plus a broken
+ * configuration that exercises the setConfig error path.
+ */
+
+import "../src/weatherwise-card";
+
+interface LovelaceCardElement extends HTMLElement {
+  setConfig(config: unknown): void;
+  hass: unknown;
+}
+
+const POINT = { latitude: 32.391, longitude: -96.7 };
+
+const scenarios: Record<string, unknown[]> = {
+  "two views": [
+    { type: "custom:weatherwise-card", title: "Metro radar", view: "metro", ...POINT },
+    {
+      type: "custom:weatherwise-card",
+      title: "State radar",
+      view: "state",
+      show_conditions: false,
+      show_hourly: false,
+      show_daily: true,
+      ...POINT,
+    },
+  ],
+  "metro only": [{ type: "custom:weatherwise-card", view: "metro", hourly_count: 8, ...POINT }],
+  "state, celsius, gfs": [
+    {
+      type: "custom:weatherwise-card",
+      view: "state",
+      model: "gfs_seamless",
+      temperature_unit: "celsius",
+      wind_speed_unit: "kmh",
+      precipitation_unit: "mm",
+      show_daily: true,
+      ...POINT,
+    },
+  ],
+  "forecast only": [
+    { type: "custom:weatherwise-card", show_map: false, show_daily: true, ...POINT },
+  ],
+  "unreachable host": [
+    {
+      type: "custom:weatherwise-card",
+      show_map: false,
+      hosts: ["https://invalid.invalid"],
+      ...POINT,
+    },
+  ],
+  "bad config": [
+    { type: "custom:weatherwise-card", latitude: "x", view: "county", hourly_count: 0, typo: 1 },
+  ],
+};
+
+const stage = document.getElementById("stage")!;
+const toolbar = document.getElementById("toolbar")!;
+const errorBox = document.getElementById("config-error")!;
+
+function activate(name: string): void {
+  for (const btn of toolbar.querySelectorAll("button")) {
+    btn.classList.toggle("active", btn.dataset.name === name);
+  }
+  stage.replaceChildren();
+  errorBox.textContent = "";
+  errorBox.style.display = "none";
+  for (const config of scenarios[name] ?? []) {
+    const card = document.createElement("weatherwise-card") as LovelaceCardElement;
+    card.hass = { locale: { language: "en" } };
+    try {
+      card.setConfig(config);
+      stage.appendChild(card);
+    } catch (err) {
+      errorBox.textContent = err instanceof Error ? err.message : String(err);
+      errorBox.style.display = "block";
+    }
+  }
+}
+
+for (const name of Object.keys(scenarios)) {
+  const btn = document.createElement("button");
+  btn.textContent = name;
+  btn.dataset.name = name;
+  btn.addEventListener("click", () => activate(name));
+  toolbar.appendChild(btn);
+}
+
+activate("two views");

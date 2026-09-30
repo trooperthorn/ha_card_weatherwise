@@ -1,0 +1,31 @@
+# A complete two-view kiosk dashboard. Each view is a panel so its single
+# card fills the screen; rotate between them with the kiosk browser or an
+# automation that calls browser navigation.
+title: Weather board
+views:
+  - title: Metro
+    path: metro
+    type: panel
+    cards:
+      - type: custom:weatherwise-card
+        title: Metro radar
+        view: metro
+        latitude: 32.391
+        longitude: -96.7
+        map_height: 720
+        map_reload_minutes: 60
+        hourly_count: 12
+  - title: State
+    path: state
+    type: panel
+    cards:
+      - type: custom:weatherwise-card
+        title: State radar
+        view: state
+        latitude: 32.391
+        longitude: -96.7
+        map_height: 800
+        map_reload_minutes: 60
+        show_conditions: false
+        show_hourly: false
+        show_daily: true

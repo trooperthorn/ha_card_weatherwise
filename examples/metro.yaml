@@ -1,0 +1,9 @@
+# Metro view: tight framing with the full headline and hourly strip.
+type: custom:weatherwise-card
+title: Metro radar
+view: metro
+latitude: 32.391
+longitude: -96.7
+map_height: 560
+map_reload_minutes: 60
+hourly_count: 12

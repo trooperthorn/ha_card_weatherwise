@@ -1,0 +1,6 @@
+{
+  "name": "WeatherWise Card",
+  "render_readme": true,
+  "filename": "weatherwise-card.js",
+  "homeassistant": "2026.9.0"
+}

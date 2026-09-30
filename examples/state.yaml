@@ -1,0 +1,13 @@
+# State view: the radar is the point, so the headline and hourly strip are
+# off and the daily strip is on.
+type: custom:weatherwise-card
+title: State radar
+view: state
+latitude: 32.391
+longitude: -96.7
+map_height: 640
+map_reload_minutes: 60
+show_conditions: false
+show_hourly: false
+show_daily: true
+daily_count: 5
