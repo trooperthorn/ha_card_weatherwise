@@ -58,6 +58,18 @@ export const CONFIG_FORM_SCHEMA: Schema[] = [
         { name: "show_conditions", selector: { boolean: {} } },
         { name: "show_hourly", selector: { boolean: {} } },
         { name: "show_daily", selector: { boolean: {} } },
+        {
+          name: "layout",
+          selector: {
+            select: {
+              mode: "dropdown",
+              options: [
+                { value: "strips", label: "Compact strips" },
+                { value: "report", label: "Report tables" },
+              ],
+            },
+          },
+        },
       ]),
       grid([
         { name: "hourly_count", selector: { number: { min: 1, max: 48, mode: "box" } } },
@@ -92,6 +104,29 @@ export const CONFIG_FORM_SCHEMA: Schema[] = [
       ]),
     ],
   },
+  {
+    name: "",
+    type: "expandable",
+    flatten: true,
+    title: "Alerts",
+    schema: [
+      grid([
+        { name: "show_alerts", selector: { boolean: {} } },
+        { name: "alerts_include_outlooks", selector: { boolean: {} } },
+      ]),
+      grid([
+        { name: "alerts_max", selector: { number: { min: 1, max: 10, mode: "box" } } },
+        {
+          name: "alerts_refresh_minutes",
+          selector: { number: { min: 2, max: 60, mode: "box", unit_of_measurement: "min" } },
+        },
+      ]),
+      grid([
+        { name: "alert_zones", selector: { text: {} } },
+        { name: "alert_country", selector: { text: {} } },
+      ]),
+    ],
+  },
 ];
 
 const LABELS: Record<string, string> = {
@@ -117,9 +152,25 @@ const LABELS: Record<string, string> = {
   temperature_unit: "Temperature unit",
   wind_speed_unit: "Wind speed unit",
   precipitation_unit: "Precipitation unit",
+  layout: "Forecast layout",
+  show_alerts: "Show local alerts",
+  alerts_include_outlooks: "Include outlooks and short term forecasts",
+  alerts_max: "Alerts to show",
+  alerts_refresh_minutes: "Alert refresh interval",
+  alert_zones: "Zone codes (optional)",
+  alert_country: "Warnings feed country",
 };
 
 const HELPERS: Record<string, string> = {
+  layout:
+    "Strips show one tile per hour and day. Report shows tables with feels-like, rain amount, wind, humidity, sunrise and sunset.",
+  show_alerts:
+    "Warnings, watches, advisories, and statements from the WeatherWise warnings feed that cover this point, matched by polygon or by the zone codes below.",
+  alerts_include_outlooks:
+    "Off by default: Hazardous Weather Outlooks, Hydrologic Outlooks, and Short Term Forecasts are routine products, not hazards.",
+  alert_zones:
+    "NWS UGC codes for this point, comma separated, such as TXZ133 or TXC139. A listed code matches without a polygon lookup; leave empty to rely on the polygon test alone.",
+  alert_country: "The country token in the feed path. Only USA is verified.",
   view: "Metro centers tightly on the point; State pulls back to the whole state. Set zoom to override.",
   map_interactive:
     "Off by default for display boards: a stray touch or wheel event would otherwise pan or zoom the map away until the next reload.",

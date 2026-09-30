@@ -2,3 +2,6 @@ node_modules/
 *.log
 .vite/
 __pycache__/
+
+# Local tool state
+.claude/

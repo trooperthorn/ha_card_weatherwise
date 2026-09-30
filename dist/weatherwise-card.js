@@ -254,86 +254,86 @@ var h = class extends HTMLElement {
 h.elementStyles = [], h.shadowRootOptions = { mode: "open" }, h[p("elementProperties")] = /* @__PURE__ */ new Map(), h[p("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: h }), (f.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var g = globalThis, ce = (e) => e, _ = g.trustedTypes, le = _ ? _.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ue = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, y = "?" + v, de = `<${y}>`, b = document, x = () => b.createComment(""), S = (e) => e === null || typeof e != "object" && typeof e != "function", C = Array.isArray, fe = (e) => C(e) || typeof e?.[Symbol.iterator] == "function", w = "[ 	\n\f\r]", T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, pe = /-->/g, me = />/g, E = RegExp(`>|${w}(?:([^\\s"'>=/]+)(${w}*=${w}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), he = /'/g, ge = /"/g, _e = /^(?:script|style|textarea|title)$/i, ve = (e) => (t, ...n) => ({
+var ce = globalThis, le = (e) => e, g = ce.trustedTypes, ue = g ? g.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, de = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, fe = "?" + _, pe = `<${fe}>`, v = document, y = () => v.createComment(""), b = (e) => e === null || typeof e != "object" && typeof e != "function", x = Array.isArray, me = (e) => x(e) || typeof e?.[Symbol.iterator] == "function", S = "[ 	\n\f\r]", C = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, he = /-->/g, ge = />/g, w = RegExp(`>|${S}(?:([^\\s"'>=/]+)(${S}*=${S}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), _e = /'/g, ve = /"/g, ye = /^(?:script|style|textarea|title)$/i, be = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}), D = ve(1), O = ve(2), k = Symbol.for("lit-noChange"), A = Symbol.for("lit-nothing"), ye = /* @__PURE__ */ new WeakMap(), j = b.createTreeWalker(b, 129);
-function be(e, t) {
-	if (!C(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return le === void 0 ? t : le.createHTML(t);
+}), T = be(1), E = be(2), D = Symbol.for("lit-noChange"), O = Symbol.for("lit-nothing"), xe = /* @__PURE__ */ new WeakMap(), k = v.createTreeWalker(v, 129);
+function Se(e, t) {
+	if (!x(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return ue === void 0 ? t : ue.createHTML(t);
 }
-var xe = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = T;
+var Ce = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = C;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === T ? c[1] === "!--" ? o = pe : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = E) : (_e.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = E) : o = me : o === E ? c[0] === ">" ? (o = i ?? T, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? E : c[3] === "\"" ? ge : he) : o === ge || o === he ? o = E : o === pe || o === me ? o = T : (o = E, i = void 0);
-		let d = o === E && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === T ? n + de : l >= 0 ? (r.push(s), n.slice(0, l) + ue + n.slice(l) + v + d) : n + v + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === C ? c[1] === "!--" ? o = he : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = w) : (ye.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = w) : o = ge : o === w ? c[0] === ">" ? (o = i ?? C, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? w : c[3] === "\"" ? ve : _e) : o === ve || o === _e ? o = w : o === he || o === ge ? o = C : (o = w, i = void 0);
+		let d = o === w && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === C ? n + pe : l >= 0 ? (r.push(s), n.slice(0, l) + de + n.slice(l) + _ + d) : n + _ + (l === -2 ? t : d);
 	}
-	return [be(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, M = class e {
+	return [Se(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, A = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = xe(t, n);
-		if (this.el = e.createElement(l, r), j.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Ce(t, n);
+		if (this.el = e.createElement(l, r), k.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = j.nextNode()) !== null && c.length < s;) {
+		for (; (i = k.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(ue)) {
-					let t = u[o++], n = i.getAttribute(e).split(v), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(de)) {
+					let t = u[o++], n = i.getAttribute(e).split(_), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? Ce : r[1] === "?" ? we : r[1] === "@" ? Te : F
+						ctor: r[1] === "." ? Te : r[1] === "?" ? Ee : r[1] === "@" ? De : N
 					}), i.removeAttribute(e);
-				} else e.startsWith(v) && (c.push({
+				} else e.startsWith(_) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (_e.test(i.tagName)) {
-					let e = i.textContent.split(v), t = e.length - 1;
+				if (ye.test(i.tagName)) {
+					let e = i.textContent.split(_), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = _ ? _.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], x()), j.nextNode(), c.push({
+						i.textContent = g ? g.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], y()), k.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], x());
+						i.append(e[t], y());
 					}
 				}
 			} else if (i.nodeType === 8) {
-				if (i.data === y) c.push({
+				if (i.data === fe) c.push({
 					type: 2,
 					index: a
 				});
 				else {
 					let e = -1;
-					for (; (e = i.data.indexOf(v, e + 1)) !== -1;) c.push({
+					for (; (e = i.data.indexOf(_, e + 1)) !== -1;) c.push({
 						type: 7,
 						index: a
-					}), e += v.length - 1;
+					}), e += _.length - 1;
 				}
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = b.createElement("template");
+		let n = v.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function N(e, t, n = e, r) {
-	if (t === k) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = S(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = N(e, i._$AS(e, t.values), i, r)), t;
+function j(e, t, n = e, r) {
+	if (t === D) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = b(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = j(e, i._$AS(e, t.values), i, r)), t;
 }
-var Se = class {
+var we = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -344,28 +344,28 @@ var Se = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? b).importNode(t, !0);
-		j.currentNode = r;
-		let i = j.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? v).importNode(t, !0);
+		k.currentNode = r;
+		let i = k.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new P(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Ee(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new M(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Oe(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = j.nextNode(), a++);
+			a !== s?.index && (i = k.nextNode(), a++);
 		}
-		return j.currentNode = b, r;
+		return k.currentNode = v, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, P = class e {
+}, M = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = O, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -378,7 +378,7 @@ var Se = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = N(this, e, t), S(e) ? e === A || e == null || e === "" ? (this._$AH !== A && this._$AR(), this._$AH = A) : e !== this._$AH && e !== k && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? fe(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = j(this, e, t), b(e) ? e === O || e == null || e === "" ? (this._$AH !== O && this._$AR(), this._$AH = O) : e !== this._$AH && e !== D && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? me(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -387,36 +387,36 @@ var Se = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== A && S(this._$AH) ? this._$AA.nextSibling.data = e : this.T(b.createTextNode(e)), this._$AH = e;
+		this._$AH !== O && b(this._$AH) ? this._$AA.nextSibling.data = e : this.T(v.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = M.createElement(be(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = A.createElement(Se(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new Se(r, this), n = e.u(this.options);
+			let e = new we(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = ye.get(e.strings);
-		return t === void 0 && ye.set(e.strings, t = new M(e)), t;
+		let t = xe.get(e.strings);
+		return t === void 0 && xe.set(e.strings, t = new A(e)), t;
 	}
 	k(t) {
-		C(this._$AH) || (this._$AH = [], this._$AR());
+		x(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(x()), this.O(x()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(y()), this.O(y()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = ce(e).nextSibling;
-			ce(e).remove(), e = t;
+			let t = le(e).nextSibling;
+			le(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, F = class {
+}, N = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -424,47 +424,47 @@ var Se = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = A, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = A;
+		this.type = 1, this._$AH = O, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = O;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = N(this, e, t, 0), a = !S(e) || e !== this._$AH && e !== k, a && (this._$AH = e);
+		if (i === void 0) e = j(this, e, t, 0), a = !b(e) || e !== this._$AH && e !== D, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = N(this, r[n + o], t, o), s === k && (s = this._$AH[o]), a ||= !S(s) || s !== this._$AH[o], s === A ? e = A : e !== A && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = j(this, r[n + o], t, o), s === D && (s = this._$AH[o]), a ||= !b(s) || s !== this._$AH[o], s === O ? e = O : e !== O && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === A ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === O ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, Ce = class extends F {
+}, Te = class extends N {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === A ? void 0 : e;
+		this.element[this.name] = e === O ? void 0 : e;
 	}
-}, we = class extends F {
+}, Ee = class extends N {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== A);
+		this.element.toggleAttribute(this.name, !!e && e !== O);
 	}
-}, Te = class extends F {
+}, De = class extends N {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = N(this, e, t, 0) ?? A) === k) return;
-		let n = this._$AH, r = e === A && n !== A || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== A && (n === A || r);
+		if ((e = j(this, e, t, 0) ?? O) === D) return;
+		let n = this._$AH, r = e === O && n !== O || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== O && (n === O || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, Ee = class {
+}, Oe = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -472,33 +472,33 @@ var Se = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		N(this, e);
+		j(this, e);
 	}
-}, De = {
-	M: ue,
-	P: v,
-	A: y,
+}, ke = {
+	M: de,
+	P: _,
+	A: fe,
 	C: 1,
-	L: xe,
-	R: Se,
-	D: fe,
-	V: N,
-	I: P,
-	H: F,
-	N: we,
-	U: Te,
-	B: Ce,
-	F: Ee
-}, Oe = g.litHtmlPolyfillSupport;
-Oe?.(M, P), (g.litHtmlVersions ??= []).push("3.3.3");
-var ke = (e, t, n) => {
+	L: Ce,
+	R: we,
+	D: me,
+	V: j,
+	I: M,
+	H: N,
+	N: Ee,
+	U: De,
+	B: Te,
+	F: Oe
+}, Ae = ce.litHtmlPolyfillSupport;
+Ae?.(A, M), (ce.litHtmlVersions ??= []).push("3.3.3");
+var je = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new P(t.insertBefore(x(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new M(t.insertBefore(y(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, I = globalThis, L = class extends h {
+}, Me = globalThis, P = class extends h {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -508,7 +508,7 @@ var ke = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = ke(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = je(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -517,21 +517,21 @@ var ke = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return k;
+		return D;
 	}
 };
-L._$litElement$ = !0, L.finalized = !0, I.litElementHydrateSupport?.({ LitElement: L });
-var Ae = I.litElementPolyfillSupport;
-Ae?.({ LitElement: L }), (I.litElementVersions ??= []).push("4.2.2");
+P._$litElement$ = !0, P.finalized = !0, Me.litElementHydrateSupport?.({ LitElement: P });
+var Ne = Me.litElementPolyfillSupport;
+Ne?.({ LitElement: P }), (Me.litElementVersions ??= []).push("4.2.2");
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/property.js
-var je = {
+var Pe = {
 	attribute: !0,
 	type: String,
 	converter: m,
 	reflect: !1,
 	hasChanged: oe
-}, Me = (e = je, t, n) => {
+}, Fe = (e = Pe, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
 		let { name: r } = n;
@@ -554,16 +554,16 @@ var je = {
 	}
 	throw Error("Unsupported decorator location: " + r);
 };
-function Ne(e) {
-	return (t, n) => typeof n == "object" ? Me(e, t, n) : ((e, t, n) => {
+function Ie(e) {
+	return (t, n) => typeof n == "object" ? Fe(e, t, n) : ((e, t, n) => {
 		let r = t.hasOwnProperty(n);
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/state.js
-function R(e) {
-	return Ne({
+function F(e) {
+	return Ie({
 		...e,
 		state: !0,
 		attribute: !1
@@ -571,10 +571,10 @@ function R(e) {
 }
 //#endregion
 //#region node_modules/lit-html/directive.js
-var Pe = (e) => (...t) => ({
+var Le = (e) => (...t) => ({
 	_$litDirective$: e,
 	values: t
-}), Fe = class {
+}), Re = class {
 	constructor(e) {}
 	get _$AU() {
 		return this._$AM._$AU;
@@ -588,17 +588,155 @@ var Pe = (e) => (...t) => ({
 	update(e, t) {
 		return this.render(...t);
 	}
-}, { I: Ie } = De, Le = {}, Re = (e, t = Le) => e._$AH = t, ze = Pe(class extends Fe {
+}, { I: ze } = ke, Be = {}, Ve = (e, t = Be) => e._$AH = t, He = Le(class extends Re {
 	constructor() {
-		super(...arguments), this.key = A;
+		super(...arguments), this.key = O;
 	}
 	render(e, t) {
 		return this.key = e, t;
 	}
 	update(e, [t, n]) {
-		return t !== this.key && (Re(e), this.key = t), n;
+		return t !== this.key && (Ve(e), this.key = t), n;
 	}
-}), Be = [
+}), Ue = /^[A-Z]{2}[CZ]\d{3}$/, We = /^[A-Z]{2,3}$/;
+function Ge(e, t) {
+	return new URL(`/warnings/${t}.geojson`, e).toString();
+}
+function Ke(e, t) {
+	return new URL(`/warnings/archive/${t}-geometry.geojson`, e).toString();
+}
+function I(e) {
+	return typeof e == "object" && !!e && !Array.isArray(e);
+}
+function L(e) {
+	return typeof e == "number" && Number.isFinite(e) ? e : null;
+}
+function R(e) {
+	return typeof e == "string" && e.trim() !== "" ? e.trim() : null;
+}
+function qe(e) {
+	return Array.isArray(e) && e.length >= 4 && e.every((e) => Array.isArray(e) && e.length >= 2 && L(e[0]) !== null && L(e[1]) !== null);
+}
+function Je(e) {
+	return !I(e) || !Array.isArray(e.coordinates) ? null : e.type === "Polygon" && e.coordinates.every(qe) ? {
+		type: "Polygon",
+		coordinates: e.coordinates
+	} : e.type === "MultiPolygon" && e.coordinates.every((e) => Array.isArray(e) && e.every(qe)) ? {
+		type: "MultiPolygon",
+		coordinates: e.coordinates
+	} : null;
+}
+function Ye(e) {
+	return I(e) ? e.type === "Feature" ? Je(e.geometry) : Je(e) : null;
+}
+function Xe(e) {
+	if (!Array.isArray(e) || e.length !== 4) return null;
+	let t = e.map(L);
+	return t.some((e) => e === null) ? null : t;
+}
+function Ze(e) {
+	if (!I(e) || !I(e.properties)) return null;
+	let t = e.properties, n = R(t.id), r = R(t.title);
+	if (n === null || r === null) return null;
+	let i = I(t.tags) ? t.tags : {};
+	return {
+		id: n,
+		title: r,
+		product: R(t.product) ?? "",
+		significance: R(t.significance) ?? "",
+		emergency: t.emergency === !0,
+		office: R(t.office),
+		issuedAt: L(t.issued_at_ms),
+		startsAt: L(t.starts_at_ms),
+		expiresAt: L(t.expires_at_ms),
+		ugcs: Array.isArray(t.ugcs) ? t.ugcs.filter((e) => typeof e == "string") : [],
+		bbox: Xe(t.bbox),
+		what: R(i.WHAT),
+		where: R(i.WHERE),
+		when: R(i.WHEN),
+		impacts: R(i.IMPACTS),
+		geometry: Je(e.geometry)
+	};
+}
+var Qe = class extends Error {};
+function $e(e) {
+	if (!I(e) || !Array.isArray(e.features)) throw new Qe("response is not a FeatureCollection");
+	let t = [];
+	for (let n of e.features) {
+		let e = Ze(n);
+		e && t.push(e);
+	}
+	return t;
+}
+function et(e, t, n) {
+	let r = !1, i = n.length;
+	for (let a = 0, o = i - 1; a < i; o = a, a += 1) {
+		let [i, s] = n[a], [c, l] = n[o];
+		s > t != l > t && e < (c - i) * (t - s) / (l - s) + i && (r = !r);
+	}
+	return r;
+}
+function tt(e, t, n) {
+	let [r, ...i] = n;
+	return !r || !et(e, t, r) ? !1 : !i.some((n) => et(e, t, n));
+}
+function nt(e, t, n) {
+	return n.type === "Polygon" ? tt(e, t, n.coordinates) : n.coordinates.some((n) => tt(e, t, n));
+}
+function rt(e, t, n) {
+	let [r, i, a, o] = e;
+	return t >= r && t <= a && n >= i && n <= o;
+}
+function it(e, t) {
+	return e.expiresAt === null || e.expiresAt > t;
+}
+function at(e) {
+	return e.significance === "O" || e.significance === "F";
+}
+var ot = {
+	W: 0,
+	A: 1,
+	Y: 2,
+	S: 3,
+	F: 4,
+	O: 5
+};
+function st(e) {
+	let t = ot[e.significance] ?? 6;
+	return e.emergency ? -1 : t;
+}
+function ct(e, t) {
+	let n = st(e) - st(t);
+	return n === 0 ? (t.issuedAt ?? 0) - (e.issuedAt ?? 0) : n;
+}
+async function lt(e, t) {
+	let { latitude: n, longitude: r, zones: i, nowMs: a, includeOutlooks: o, fetchGeometry: s } = t, c = new Set(i), l = [], u = [], d = e.filter((e) => it(e, a) && (o || !at(e)) && (e.bbox === null || rt(e.bbox, r, n)));
+	for (let e of d) {
+		if (e.ugcs.some((e) => c.has(e))) {
+			l.push({
+				...e,
+				matchedBy: "zone"
+			});
+			continue;
+		}
+		let t = e.geometry;
+		if (t === null && (t = await s(e.id)), t === null) {
+			u.push(e);
+			continue;
+		}
+		nt(r, n, t) && l.push({
+			...e,
+			matchedBy: "polygon"
+		});
+	}
+	return l.sort(ct), {
+		matched: l,
+		unresolved: u
+	};
+}
+//#endregion
+//#region src/forecast.ts
+var ut = [
 	"temperature_2m",
 	"apparent_temperature",
 	"relative_humidity_2m",
@@ -608,7 +746,7 @@ var Pe = (e) => (...t) => ({
 	"wind_direction_10m",
 	"weather_code",
 	"is_day"
-], Ve = [
+], dt = [
 	"temperature_2m_max",
 	"temperature_2m_min",
 	"weather_code",
@@ -616,13 +754,13 @@ var Pe = (e) => (...t) => ({
 	"sunrise",
 	"sunset"
 ];
-function He(e, t) {
+function ft(e, t) {
 	let n = t.model === "gfs_seamless" ? "/api/om/v1/gfs" : "/api/om/v1/forecast", r = new URL(n, e), i = Math.min(48, Math.max(2, t.hourly_count + 2)), a = Math.max(1, t.show_daily ? t.daily_count : 1), o = {
 		models: t.model,
 		latitude: String(t.latitude),
 		longitude: String(t.longitude),
-		hourly: Be.join(","),
-		daily: Ve.join(","),
+		hourly: ut.join(","),
+		daily: dt.join(","),
 		timezone: "auto",
 		timeformat: "unixtime",
 		forecast_hours: String(i),
@@ -640,24 +778,24 @@ function z(e) {
 function B(e) {
 	return typeof e == "number" && Number.isFinite(e) ? e : null;
 }
-function Ue(e, t, n, r) {
+function pt(e, t, n, r) {
 	let i = e[t];
 	return i === void 0 ? Array(n).fill(null) : Array.isArray(i) ? i.length === n ? i : (r.push(`${t} has ${i.length} values, expected ${n}`), Array(n).fill(null)) : (r.push(`${t} is not an array`), Array(n).fill(null));
 }
-var We = { "mp/h": "mph" };
-function V(e, t, n) {
+var mt = { "mp/h": "mph" };
+function ht(e, t, n) {
 	if (z(e) && typeof e[t] == "string") {
 		let n = e[t];
-		return We[n] ?? n;
+		return mt[n] ?? n;
 	}
 	return n;
 }
-var H = class extends Error {};
-function Ge(e, t) {
-	if (!z(e)) throw new H("response is not an object");
+var gt = class extends Error {};
+function _t(e, t) {
+	if (!z(e)) throw new gt("response is not an object");
 	let n = [], r = z(e.hourly) ? e.hourly : void 0, i = z(e.daily) ? e.daily : void 0;
-	if (!r || !Array.isArray(r.time)) throw new H("response has no hourly.time array");
-	let a = r.time, o = Object.fromEntries(Be.map((e) => [e, Ue(r, e, a.length, n)])), s = [];
+	if (!r || !Array.isArray(r.time)) throw new gt("response has no hourly.time array");
+	let a = r.time, o = Object.fromEntries(ut.map((e) => [e, pt(r, e, a.length, n)])), s = [];
 	for (let [e, t] of a.entries()) {
 		let r = B(t);
 		if (r === null) {
@@ -680,7 +818,7 @@ function Ge(e, t) {
 	}
 	let c = [];
 	if (i && Array.isArray(i.time)) {
-		let e = i.time, t = Object.fromEntries(Ve.map((t) => [t, Ue(i, t, e.length, n)]));
+		let e = i.time, t = Object.fromEntries(dt.map((t) => [t, pt(i, t, e.length, n)]));
 		for (let [r, i] of e.entries()) {
 			let e = B(i);
 			if (e === null) {
@@ -698,14 +836,14 @@ function Ge(e, t) {
 			});
 		}
 	}
-	if (s.length === 0) throw new H(`no usable hourly data: ${n.join("; ")}`);
+	if (s.length === 0) throw new gt(`no usable hourly data: ${n.join("; ")}`);
 	return {
 		hourly: s,
 		daily: c,
 		units: {
-			temperature: V(e.hourly_units, "temperature_2m", ""),
-			windSpeed: V(e.hourly_units, "wind_speed_10m", ""),
-			precipitation: V(e.hourly_units, "precipitation", "")
+			temperature: ht(e.hourly_units, "temperature_2m", ""),
+			windSpeed: ht(e.hourly_units, "wind_speed_10m", ""),
+			precipitation: ht(e.hourly_units, "precipitation", "")
 		},
 		timezone: typeof e.timezone == "string" ? e.timezone : "UTC",
 		utcOffsetSeconds: B(e.utc_offset_seconds) ?? 0,
@@ -714,11 +852,11 @@ function Ge(e, t) {
 		model: t
 	};
 }
-function Ke(e, t) {
+function vt(e, t) {
 	return e.findIndex((e) => e.time + 3600 > t);
 }
-function qe(e, t, n) {
-	let r = Ke(e.hourly, t);
+function yt(e, t, n) {
+	let r = vt(e.hourly, t);
 	return r < 0 ? {
 		current: null,
 		upcoming: [],
@@ -729,78 +867,89 @@ function qe(e, t, n) {
 		expired: !1
 	};
 }
-function Je(e) {
+function bt(e) {
 	let t = null;
 	for (let n of e) n.precipitationProbability !== null && (t = t === null ? n.precipitationProbability : Math.max(t, n.precipitationProbability));
 	return t;
 }
-var Ye = 1e3, Xe = class extends Error {
+var xt = 1e3, St = class extends Error {
 	constructor(e, t) {
 		super(e), this.attempts = t;
 	}
-}, Ze = (e) => new Promise((t) => setTimeout(t, e));
-async function Qe(e, t = {}) {
-	let n = t.fetch ?? ((e, t) => globalThis.fetch(e, t)), r = t.sleep ?? Ze, i = t.timeoutMs ?? 3e4, a = [];
-	for (let [t, o] of e.hosts.entries()) {
-		t > 0 && await r(Ye * t);
-		let s = He(o, e), c = new AbortController(), l = setTimeout(() => c.abort(), i);
+}, Ct = (e) => new Promise((t) => setTimeout(t, e));
+async function wt(e, t, n = {}) {
+	let r = n.fetch ?? ((e, t) => globalThis.fetch(e, t)), i = n.sleep ?? Ct, a = n.timeoutMs ?? 3e4, o = [];
+	for (let [n, s] of e.entries()) {
+		n > 0 && await i(xt * n);
+		let e = t(s), c = new AbortController(), l = setTimeout(() => c.abort(), a);
 		try {
-			let t = await n(s, {
+			let t = await r(e, {
 				signal: c.signal,
 				headers: { accept: "application/json" },
 				cache: "no-store"
 			});
 			if (!t.ok) {
-				a.push(`${o}: HTTP ${t.status}`);
+				o.push(`${s}: HTTP ${t.status}`);
 				continue;
 			}
-			let r;
 			try {
-				r = await t.json();
+				return await t.json();
 			} catch (e) {
-				a.push(`${o}: invalid JSON (${e.message})`);
+				o.push(`${s}: invalid JSON (${e.message})`);
 				continue;
 			}
-			return Ge(r, e.model);
 		} catch (e) {
 			let t = c.signal.aborted ? "timeout" : e.message;
-			a.push(`${o}: ${t}`);
+			o.push(`${s}: ${t}`);
 		} finally {
 			clearTimeout(l);
 		}
 	}
-	throw new Xe("forecast unavailable from every host", a);
+	throw new St("unavailable from every host", o);
+}
+async function Tt(e, t = {}) {
+	return _t(await wt(e.hosts, (t) => ft(t, e), t), e.model);
+}
+async function Et(e, t = {}) {
+	return $e(await wt(e.hosts, (t) => Ge(t, e.alert_country), t));
+}
+async function Dt(e, t, n = {}) {
+	try {
+		return Ye(await wt(e, (e) => Ke(e, t), n));
+	} catch {
+		return null;
+	}
 }
 //#endregion
 //#region src/types.ts
-var $e = {
+var Ot = {
 	metro: 9,
 	state: 5.79
-}, U = ["https://data2.weatherwise.app", "https://data1.weatherwise.app"], et = "https://web.weatherwise.app", tt = /* @__PURE__ */ new Set(/* @__PURE__ */ "type.title.latitude.longitude.view.zoom.map_mode.show_map.map_height.map_reload_minutes.map_interactive.map_ui.map_autoplay.show_conditions.show_hourly.hourly_count.show_daily.daily_count.model.temperature_unit.wind_speed_unit.precipitation_unit.refresh_minutes.hosts.view_layout.layout_options.grid_options.visibility".split(".")), nt = /* @__PURE__ */ new Set(["metro", "state"]), rt = /* @__PURE__ */ new Set(["ecmwf_ifs025", "gfs_seamless"]), it = /* @__PURE__ */ new Set(["fahrenheit", "celsius"]), at = /* @__PURE__ */ new Set([
+}, kt = ["https://data2.weatherwise.app", "https://data1.weatherwise.app"], At = "https://web.weatherwise.app", jt = /* @__PURE__ */ new Set(/* @__PURE__ */ "type.title.latitude.longitude.view.zoom.map_mode.show_map.map_height.map_reload_minutes.map_interactive.map_ui.map_autoplay.show_conditions.show_hourly.hourly_count.show_daily.daily_count.model.temperature_unit.wind_speed_unit.precipitation_unit.refresh_minutes.hosts.layout.show_alerts.alerts_refresh_minutes.alerts_max.alerts_include_outlooks.alert_zones.alert_country.view_layout.layout_options.grid_options.visibility".split(".")), Mt = /* @__PURE__ */ new Set(["metro", "state"]), Nt = /* @__PURE__ */ new Set(["ecmwf_ifs025", "gfs_seamless"]), Pt = /* @__PURE__ */ new Set(["fahrenheit", "celsius"]), Ft = /* @__PURE__ */ new Set([
 	"mph",
 	"kmh",
 	"ms",
 	"kn"
-]), ot = /* @__PURE__ */ new Set(["mm", "inch"]), st = /^[A-Z0-9_-]{1,32}$/;
-function ct(e) {
+]), It = /* @__PURE__ */ new Set(["mm", "inch"]), Lt = /* @__PURE__ */ new Set(["strips", "report"]), Rt = /^[A-Z0-9_-]{1,32}$/;
+function zt(e) {
 	return typeof e == "object" && !!e && !Array.isArray(e);
 }
-function W(e, t, n, r) {
+function V(e, t, n, r) {
 	let i = e[t];
 	return i === void 0 ? (r.required && n.push(`${t}: required`), r.fallback) : typeof i != "number" || !Number.isFinite(i) ? (n.push(`${t}: must be a number`), r.fallback) : r.integer && !Number.isInteger(i) ? (n.push(`${t}: must be a whole number`), r.fallback) : r.min !== void 0 && i < r.min ? (n.push(`${t}: must be at least ${r.min}`), r.fallback) : r.max !== void 0 && i > r.max ? (n.push(`${t}: must be at most ${r.max}`), r.fallback) : i;
 }
-function G(e, t, n, r) {
+function H(e, t, n, r) {
 	let i = e[t];
 	return i === void 0 ? r : typeof i == "boolean" ? i : (n.push(`${t}: must be true or false`), r);
 }
-function K(e, t, n, r, i) {
+function U(e, t, n, r, i) {
 	let a = e[t];
 	return a === void 0 ? i : typeof a != "string" || !n.has(a) ? (r.push(`${t}: must be one of ${[...n].join(", ")}`), i) : a;
 }
-function lt(e, t) {
+function Bt(e, t) {
 	let n = e.hosts;
-	if (n === void 0) return [...U];
-	if (!Array.isArray(n) || n.length === 0) return t.push("hosts: must be a non-empty list of https origins"), [...U];
+	if (n === void 0) return [...kt];
+	if (!Array.isArray(n) || n.length === 0) return t.push("hosts: must be a non-empty list of https origins"), [...kt];
 	let r = [];
 	for (let [e, i] of n.entries()) {
 		if (typeof i != "string") {
@@ -820,88 +969,124 @@ function lt(e, t) {
 		}
 		r.push(n.origin);
 	}
-	return r.length > 0 ? r : [...U];
+	return r.length > 0 ? r : [...kt];
 }
-function ut(e) {
+function Vt(e, t) {
+	let n = e.alert_zones;
+	if (n == null || n === "") return [];
+	let r;
+	if (typeof n == "string") r = n.split(/[\s,]+/).filter((e) => e !== "");
+	else if (Array.isArray(n)) r = n;
+	else return t.push("alert_zones: must be a list of UGC codes such as TXZ133"), [];
+	let i = [];
+	for (let [e, n] of r.entries()) {
+		if (typeof n != "string" || !Ue.test(n.trim().toUpperCase())) {
+			t.push(`alert_zones[${e}]: "${String(n)}" is not a UGC code such as TXZ133 or TXC139`);
+			continue;
+		}
+		i.push(n.trim().toUpperCase());
+	}
+	return i;
+}
+function Ht(e) {
 	let t = [];
-	if (!ct(e)) return { errors: ["configuration must be a mapping"] };
-	for (let n of Object.keys(e)) tt.has(n) || t.push(`${n}: unknown option`);
+	if (!zt(e)) return { errors: ["configuration must be a mapping"] };
+	for (let n of Object.keys(e)) jt.has(n) || t.push(`${n}: unknown option`);
 	e.title !== void 0 && typeof e.title != "string" && t.push("title: must be a string");
-	let n = W(e, "latitude", t, {
+	let n = V(e, "latitude", t, {
 		min: -90,
 		max: 90,
 		required: !0
-	}), r = W(e, "longitude", t, {
+	}), r = V(e, "longitude", t, {
 		min: -180,
 		max: 180,
 		required: !0
-	}), i = K(e, "view", nt, t, "metro"), a = W(e, "zoom", t, {
+	}), i = U(e, "view", Mt, t, "metro"), a = V(e, "zoom", t, {
 		min: 1,
 		max: 18,
-		fallback: $e[i]
+		fallback: Ot[i]
 	}), o = "RADAR";
-	e.map_mode !== void 0 && (typeof e.map_mode != "string" || !st.test(e.map_mode) ? t.push("map_mode: must be an upper-case token such as RADAR") : o = e.map_mode);
-	let s = {
+	e.map_mode !== void 0 && (typeof e.map_mode != "string" || !Rt.test(e.map_mode) ? t.push("map_mode: must be an upper-case token such as RADAR") : o = e.map_mode);
+	let s = "USA";
+	e.alert_country !== void 0 && (typeof e.alert_country != "string" || !We.test(e.alert_country) ? t.push("alert_country: must be an upper-case country token such as USA") : s = e.alert_country);
+	let c = {
 		title: typeof e.title == "string" ? e.title : void 0,
 		latitude: n ?? 0,
 		longitude: r ?? 0,
 		view: i,
-		zoom: a ?? $e[i],
+		zoom: a ?? Ot[i],
 		map_mode: o,
-		show_map: G(e, "show_map", t, !0),
-		map_height: W(e, "map_height", t, {
+		show_map: H(e, "show_map", t, !0),
+		map_height: V(e, "map_height", t, {
 			min: 120,
 			max: 4e3,
 			integer: !0,
 			fallback: 480
 		}) ?? 480,
-		map_reload_minutes: W(e, "map_reload_minutes", t, {
+		map_reload_minutes: V(e, "map_reload_minutes", t, {
 			min: 0,
 			max: 1440,
 			integer: !0,
 			fallback: 0
 		}) ?? 0,
-		map_interactive: G(e, "map_interactive", t, !1),
-		map_ui: G(e, "map_ui", t, !1),
-		map_autoplay: G(e, "map_autoplay", t, !0),
-		show_conditions: G(e, "show_conditions", t, !0),
-		show_hourly: G(e, "show_hourly", t, !0),
-		hourly_count: W(e, "hourly_count", t, {
+		map_interactive: H(e, "map_interactive", t, !1),
+		map_ui: H(e, "map_ui", t, !1),
+		map_autoplay: H(e, "map_autoplay", t, !0),
+		show_conditions: H(e, "show_conditions", t, !0),
+		show_hourly: H(e, "show_hourly", t, !0),
+		hourly_count: V(e, "hourly_count", t, {
 			min: 1,
 			max: 48,
 			integer: !0,
 			fallback: 12
 		}) ?? 12,
-		show_daily: G(e, "show_daily", t, !1),
-		daily_count: W(e, "daily_count", t, {
+		show_daily: H(e, "show_daily", t, !1),
+		daily_count: V(e, "daily_count", t, {
 			min: 1,
 			max: 16,
 			integer: !0,
 			fallback: 5
 		}) ?? 5,
-		model: K(e, "model", rt, t, "ecmwf_ifs025"),
-		temperature_unit: K(e, "temperature_unit", it, t, "fahrenheit"),
-		wind_speed_unit: K(e, "wind_speed_unit", at, t, "mph"),
-		precipitation_unit: K(e, "precipitation_unit", ot, t, "inch"),
-		refresh_minutes: W(e, "refresh_minutes", t, {
+		model: U(e, "model", Nt, t, "ecmwf_ifs025"),
+		temperature_unit: U(e, "temperature_unit", Pt, t, "fahrenheit"),
+		wind_speed_unit: U(e, "wind_speed_unit", Ft, t, "mph"),
+		precipitation_unit: U(e, "precipitation_unit", It, t, "inch"),
+		refresh_minutes: V(e, "refresh_minutes", t, {
 			min: 10,
 			max: 1440,
 			integer: !0,
 			fallback: 30
 		}) ?? 30,
-		hosts: lt(e, t)
+		hosts: Bt(e, t),
+		layout: U(e, "layout", Lt, t, "strips"),
+		show_alerts: H(e, "show_alerts", t, !0),
+		alerts_refresh_minutes: V(e, "alerts_refresh_minutes", t, {
+			min: 2,
+			max: 60,
+			integer: !0,
+			fallback: 5
+		}) ?? 5,
+		alerts_max: V(e, "alerts_max", t, {
+			min: 1,
+			max: 10,
+			integer: !0,
+			fallback: 3
+		}) ?? 3,
+		alerts_include_outlooks: H(e, "alerts_include_outlooks", t, !1),
+		alert_zones: Vt(e, t),
+		alert_country: s
 	};
 	return t.length > 0 ? { errors: t } : {
-		config: s,
+		config: c,
 		errors: t
 	};
 }
-function dt(e) {
+function Ut(e) {
 	return e.show_conditions || e.show_hourly || e.show_daily;
 }
 //#endregion
 //#region src/conditions.ts
-var ft = {
+var Wt = {
 	"clear-day": "Clear",
 	"clear-night": "Clear",
 	"partly-cloudy-day": "Partly cloudy",
@@ -916,7 +1101,7 @@ var ft = {
 	hail: "Thunderstorm with hail",
 	unknown: "Unknown"
 };
-function q(e, t) {
+function W(e, t) {
 	let n = t !== !1, r;
 	switch (e) {
 		case 0:
@@ -971,10 +1156,10 @@ function q(e, t) {
 	}
 	return {
 		key: r,
-		label: ft[r]
+		label: Wt[r]
 	};
 }
-function pt(e) {
+function Gt(e) {
 	return e === null || !Number.isFinite(e) ? "" : [
 		"N",
 		"NE",
@@ -988,17 +1173,17 @@ function pt(e) {
 }
 //#endregion
 //#region src/editor-form.ts
-var J = (e) => ({
+var G = (e) => ({
 	name: "",
 	type: "grid",
 	flatten: !0,
 	schema: e
-}), mt = [
+}), Kt = [
 	{
 		name: "title",
 		selector: { text: {} }
 	},
-	J([{
+	G([{
 		name: "latitude",
 		required: !0,
 		selector: { number: {
@@ -1017,7 +1202,7 @@ var J = (e) => ({
 			mode: "box"
 		} }
 	}]),
-	J([{
+	G([{
 		name: "view",
 		selector: { select: {
 			mode: "dropdown",
@@ -1043,7 +1228,7 @@ var J = (e) => ({
 		type: "expandable",
 		flatten: !0,
 		title: "Map",
-		schema: [J([
+		schema: [G([
 			{
 				name: "show_map",
 				selector: { boolean: {} }
@@ -1064,7 +1249,7 @@ var J = (e) => ({
 				name: "map_mode",
 				selector: { text: {} }
 			}
-		]), J([{
+		]), G([{
 			name: "map_height",
 			selector: { number: {
 				min: 120,
@@ -1088,7 +1273,7 @@ var J = (e) => ({
 		flatten: !0,
 		title: "Forecast",
 		schema: [
-			J([
+			G([
 				{
 					name: "show_conditions",
 					selector: { boolean: {} }
@@ -1100,9 +1285,22 @@ var J = (e) => ({
 				{
 					name: "show_daily",
 					selector: { boolean: {} }
+				},
+				{
+					name: "layout",
+					selector: { select: {
+						mode: "dropdown",
+						options: [{
+							value: "strips",
+							label: "Compact strips"
+						}, {
+							value: "report",
+							label: "Report tables"
+						}]
+					} }
 				}
 			]),
-			J([
+			G([
 				{
 					name: "hourly_count",
 					selector: { number: {
@@ -1129,7 +1327,7 @@ var J = (e) => ({
 					} }
 				}
 			]),
-			J([
+			G([
 				{
 					name: "model",
 					selector: { select: {
@@ -1171,8 +1369,46 @@ var J = (e) => ({
 				}
 			])
 		]
+	},
+	{
+		name: "",
+		type: "expandable",
+		flatten: !0,
+		title: "Alerts",
+		schema: [
+			G([{
+				name: "show_alerts",
+				selector: { boolean: {} }
+			}, {
+				name: "alerts_include_outlooks",
+				selector: { boolean: {} }
+			}]),
+			G([{
+				name: "alerts_max",
+				selector: { number: {
+					min: 1,
+					max: 10,
+					mode: "box"
+				} }
+			}, {
+				name: "alerts_refresh_minutes",
+				selector: { number: {
+					min: 2,
+					max: 60,
+					mode: "box",
+					unit_of_measurement: "min"
+				} }
+			}]),
+			G([{
+				name: "alert_zones",
+				selector: { text: {} }
+			}, {
+				name: "alert_country",
+				selector: { text: {} }
+			}])
+		]
 	}
-], ht = {
+], qt = {
 	title: "Title",
 	latitude: "Latitude",
 	longitude: "Longitude",
@@ -1194,8 +1430,20 @@ var J = (e) => ({
 	model: "Forecast model",
 	temperature_unit: "Temperature unit",
 	wind_speed_unit: "Wind speed unit",
-	precipitation_unit: "Precipitation unit"
-}, gt = {
+	precipitation_unit: "Precipitation unit",
+	layout: "Forecast layout",
+	show_alerts: "Show local alerts",
+	alerts_include_outlooks: "Include outlooks and short term forecasts",
+	alerts_max: "Alerts to show",
+	alerts_refresh_minutes: "Alert refresh interval",
+	alert_zones: "Zone codes (optional)",
+	alert_country: "Warnings feed country"
+}, Jt = {
+	layout: "Strips show one tile per hour and day. Report shows tables with feels-like, rain amount, wind, humidity, sunrise and sunset.",
+	show_alerts: "Warnings, watches, advisories, and statements from the WeatherWise warnings feed that cover this point, matched by polygon or by the zone codes below.",
+	alerts_include_outlooks: "Off by default: Hazardous Weather Outlooks, Hydrologic Outlooks, and Short Term Forecasts are routine products, not hazards.",
+	alert_zones: "NWS UGC codes for this point, comma separated, such as TXZ133 or TXC139. A listed code matches without a polygon lookup; leave empty to rely on the polygon test alone.",
+	alert_country: "The country token in the feed path. Only USA is verified.",
 	view: "Metro centers tightly on the point; State pulls back to the whole state. Set zoom to override.",
 	map_interactive: "Off by default for display boards: a stray touch or wheel event would otherwise pan or zoom the map away until the next reload.",
 	map_ui: "Off by default: the app then hides its mode selector, buttons, and the App Updates announcement that otherwise covers the map on a kiosk.",
@@ -1203,16 +1451,16 @@ var J = (e) => ({
 	map_reload_minutes: "0 never reloads. A periodic reload guards a kiosk against a stuck embedded page.",
 	refresh_minutes: "Minimum 10 minutes. Forecast data is modeled, not measured; it changes on model runs, not by the minute."
 };
-function _t() {
+function Yt() {
 	return {
-		schema: mt,
-		computeLabel: (e) => ht[e.name],
-		computeHelper: (e) => gt[e.name]
+		schema: Kt,
+		computeLabel: (e) => qt[e.name],
+		computeHelper: (e) => Jt[e.name]
 	};
 }
 //#endregion
 //#region src/format.ts
-function vt(e, t, n) {
+function K(e, t, n) {
 	try {
 		return new Intl.DateTimeFormat(n, {
 			hour: "numeric",
@@ -1222,7 +1470,7 @@ function vt(e, t, n) {
 		return (/* @__PURE__ */ new Date(e * 1e3)).toISOString().slice(11, 16);
 	}
 }
-function yt(e, t, n) {
+function q(e, t, n) {
 	try {
 		return new Intl.DateTimeFormat(n, {
 			hour: "numeric",
@@ -1233,7 +1481,7 @@ function yt(e, t, n) {
 		return (/* @__PURE__ */ new Date(e * 1e3)).toISOString().slice(11, 16);
 	}
 }
-function bt(e, t, n) {
+function Xt(e, t, n) {
 	try {
 		return new Intl.DateTimeFormat(n, {
 			weekday: "short",
@@ -1243,45 +1491,57 @@ function bt(e, t, n) {
 		return (/* @__PURE__ */ new Date(e * 1e3)).toISOString().slice(0, 10);
 	}
 }
-function xt(e) {
+function Zt(e, t, n) {
+	try {
+		return new Intl.DateTimeFormat(n, {
+			weekday: "short",
+			hour: "numeric",
+			minute: "2-digit",
+			timeZone: t
+		}).format(/* @__PURE__ */ new Date(e * 1e3));
+	} catch {
+		return (/* @__PURE__ */ new Date(e * 1e3)).toISOString().slice(0, 16).replace("T", " ");
+	}
+}
+function Qt(e) {
 	let t = Math.round(e / 6e4);
 	return t < 1 ? "just now" : t < 60 ? `${t} min ago` : `${Math.floor(t / 60)} h ${t % 60} min ago`;
 }
-function Y(e, t = 0) {
+function J(e, t = 0) {
 	return e === null || !Number.isFinite(e) ? "--" : e.toFixed(t);
 }
 //#endregion
 //#region src/icons.ts
-var St = O`<circle cx="12" cy="12" r="4" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></g>`, Ct = O`<path fill="currentColor" d="M14.5 2.5a9.5 9.5 0 1 0 7 15.6A8 8 0 0 1 14.5 2.5z"/>`, wt = O`<path fill="currentColor" d="M6.5 19a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 9.1 4 4 0 0 1 17.5 19H6.5z"/>`, Tt = O`<path fill="currentColor" d="M9 20a3.5 3.5 0 0 1-.5-6.96A5 5 0 0 1 18.2 12 3.2 3.2 0 0 1 18 20H9z"/>`, Et = (e) => O`<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="${e}" x2="7" y2="${e + 3}"/><line x1="12" y1="${e}" x2="11" y2="${e + 3}"/><line x1="16" y1="${e}" x2="15" y2="${e + 3}"/></g>`, X = O`<path fill="currentColor" d="M6.5 15a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 16.6 6 3.6 3.6 0 0 1 17.2 15H6.5z"/>`, Dt = {
-	"clear-day": St,
-	"clear-night": Ct,
-	"partly-cloudy-day": O`<g transform="translate(-3 -3) scale(0.8)">${St}</g>${Tt}`,
-	"partly-cloudy-night": O`<g transform="translate(-2 -3) scale(0.7)">${Ct}</g>${Tt}`,
-	cloudy: wt,
-	fog: O`${X}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="18" x2="19" y2="18"/><line x1="7" y1="21.5" x2="17" y2="21.5"/></g>`,
-	rain: O`${X}${Et(18)}`,
-	pouring: O`${X}${Et(17)}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="21" x2="9.5" y2="23"/><line x1="14" y1="21" x2="13.5" y2="23"/></g>`,
-	sleet: O`${X}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="18" x2="7" y2="21"/><line x1="16" y1="18" x2="15" y2="21"/></g><circle cx="12" cy="20" r="1.5" fill="currentColor"/>`,
-	snow: O`${X}<g fill="currentColor"><circle cx="8" cy="19" r="1.5"/><circle cx="12" cy="21.5" r="1.5"/><circle cx="16" cy="19" r="1.5"/></g>`,
-	thunderstorm: O`${X}<path fill="currentColor" d="M12.5 15.5 9.5 20h2.5l-1 3.5 3.5-5h-2.5z"/>`,
-	hail: O`${X}<path fill="currentColor" d="M11 15.5 8.5 19.5h2l-.8 3 3-4.5h-2z"/><circle cx="16" cy="19.5" r="1.6" fill="currentColor"/>`,
-	unknown: O`<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="16.5" text-anchor="middle" font-size="12" fill="currentColor">?</text>`
+var $t = E`<circle cx="12" cy="12" r="4" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></g>`, en = E`<path fill="currentColor" d="M14.5 2.5a9.5 9.5 0 1 0 7 15.6A8 8 0 0 1 14.5 2.5z"/>`, tn = E`<path fill="currentColor" d="M6.5 19a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 9.1 4 4 0 0 1 17.5 19H6.5z"/>`, nn = E`<path fill="currentColor" d="M9 20a3.5 3.5 0 0 1-.5-6.96A5 5 0 0 1 18.2 12 3.2 3.2 0 0 1 18 20H9z"/>`, rn = (e) => E`<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="${e}" x2="7" y2="${e + 3}"/><line x1="12" y1="${e}" x2="11" y2="${e + 3}"/><line x1="16" y1="${e}" x2="15" y2="${e + 3}"/></g>`, Y = E`<path fill="currentColor" d="M6.5 15a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 16.6 6 3.6 3.6 0 0 1 17.2 15H6.5z"/>`, an = {
+	"clear-day": $t,
+	"clear-night": en,
+	"partly-cloudy-day": E`<g transform="translate(-3 -3) scale(0.8)">${$t}</g>${nn}`,
+	"partly-cloudy-night": E`<g transform="translate(-2 -3) scale(0.7)">${en}</g>${nn}`,
+	cloudy: tn,
+	fog: E`${Y}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="18" x2="19" y2="18"/><line x1="7" y1="21.5" x2="17" y2="21.5"/></g>`,
+	rain: E`${Y}${rn(18)}`,
+	pouring: E`${Y}${rn(17)}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="21" x2="9.5" y2="23"/><line x1="14" y1="21" x2="13.5" y2="23"/></g>`,
+	sleet: E`${Y}<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="18" x2="7" y2="21"/><line x1="16" y1="18" x2="15" y2="21"/></g><circle cx="12" cy="20" r="1.5" fill="currentColor"/>`,
+	snow: E`${Y}<g fill="currentColor"><circle cx="8" cy="19" r="1.5"/><circle cx="12" cy="21.5" r="1.5"/><circle cx="16" cy="19" r="1.5"/></g>`,
+	thunderstorm: E`${Y}<path fill="currentColor" d="M12.5 15.5 9.5 20h2.5l-1 3.5 3.5-5h-2.5z"/>`,
+	hail: E`${Y}<path fill="currentColor" d="M11 15.5 8.5 19.5h2l-.8 3 3-4.5h-2z"/><circle cx="16" cy="19.5" r="1.6" fill="currentColor"/>`,
+	unknown: E`<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="16.5" text-anchor="middle" font-size="12" fill="currentColor">?</text>`
 };
-function Ot(e, t = 24) {
-	return O`<svg viewBox="0 0 24 24" width="${t}" height="${t}" aria-hidden="true">${Dt[e]}</svg>`;
+function X(e, t = 24) {
+	return E`<svg viewBox="0 0 24 24" width="${t}" height="${t}" aria-hidden="true">${an[e]}</svg>`;
 }
 //#endregion
 //#region src/map-url.ts
-function kt(e, t) {
+function on(e, t) {
 	return Number(e.toFixed(t)).toString();
 }
-function At(e) {
-	let t = [`map=${kt(e.zoom, 2)}/${kt(e.latitude, 4)}/${kt(e.longitude, 4)}`, `m=${e.map_mode}`];
-	return e.map_ui || t.push("ui=0"), e.map_autoplay && t.push("autoplay=1"), `${et}/#${t.join("&")}`;
+function sn(e) {
+	let t = [`map=${on(e.zoom, 2)}/${on(e.latitude, 4)}/${on(e.longitude, 4)}`, `m=${e.map_mode}`];
+	return e.map_ui || t.push("ui=0"), e.map_autoplay && t.push("autoplay=1"), `${At}/#${t.join("&")}`;
 }
 //#endregion
 //#region src/styles.ts
-var jt = o`
+var cn = o`
   :host {
     --wwc-bg: var(--ha-card-background, var(--card-background-color, #14161c));
     --wwc-text: var(--primary-text-color, #e9e9ee);
@@ -1304,12 +1564,16 @@ function Z(e, t, n, r) {
 }
 //#endregion
 //#region src/weatherwise-card.ts
-var Mt, Q = 6e4, Nt = 2, $ = class extends L {
+var ln, Q = 6e4, un = 2;
+function dn(e) {
+	return e instanceof St ? e.attempts.join("; ") : e.message;
+}
+var $ = class extends P {
 	constructor(...e) {
-		super(...e), this.loading = !1, this.now = Date.now(), this.mapGeneration = 0, this.forecastKey = "";
+		super(...e), this.loading = !1, this.now = Date.now(), this.mapGeneration = 0, this.unresolvedAlerts = [], this.forecastKey = "", this.alertsKey = "", this.alertsLoading = !1, this.geometryCache = /* @__PURE__ */ new Map();
 	}
 	setConfig(e) {
-		let t = ut(e);
+		let t = Ht(e);
 		if (!t.config) throw Error(`weatherwise-card configuration:\n- ${t.errors.join("\n- ")}`);
 		this.config = t.config, this.mapGeneration += 1, this.arm();
 	}
@@ -1320,7 +1584,9 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 		let e = this.config;
 		if (!e) return 4;
 		let t = 1;
-		return e.show_conditions && (t += 2), e.show_map && (t += Math.ceil(e.map_height / 50)), e.show_hourly && (t += 2), e.show_daily && (t += 2), t;
+		e.show_conditions && (t += 2), e.show_alerts && (t += 1), e.show_map && (t += Math.ceil(e.map_height / 50));
+		let n = e.layout === "report";
+		return e.show_hourly && (t += n ? Math.ceil(e.hourly_count / 2) + 1 : 2), e.show_daily && (t += n ? Math.ceil(e.daily_count / 2) + 1 : 2), t;
 	}
 	getGridOptions() {
 		return {
@@ -1329,7 +1595,7 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 		};
 	}
 	static getConfigForm() {
-		return _t();
+		return Yt();
 	}
 	static getStubConfig() {
 		return {
@@ -1348,7 +1614,7 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 		if (this.disarm(), this.config && this.isConnected) {
 			if (this.tickTimer = setInterval(() => {
 				this.now = Date.now();
-			}, Q), dt(this.config)) {
+			}, Q), Ut(this.config)) {
 				let e = JSON.stringify([
 					this.config.latitude,
 					this.config.longitude,
@@ -1362,6 +1628,17 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 				]);
 				e !== this.forecastKey && (this.forecastKey = e, this.forecast = void 0, this.fetchedAt = void 0, this.lastError = void 0), this.refresh(), this.pollTimer = setInterval(() => void this.refresh(), this.config.refresh_minutes * Q);
 			}
+			if (this.config.show_alerts) {
+				let e = JSON.stringify([
+					this.config.latitude,
+					this.config.longitude,
+					this.config.alert_zones,
+					this.config.alert_country,
+					this.config.alerts_include_outlooks,
+					this.config.hosts
+				]);
+				e !== this.alertsKey && (this.alertsKey = e, this.alerts = void 0, this.unresolvedAlerts = [], this.alertsFetchedAt = void 0, this.alertsError = void 0, this.geometryCache.clear()), this.refreshAlerts(), this.alertsTimer = setInterval(() => void this.refreshAlerts(), this.config.alerts_refresh_minutes * Q);
+			}
 			this.config.show_map && this.config.map_reload_minutes > 0 && (this.mapTimer = setInterval(() => {
 				this.mapGeneration += 1;
 			}, this.config.map_reload_minutes * Q));
@@ -1370,22 +1647,53 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 	disarm() {
 		for (let e of [
 			this.pollTimer,
+			this.alertsTimer,
 			this.tickTimer,
 			this.mapTimer
 		]) e !== void 0 && clearInterval(e);
-		this.pollTimer = this.tickTimer = this.mapTimer = void 0;
+		this.pollTimer = this.alertsTimer = this.tickTimer = this.mapTimer = void 0;
+	}
+	async refreshAlerts() {
+		let e = this.config;
+		if (!e || this.alertsLoading) return;
+		this.alertsLoading = !0;
+		let t = this.alertsKey;
+		try {
+			let n = await Et(e), r = new Set(n.map((e) => e.id));
+			for (let e of this.geometryCache.keys()) r.has(e) || this.geometryCache.delete(e);
+			let { matched: i, unresolved: a } = await lt(n, {
+				latitude: e.latitude,
+				longitude: e.longitude,
+				zones: e.alert_zones,
+				nowMs: Date.now(),
+				includeOutlooks: e.alerts_include_outlooks,
+				fetchGeometry: async (t) => {
+					let n = this.geometryCache.get(t);
+					if (n != null) return n;
+					let r = await Dt(e.hosts, t);
+					return this.geometryCache.set(t, r), r;
+				}
+			});
+			if (t !== this.alertsKey) return;
+			this.alerts = i, this.unresolvedAlerts = a, this.alertsFetchedAt = Date.now(), this.alertsError = void 0;
+		} catch (e) {
+			if (t !== this.alertsKey) return;
+			this.alertsError = dn(e);
+		} finally {
+			this.alertsLoading = !1, this.now = Date.now();
+		}
 	}
 	async refresh() {
 		if (!this.config || this.loading) return;
 		this.loading = !0;
 		let e = this.forecastKey;
 		try {
-			let t = await Qe(this.config);
+			let t = await Tt(this.config);
 			if (e !== this.forecastKey) return;
 			this.forecast = t, this.fetchedAt = Date.now(), this.lastError = void 0;
 		} catch (t) {
 			if (e !== this.forecastKey) return;
-			this.lastError = t instanceof Xe ? t.attempts.join("; ") : t.message;
+			this.lastError = dn(t);
 		} finally {
 			this.loading = !1, this.now = Date.now();
 		}
@@ -1395,43 +1703,123 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 	}
 	render() {
 		let e = this.config;
-		return e ? D`
+		return e ? T`
       <div class="card">
         ${this.renderHeader(e)}
-        ${e.show_map ? this.renderMap(e) : A}
-        ${e.show_hourly ? this.renderHourly(e) : A}
-        ${e.show_daily ? this.renderDaily(e) : A}
+        ${e.show_alerts ? this.renderAlerts(e) : O}
+        ${e.show_map ? this.renderMap(e) : O}
+        ${e.show_hourly ? e.layout === "report" ? this.renderHourlyReport(e) : this.renderHourly(e) : O}
+        ${e.show_daily ? e.layout === "report" ? this.renderDailyReport(e) : this.renderDaily(e) : O}
         ${this.renderFooter(e)}
       </div>
-    ` : D`<div class="card"><div class="problems">No configuration</div></div>`;
+    ` : T`<div class="card"><div class="problems">No configuration</div></div>`;
+	}
+	renderAlerts(e) {
+		let t = this.alerts;
+		if (!t || t.length === 0) return O;
+		let n = this.forecast?.timezone, r = this.locale(), i = this.now / 1e3;
+		return T`<div class="alerts" role="list">
+      ${t.slice(0, e.alerts_max).map((e) => {
+			let t = e.startsAt === null ? null : e.startsAt / 1e3, a = e.expiresAt === null ? null : e.expiresAt / 1e3, o = t !== null && t > i ? `from ${Zt(t, n, r)}` : a === null ? "" : `until ${Zt(a, n, r)}`;
+			return T`<div class="alert sig-${e.significance} ${e.emergency ? "emergency" : ""}" role="listitem" title=${e.where ?? ""}>
+          <span class="name">${e.title}</span>
+          <span class="until">${o}</span>
+          ${e.what ? T`<span class="what">${e.what}</span>` : O}
+        </div>`;
+		})}
+    </div>`;
+	}
+	renderAlertStatus() {
+		let e = [];
+		return this.config?.show_alerts ? (this.alertsError ? e.push(T`<span class="badge error">alerts unavailable</span><span>${this.alertsError}</span>`) : this.alertsFetchedAt !== void 0 && this.alerts && e.push(T`<span>${this.alerts.length === 0 ? "no local alerts" : `${this.alerts.length} local alert${this.alerts.length === 1 ? "" : "s"}`}</span>`), this.unresolvedAlerts.length > 0 && e.push(T`<span class="badge stale">unresolved</span><span>${this.unresolvedAlerts.map((e) => e.title).join(", ")}: polygon unavailable, not shown</span>`), e) : e;
+	}
+	hourlyRows(e) {
+		let t = this.forecast;
+		if (!t) return null;
+		let n = yt(t, Math.floor(this.now / 1e3), e.hourly_count);
+		return n.upcoming.length === 0 ? null : {
+			f: t,
+			rows: n.upcoming
+		};
+	}
+	renderHourlyReport(e) {
+		let t = this.hourlyRows(e);
+		if (!t) return O;
+		let { f: n, rows: r } = t, i = this.locale();
+		return T`<div class="report-wrap"><table class="report">
+      <thead><tr>
+        <th>Hour</th><th>Conditions</th><th class="num">Temp</th><th class="num">Feels</th>
+        <th class="num">Rain</th><th class="num">Amount</th><th>Wind</th><th class="num">Humidity</th>
+      </tr></thead>
+      <tbody>
+        ${r.map((e) => {
+			let t = W(e.weatherCode, e.isDay);
+			return T`<tr>
+            <td>${K(e.time, n.timezone, i)}</td>
+            <td><span class="cond"><span class="icon">${X(t.key, 20)}</span>${t.label}</span></td>
+            <td class="num">${J(e.temperature)}${n.units.temperature}</td>
+            <td class="num">${J(e.apparentTemperature)}${n.units.temperature}</td>
+            <td class="num">${J(e.precipitationProbability)}%</td>
+            <td class="num">${J(e.precipitation, 2)} ${n.units.precipitation}</td>
+            <td>${J(e.windSpeed)} ${n.units.windSpeed} ${Gt(e.windBearing)}</td>
+            <td class="num">${J(e.humidity)}%</td>
+          </tr>`;
+		})}
+      </tbody>
+    </table></div>`;
+	}
+	renderDailyReport(e) {
+		let t = this.forecast;
+		if (!t || t.daily.length === 0) return O;
+		let n = this.locale();
+		return T`<div class="report-wrap"><table class="report">
+      <thead><tr>
+        <th>Day</th><th>Conditions</th><th class="num">High</th><th class="num">Low</th>
+        <th class="num">Rain</th><th>Sunrise</th><th>Sunset</th>
+      </tr></thead>
+      <tbody>
+        ${t.daily.slice(0, e.daily_count).map((e) => {
+			let r = W(e.weatherCode, !0);
+			return T`<tr>
+            <td>${Xt(e.time, t.timezone, n)}</td>
+            <td><span class="cond"><span class="icon">${X(r.key, 20)}</span>${r.label}</span></td>
+            <td class="num">${J(e.temperatureMax)}${t.units.temperature}</td>
+            <td class="num lo">${J(e.temperatureMin)}${t.units.temperature}</td>
+            <td class="num">${J(e.precipitationProbabilityMax)}%</td>
+            <td>${e.sunrise === null ? "--" : q(e.sunrise, t.timezone, n)}</td>
+            <td>${e.sunset === null ? "--" : q(e.sunset, t.timezone, n)}</td>
+          </tr>`;
+		})}
+      </tbody>
+    </table></div>`;
 	}
 	renderHeader(e) {
-		return D`
+		return T`
       <div class="header">
         <div class="title">${e.title ?? (e.view === "state" ? "State radar" : "Metro radar")}</div>
-        ${e.show_conditions ? this.renderHeadline(e) : A}
+        ${e.show_conditions ? this.renderHeadline(e) : O}
       </div>
     `;
 	}
 	renderHeadline(e) {
 		let t = this.forecast;
-		if (!t) return D`<div class="meta">
-        ${this.lastError ? D`<span class="badge error">unavailable</span><span>${this.lastError}</span>` : D`<span>Loading forecast</span>`}
+		if (!t) return T`<div class="meta">
+        ${this.lastError ? T`<span class="badge error">unavailable</span><span>${this.lastError}</span>` : T`<span>Loading forecast</span>`}
       </div>`;
-		let n = qe(t, Math.floor(this.now / 1e3), e.hourly_count), r = n.current;
-		if (!r) return D`<div class="meta"><span class="badge stale">expired</span><span>Forecast window has passed; waiting for refresh</span></div>`;
-		let i = q(r.weatherCode, r.isDay), a = this.locale(), o = Je([r, ...n.upcoming]);
-		return D`
+		let n = yt(t, Math.floor(this.now / 1e3), e.hourly_count), r = n.current;
+		if (!r) return T`<div class="meta"><span class="badge stale">expired</span><span>Forecast window has passed; waiting for refresh</span></div>`;
+		let i = W(r.weatherCode, r.isDay), a = this.locale(), o = bt([r, ...n.upcoming]);
+		return T`
       <div class="headline">
-        <span class="icon" title=${i.label}>${Ot(i.key, 44)}</span>
-        <span class="temp">${Y(r.temperature)}${t.units.temperature}</span>
+        <span class="icon" title=${i.label}>${X(i.key, 44)}</span>
+        <span class="temp">${J(r.temperature)}${t.units.temperature}</span>
         <div class="details">
           <span>${i.label}</span>
-          <span>Feels <b>${Y(r.apparentTemperature)}${t.units.temperature}</b></span>
-          <span>Rain <b>${Y(r.precipitationProbability)}%</b>${o !== null && o !== r.precipitationProbability ? D` (max ${Y(o)}%)` : A}</span>
-          <span>Wind <b>${Y(r.windSpeed)} ${t.units.windSpeed}</b> ${pt(r.windBearing)}</span>
-          <span>Humidity <b>${Y(r.humidity)}%</b></span>
-          <span>Valid <b>${vt(r.time, t.timezone, a)}</b></span>
+          <span>Feels <b>${J(r.apparentTemperature)}${t.units.temperature}</b></span>
+          <span>Rain <b>${J(r.precipitationProbability)}%</b>${o !== null && o !== r.precipitationProbability ? T` (max ${J(o)}%)` : O}</span>
+          <span>Wind <b>${J(r.windSpeed)} ${t.units.windSpeed}</b> ${Gt(r.windBearing)}</span>
+          <span>Humidity <b>${J(r.humidity)}%</b></span>
+          <span>Valid <b>${K(r.time, t.timezone, a)}</b></span>
         </div>
       </div>
       ${this.renderStatus(e)}
@@ -1441,15 +1829,15 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
 		let t = [];
 		if (this.fetchedAt !== void 0) {
 			let n = this.now - this.fetchedAt;
-			n > e.refresh_minutes * Q * Nt && t.push(D`<span class="badge stale">stale</span>`), t.push(D`<span>fetched ${xt(n)}</span>`);
+			n > e.refresh_minutes * Q * un && t.push(T`<span class="badge stale">stale</span>`), t.push(T`<span>fetched ${Qt(n)}</span>`);
 		}
-		return this.lastError && t.push(D`<span class="badge error">refresh failed</span><span>${this.lastError}</span>`), D`<div class="meta">${t}</div>`;
+		return this.lastError && t.push(T`<span class="badge error">refresh failed</span><span>${this.lastError}</span>`), t.push(...this.renderAlertStatus()), T`<div class="meta">${t}</div>`;
 	}
 	renderMap(e) {
-		let t = At(e);
-		return D`
+		let t = sn(e);
+		return T`
       <div class="map ${e.map_interactive ? "" : "locked"}" style="height:${e.map_height}px">
-        ${ze(this.mapGeneration, D`<iframe
+        ${He(this.mapGeneration, T`<iframe
             src=${t}
             title="WeatherWise map"
             referrerpolicy="no-referrer"
@@ -1460,51 +1848,49 @@ var Mt, Q = 6e4, Nt = 2, $ = class extends L {
     `;
 	}
 	renderHourly(e) {
-		let t = this.forecast;
-		if (!t) return A;
-		let n = qe(t, Math.floor(this.now / 1e3), e.hourly_count);
-		if (n.upcoming.length === 0) return A;
-		let r = this.locale();
-		return D`<div class="strip">
-      ${n.upcoming.map((e) => {
-			let n = q(e.weatherCode, e.isDay);
-			return D`<div class="tile">
-          <span class="when">${vt(e.time, t.timezone, r)}</span>
-          <span class="icon" title=${n.label}>${Ot(n.key, 26)}</span>
-          <span>${Y(e.temperature)}${t.units.temperature}</span>
-          <span class="rain">${Y(e.precipitationProbability)}%</span>
+		let t = this.hourlyRows(e);
+		if (!t) return O;
+		let { f: n, rows: r } = t, i = this.locale();
+		return T`<div class="strip">
+      ${r.map((e) => {
+			let t = W(e.weatherCode, e.isDay);
+			return T`<div class="tile">
+          <span class="when">${K(e.time, n.timezone, i)}</span>
+          <span class="icon" title=${t.label}>${X(t.key, 26)}</span>
+          <span>${J(e.temperature)}${n.units.temperature}</span>
+          <span class="rain">${J(e.precipitationProbability)}%</span>
         </div>`;
 		})}
     </div>`;
 	}
 	renderDaily(e) {
 		let t = this.forecast;
-		if (!t || t.daily.length === 0) return A;
+		if (!t || t.daily.length === 0) return O;
 		let n = this.locale();
-		return D`<div class="strip">
+		return T`<div class="strip">
       ${t.daily.slice(0, e.daily_count).map((e) => {
-			let r = q(e.weatherCode, !0);
-			return D`<div class="tile">
-          <span class="when">${bt(e.time, t.timezone, n)}</span>
-          <span class="icon" title=${r.label}>${Ot(r.key, 26)}</span>
-          <span>${Y(e.temperatureMax)}${t.units.temperature} <span class="lo">${Y(e.temperatureMin)}${t.units.temperature}</span></span>
-          <span class="rain">${Y(e.precipitationProbabilityMax)}%</span>
+			let r = W(e.weatherCode, !0);
+			return T`<div class="tile">
+          <span class="when">${Xt(e.time, t.timezone, n)}</span>
+          <span class="icon" title=${r.label}>${X(r.key, 26)}</span>
+          <span>${J(e.temperatureMax)}${t.units.temperature} <span class="lo">${J(e.temperatureMin)}${t.units.temperature}</span></span>
+          <span class="rain">${J(e.precipitationProbabilityMax)}%</span>
         </div>`;
 		})}
     </div>`;
 	}
 	renderFooter(e) {
 		let t = this.forecast, n = t?.daily[0], r = this.locale();
-		return D`<div class="footer">
+		return T`<div class="footer">
       <span>
-        <a href=${At(e)} target="_blank" rel="noopener noreferrer">WeatherWise</a>
-        ${t ? D` · ${t.model === "gfs_seamless" ? "GFS" : "ECMWF"} model, grid ${Y(t.gridLatitude, 2)}, ${Y(t.gridLongitude, 2)}` : A}
+        <a href=${sn(e)} target="_blank" rel="noopener noreferrer">WeatherWise</a>
+        ${t ? T` · ${t.model === "gfs_seamless" ? "GFS" : "ECMWF"} model, grid ${J(t.gridLatitude, 2)}, ${J(t.gridLongitude, 2)}` : O}
       </span>
-      ${n && n.sunrise !== null && n.sunset !== null && t ? D`<span>Sunrise ${yt(n.sunrise, t.timezone, r)} · Sunset ${yt(n.sunset, t.timezone, r)}</span>` : A}
+      ${n && n.sunrise !== null && n.sunset !== null && t ? T`<span>Sunrise ${q(n.sunrise, t.timezone, r)} · Sunset ${q(n.sunset, t.timezone, r)}</span>` : O}
     </div>`;
 	}
 };
-Mt = $, Mt.styles = [jt, o`
+ln = $, ln.styles = [cn, o`
       :host {
         display: block;
       }
@@ -1646,11 +2032,102 @@ Mt = $, Mt.styles = [jt, o`
         white-space: pre-wrap;
         font-size: 13px;
       }
-    `], Z([Ne({ attribute: !1 })], $.prototype, "config", void 0), Z([R()], $.prototype, "forecast", void 0), Z([R()], $.prototype, "fetchedAt", void 0), Z([R()], $.prototype, "lastError", void 0), Z([R()], $.prototype, "loading", void 0), Z([R()], $.prototype, "now", void 0), Z([R()], $.prototype, "mapGeneration", void 0), customElements.define("weatherwise-card", $), window.customCards = window.customCards ?? [], window.customCards.push({
+      .alerts {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .alert {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2px 10px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: var(--wwc-tile);
+        border-left: 5px solid var(--wwc-text-dim);
+        font-size: 13px;
+      }
+      .alert.sig-W {
+        border-left-color: var(--wwc-error);
+      }
+      .alert.sig-A {
+        border-left-color: var(--wwc-warn);
+      }
+      .alert.sig-Y {
+        border-left-color: var(--wwc-accent);
+      }
+      .alert.emergency {
+        background: var(--wwc-error);
+        color: #fff;
+      }
+      .alert .name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .alert .until {
+        color: var(--wwc-text-dim);
+        text-align: right;
+        white-space: nowrap;
+      }
+      .alert.emergency .until {
+        color: inherit;
+      }
+      .alert .what {
+        grid-column: 1 / -1;
+        color: var(--wwc-text-dim);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .alert.emergency .what {
+        color: inherit;
+      }
+      table.report {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      table.report th {
+        text-align: left;
+        font-weight: 500;
+        color: var(--wwc-text-dim);
+        padding: 4px 6px;
+        border-bottom: 1px solid var(--wwc-divider);
+        white-space: nowrap;
+      }
+      table.report td {
+        padding: 5px 6px;
+        border-bottom: 1px solid var(--wwc-divider);
+        white-space: nowrap;
+      }
+      table.report tr:last-child td {
+        border-bottom: 0;
+      }
+      table.report .cond {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      table.report .cond .icon {
+        color: var(--wwc-accent);
+        display: inline-flex;
+      }
+      table.report .num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      table.report .lo {
+        color: var(--wwc-text-dim);
+      }
+      .report-wrap {
+        overflow-x: auto;
+      }
+    `], Z([Ie({ attribute: !1 })], $.prototype, "config", void 0), Z([F()], $.prototype, "forecast", void 0), Z([F()], $.prototype, "fetchedAt", void 0), Z([F()], $.prototype, "lastError", void 0), Z([F()], $.prototype, "loading", void 0), Z([F()], $.prototype, "now", void 0), Z([F()], $.prototype, "mapGeneration", void 0), Z([F()], $.prototype, "alerts", void 0), Z([F()], $.prototype, "unresolvedAlerts", void 0), Z([F()], $.prototype, "alertsFetchedAt", void 0), Z([F()], $.prototype, "alertsError", void 0), customElements.define("weatherwise-card", $), window.customCards = window.customCards ?? [], window.customCards.push({
 	type: "weatherwise-card",
 	name: "WeatherWise Card",
-	description: "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline and hourly strip. Built for kiosk displays.",
+	description: "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline, local alerts, and hourly and daily forecast strips or tables. Built for kiosk displays.",
 	documentationURL: "https://github.com/trooperthorn/ha_card_weatherwise"
-}), console.info("%c WEATHERWISE-CARD %c v2026.09.30.2 ", "background: #444; color: #fff; border-radius: 3px 0 0 3px; padding: 2px 0;", "background: #38bdf8; color: #111; border-radius: 0 3px 3px 0; padding: 2px 0;");
+}), console.info("%c WEATHERWISE-CARD %c v2026.09.30.3 ", "background: #444; color: #fff; border-radius: 3px 0 0 3px; padding: 2px 0;", "background: #38bdf8; color: #111; border-radius: 0 3px 3px 0; padding: 2px 0;");
 //#endregion
 export { $ as WeatherWiseCard };

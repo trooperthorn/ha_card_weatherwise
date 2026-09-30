@@ -63,8 +63,32 @@ historical evidence, not current weather).
 
 Unverified: coverage beyond 24 hours or 5 days on these models, rate limits,
 `current=` parameters (not used), any endpoint not listed here. The handoff
-document lists many more routes (warnings, radar frames, METARs); none are
-used by this card.
+document lists many more routes (radar frames, METARs, outlooks); only the
+warnings routes below are used besides the forecast.
+
+## Warnings
+
+Checked 2026-09-30 with curl from a workstation and from Python, no
+credential.
+
+| Item | Value | Status |
+| --- | --- | --- |
+| Feed | `GET https://data2.weatherwise.app/warnings/USA.geojson` (also answered by `data1`) | verified: 200, `application/geo+json`, 665 KB, 241 features that day |
+| CORS | `Access-Control-Allow-Origin: *`, `Access-Control-Allow-Methods: *`, `Access-Control-Allow-Headers: *` | verified, including with an `Origin: http://homeassistant.local:8123` request header |
+| Cache | `cf-cache-status: DYNAMIC`, `Etag`, `Last-Modified`; the app appends `?_=<epoch ms>` | the card sends `cache: no-store` and no cache-buster |
+| Feature shape | `properties`: `id`, `title`, `common_id`, `action` (NEW, CON, EXT, EXA, EXB), `office`, `product`, `significance`, `event_number`, `issued_at`/`starts_at`/`expires_at` plus `_ms` variants, `generated_at`, `text`, `emergency`, `tags` {WHAT, WHERE, WHEN, IMPACTS}, `previous_id`, `country_iso`, `ugcs`, `states` [{name, code}], `center` [lon, lat], `area`, `bbox` [west, south, east, north], `metadata.upstream`, `population`, `geometry: {type: "REMOTE"}` | verified on every feature that day |
+| `significance` values seen | W (warning), A (watch), Y (advisory), S (statement), O (outlook), F (forecast) | verified; the VTEC meanings are the NWS ones |
+| Inline `geometry` | present on 61 of 241 features, all storm-based or river products (Flood Warning, Flash Flood Warning, Severe Thunderstorm Warning, Flood Advisory, some Flood Watches, Marine and Special Weather Statements); `null` on zone products | verified |
+| Per-warning geometry | `GET /warnings/archive/<id>-geometry.geojson`, a Feature with Polygon or MultiPolygon geometry and `properties` {generated_at, states} | verified on data2 and data1 with CORS `*` |
+| `GET /warnings/USA-<id>.geojson` and `-opt` | 404 | the route named in the handoff did not answer for any id tried |
+| `GET /warnings/archive/<id>.geojson` | the full feature without geometry | verified, not used |
+| User agent | `Python-urllib/3.14` gets 403 on every route; curl, `python-requests`, `Python/3.14 aiohttp/3.13`, and `HomeAssistant/2026.9.4 aiohttp/3.13 Python/3.14` get 200 | verified; browsers are unaffected |
+| Other countries | the path token is passed through from `alert_country` | unverified beyond USA |
+
+Recorded fixtures: `tests/fixtures/warnings-usa-sample.json` (six features
+from the feed with `text` truncated) and
+`tests/fixtures/warnings-geometry-flood-watch.json` (the fetched polygon of
+a Flood Watch that contained the example point that day).
 
 ## Account and vendor boundaries
 

@@ -3,8 +3,10 @@
  * and reported together so a configuration can be fixed in one edit.
  */
 
+import { COUNTRY_RE, UGC_RE } from "./alerts";
 import type {
   ForecastModel,
+  Layout,
   PrecipitationUnit,
   TemperatureUnit,
   ViewPreset,
@@ -43,6 +45,13 @@ const KNOWN_KEYS = new Set([
   "precipitation_unit",
   "refresh_minutes",
   "hosts",
+  "layout",
+  "show_alerts",
+  "alerts_refresh_minutes",
+  "alerts_max",
+  "alerts_include_outlooks",
+  "alert_zones",
+  "alert_country",
   "view_layout",
   "layout_options",
   "grid_options",
@@ -54,11 +63,14 @@ const MODELS: ReadonlySet<string> = new Set(["ecmwf_ifs025", "gfs_seamless"]);
 const TEMPERATURE_UNITS: ReadonlySet<string> = new Set(["fahrenheit", "celsius"]);
 const WIND_UNITS: ReadonlySet<string> = new Set(["mph", "kmh", "ms", "kn"]);
 const PRECIPITATION_UNITS: ReadonlySet<string> = new Set(["mm", "inch"]);
+const LAYOUTS: ReadonlySet<string> = new Set(["strips", "report"]);
 const MAP_MODE_RE = /^[A-Z0-9_-]{1,32}$/;
 
 export const MIN_REFRESH_MINUTES = 10;
+export const MIN_ALERTS_REFRESH_MINUTES = 2;
 export const MAX_HOURLY = 48;
 export const MAX_DAILY = 16;
+export const MAX_ALERTS = 10;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -162,6 +174,36 @@ function hosts(obj: Record<string, unknown>, errors: string[]): string[] {
   return out.length > 0 ? out : [...DEFAULT_HOSTS];
 }
 
+/**
+ * Zone codes come as a YAML list or, from the visual editor's text field,
+ * as one comma or space separated string. Codes are upper-cased; NWS UGC
+ * codes are two letters, C or Z, three digits.
+ */
+function zones(obj: Record<string, unknown>, errors: string[]): string[] {
+  const value = obj.alert_zones;
+  if (value === undefined || value === null || value === "") {
+    return [];
+  }
+  let items: unknown[];
+  if (typeof value === "string") {
+    items = value.split(/[\s,]+/).filter((s) => s !== "");
+  } else if (Array.isArray(value)) {
+    items = value;
+  } else {
+    errors.push("alert_zones: must be a list of UGC codes such as TXZ133");
+    return [];
+  }
+  const out: string[] = [];
+  for (const [i, item] of items.entries()) {
+    if (typeof item !== "string" || !UGC_RE.test(item.trim().toUpperCase())) {
+      errors.push(`alert_zones[${i}]: "${String(item)}" is not a UGC code such as TXZ133 or TXC139`);
+      continue;
+    }
+    out.push(item.trim().toUpperCase());
+  }
+  return out;
+}
+
 export function parseConfig(raw: unknown): ParseResult {
   const errors: string[] = [];
   if (!isRecord(raw)) {
@@ -187,6 +229,15 @@ export function parseConfig(raw: unknown): ParseResult {
       errors.push("map_mode: must be an upper-case token such as RADAR");
     } else {
       mapMode = raw.map_mode;
+    }
+  }
+
+  let alertCountry = "USA";
+  if (raw.alert_country !== undefined) {
+    if (typeof raw.alert_country !== "string" || !COUNTRY_RE.test(raw.alert_country)) {
+      errors.push("alert_country: must be an upper-case country token such as USA");
+    } else {
+      alertCountry = raw.alert_country;
     }
   }
 
@@ -216,6 +267,19 @@ export function parseConfig(raw: unknown): ParseResult {
     refresh_minutes:
       number(raw, "refresh_minutes", errors, { min: MIN_REFRESH_MINUTES, max: 1440, integer: true, fallback: 30 }) ?? 30,
     hosts: hosts(raw, errors),
+    layout: choice<Layout>(raw, "layout", LAYOUTS, errors, "strips"),
+    show_alerts: boolean(raw, "show_alerts", errors, true),
+    alerts_refresh_minutes:
+      number(raw, "alerts_refresh_minutes", errors, {
+        min: MIN_ALERTS_REFRESH_MINUTES,
+        max: 60,
+        integer: true,
+        fallback: 5,
+      }) ?? 5,
+    alerts_max: number(raw, "alerts_max", errors, { min: 1, max: MAX_ALERTS, integer: true, fallback: 3 }) ?? 3,
+    alerts_include_outlooks: boolean(raw, "alerts_include_outlooks", errors, false),
+    alert_zones: zones(raw, errors),
+    alert_country: alertCountry,
   };
 
   if (errors.length > 0) {

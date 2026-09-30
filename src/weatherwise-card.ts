@@ -7,20 +7,33 @@
 import { css, html, LitElement, nothing, type TemplateResult } from "lit";
 import { property, state } from "lit/decorators.js";
 import { keyed } from "lit/directives/keyed.js";
-import { fetchForecast, ForecastFetchError } from "./api";
+import { matchAlerts } from "./alerts";
+import { fetchForecast, fetchGeometry, fetchWarnings, HostsFetchError } from "./api";
 import { needsForecast, parseConfig } from "./config";
 import { compass, conditionFor } from "./conditions";
 import { getConfigForm } from "./editor-form";
 import { maxRainChance, selectWindow } from "./forecast";
-import { formatAge, formatHour, formatTime, formatWeekday, round } from "./format";
+import { formatAge, formatHour, formatTime, formatWeekday, formatWhen, round } from "./format";
 import { conditionIcon } from "./icons";
 import { mapUrl } from "./map-url";
 import { tokens } from "./styles";
-import type { Forecast, HomeAssistant, WeatherWiseConfig } from "./types";
+import type {
+  Alert,
+  Forecast,
+  Geometry,
+  HomeAssistant,
+  HourlyPoint,
+  MatchedAlert,
+  WeatherWiseConfig,
+} from "./types";
 
 const MINUTE_MS = 60_000;
 /** A forecast older than this many refresh intervals is shown as stale. */
 const STALE_INTERVALS = 2;
+
+function describeError(err: unknown): string {
+  return err instanceof HostsFetchError ? err.attempts.join("; ") : (err as Error).message;
+}
 
 class WeatherWiseCard extends LitElement {
   @property({ attribute: false }) config?: WeatherWiseConfig;
@@ -31,12 +44,21 @@ class WeatherWiseCard extends LitElement {
   @state() private loading = false;
   @state() private now = Date.now();
   @state() private mapGeneration = 0;
+  @state() private alerts?: MatchedAlert[];
+  @state() private unresolvedAlerts: Alert[] = [];
+  @state() private alertsFetchedAt?: number;
+  @state() private alertsError?: string;
 
   private _hass?: HomeAssistant;
   private pollTimer?: ReturnType<typeof setInterval>;
+  private alertsTimer?: ReturnType<typeof setInterval>;
   private tickTimer?: ReturnType<typeof setInterval>;
   private mapTimer?: ReturnType<typeof setInterval>;
   private forecastKey = "";
+  private alertsKey = "";
+  private alertsLoading = false;
+  /** Fetched polygons by warning id, pruned to the ids in the latest feed. */
+  private geometryCache = new Map<string, Geometry | null>();
 
   static override styles = [
     tokens,
@@ -182,6 +204,97 @@ class WeatherWiseCard extends LitElement {
         white-space: pre-wrap;
         font-size: 13px;
       }
+      .alerts {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .alert {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2px 10px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: var(--wwc-tile);
+        border-left: 5px solid var(--wwc-text-dim);
+        font-size: 13px;
+      }
+      .alert.sig-W {
+        border-left-color: var(--wwc-error);
+      }
+      .alert.sig-A {
+        border-left-color: var(--wwc-warn);
+      }
+      .alert.sig-Y {
+        border-left-color: var(--wwc-accent);
+      }
+      .alert.emergency {
+        background: var(--wwc-error);
+        color: #fff;
+      }
+      .alert .name {
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .alert .until {
+        color: var(--wwc-text-dim);
+        text-align: right;
+        white-space: nowrap;
+      }
+      .alert.emergency .until {
+        color: inherit;
+      }
+      .alert .what {
+        grid-column: 1 / -1;
+        color: var(--wwc-text-dim);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .alert.emergency .what {
+        color: inherit;
+      }
+      table.report {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      table.report th {
+        text-align: left;
+        font-weight: 500;
+        color: var(--wwc-text-dim);
+        padding: 4px 6px;
+        border-bottom: 1px solid var(--wwc-divider);
+        white-space: nowrap;
+      }
+      table.report td {
+        padding: 5px 6px;
+        border-bottom: 1px solid var(--wwc-divider);
+        white-space: nowrap;
+      }
+      table.report tr:last-child td {
+        border-bottom: 0;
+      }
+      table.report .cond {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      table.report .cond .icon {
+        color: var(--wwc-accent);
+        display: inline-flex;
+      }
+      table.report .num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      table.report .lo {
+        color: var(--wwc-text-dim);
+      }
+      .report-wrap {
+        overflow-x: auto;
+      }
     `,
   ];
 
@@ -208,14 +321,18 @@ class WeatherWiseCard extends LitElement {
     if (c.show_conditions) {
       units += 2;
     }
+    if (c.show_alerts) {
+      units += 1;
+    }
     if (c.show_map) {
       units += Math.ceil(c.map_height / 50);
     }
+    const report = c.layout === "report";
     if (c.show_hourly) {
-      units += 2;
+      units += report ? Math.ceil(c.hourly_count / 2) + 1 : 2;
     }
     if (c.show_daily) {
-      units += 2;
+      units += report ? Math.ceil(c.daily_count / 2) + 1 : 2;
     }
     return units;
   }
@@ -271,6 +388,29 @@ class WeatherWiseCard extends LitElement {
       void this.refresh();
       this.pollTimer = setInterval(() => void this.refresh(), this.config.refresh_minutes * MINUTE_MS);
     }
+    if (this.config.show_alerts) {
+      const key = JSON.stringify([
+        this.config.latitude,
+        this.config.longitude,
+        this.config.alert_zones,
+        this.config.alert_country,
+        this.config.alerts_include_outlooks,
+        this.config.hosts,
+      ]);
+      if (key !== this.alertsKey) {
+        this.alertsKey = key;
+        this.alerts = undefined;
+        this.unresolvedAlerts = [];
+        this.alertsFetchedAt = undefined;
+        this.alertsError = undefined;
+        this.geometryCache.clear();
+      }
+      void this.refreshAlerts();
+      this.alertsTimer = setInterval(
+        () => void this.refreshAlerts(),
+        this.config.alerts_refresh_minutes * MINUTE_MS,
+      );
+    }
     if (this.config.show_map && this.config.map_reload_minutes > 0) {
       this.mapTimer = setInterval(() => {
         this.mapGeneration += 1;
@@ -279,12 +419,61 @@ class WeatherWiseCard extends LitElement {
   }
 
   private disarm(): void {
-    for (const t of [this.pollTimer, this.tickTimer, this.mapTimer]) {
+    for (const t of [this.pollTimer, this.alertsTimer, this.tickTimer, this.mapTimer]) {
       if (t !== undefined) {
         clearInterval(t);
       }
     }
-    this.pollTimer = this.tickTimer = this.mapTimer = undefined;
+    this.pollTimer = this.alertsTimer = this.tickTimer = this.mapTimer = undefined;
+  }
+
+  private async refreshAlerts(): Promise<void> {
+    const c = this.config;
+    if (!c || this.alertsLoading) {
+      return;
+    }
+    this.alertsLoading = true;
+    const key = this.alertsKey;
+    try {
+      const all = await fetchWarnings(c);
+      const ids = new Set(all.map((a) => a.id));
+      for (const id of this.geometryCache.keys()) {
+        if (!ids.has(id)) {
+          this.geometryCache.delete(id);
+        }
+      }
+      const { matched, unresolved } = await matchAlerts(all, {
+        latitude: c.latitude,
+        longitude: c.longitude,
+        zones: c.alert_zones,
+        nowMs: Date.now(),
+        includeOutlooks: c.alerts_include_outlooks,
+        fetchGeometry: async (id) => {
+          const cached = this.geometryCache.get(id);
+          if (cached !== undefined && cached !== null) {
+            return cached;
+          }
+          const geometry = await fetchGeometry(c.hosts, id);
+          this.geometryCache.set(id, geometry);
+          return geometry;
+        },
+      });
+      if (key !== this.alertsKey) {
+        return;
+      }
+      this.alerts = matched;
+      this.unresolvedAlerts = unresolved;
+      this.alertsFetchedAt = Date.now();
+      this.alertsError = undefined;
+    } catch (err) {
+      if (key !== this.alertsKey) {
+        return;
+      }
+      this.alertsError = describeError(err);
+    } finally {
+      this.alertsLoading = false;
+      this.now = Date.now();
+    }
   }
 
   private async refresh(): Promise<void> {
@@ -305,8 +494,7 @@ class WeatherWiseCard extends LitElement {
       if (key !== this.forecastKey) {
         return;
       }
-      this.lastError =
-        err instanceof ForecastFetchError ? err.attempts.join("; ") : (err as Error).message;
+      this.lastError = describeError(err);
     } finally {
       this.loading = false;
       this.now = Date.now();
@@ -325,12 +513,130 @@ class WeatherWiseCard extends LitElement {
     return html`
       <div class="card">
         ${this.renderHeader(c)}
+        ${c.show_alerts ? this.renderAlerts(c) : nothing}
         ${c.show_map ? this.renderMap(c) : nothing}
-        ${c.show_hourly ? this.renderHourly(c) : nothing}
-        ${c.show_daily ? this.renderDaily(c) : nothing}
+        ${c.show_hourly ? (c.layout === "report" ? this.renderHourlyReport(c) : this.renderHourly(c)) : nothing}
+        ${c.show_daily ? (c.layout === "report" ? this.renderDailyReport(c) : this.renderDaily(c)) : nothing}
         ${this.renderFooter(c)}
       </div>
     `;
+  }
+
+  private renderAlerts(c: WeatherWiseConfig): TemplateResult | typeof nothing {
+    const alerts = this.alerts;
+    if (!alerts || alerts.length === 0) {
+      return nothing;
+    }
+    const tz = this.forecast?.timezone;
+    const locale = this.locale();
+    const nowSeconds = this.now / 1000;
+    return html`<div class="alerts" role="list">
+      ${alerts.slice(0, c.alerts_max).map((a) => {
+        const startsSeconds = a.startsAt !== null ? a.startsAt / 1000 : null;
+        const expiresSeconds = a.expiresAt !== null ? a.expiresAt / 1000 : null;
+        const timing =
+          startsSeconds !== null && startsSeconds > nowSeconds
+            ? `from ${formatWhen(startsSeconds, tz, locale)}`
+            : expiresSeconds !== null
+              ? `until ${formatWhen(expiresSeconds, tz, locale)}`
+              : "";
+        return html`<div class="alert sig-${a.significance} ${a.emergency ? "emergency" : ""}" role="listitem" title=${a.where ?? ""}>
+          <span class="name">${a.title}</span>
+          <span class="until">${timing}</span>
+          ${a.what ? html`<span class="what">${a.what}</span>` : nothing}
+        </div>`;
+      })}
+    </div>`;
+  }
+
+  private renderAlertStatus(): TemplateResult[] {
+    const parts: TemplateResult[] = [];
+    if (!this.config?.show_alerts) {
+      return parts;
+    }
+    if (this.alertsError) {
+      parts.push(html`<span class="badge error">alerts unavailable</span><span>${this.alertsError}</span>`);
+    } else if (this.alertsFetchedAt !== undefined && this.alerts) {
+      parts.push(
+        html`<span>${this.alerts.length === 0 ? "no local alerts" : `${this.alerts.length} local alert${this.alerts.length === 1 ? "" : "s"}`}</span>`,
+      );
+    }
+    if (this.unresolvedAlerts.length > 0) {
+      parts.push(
+        html`<span class="badge stale">unresolved</span><span>${this.unresolvedAlerts.map((a) => a.title).join(", ")}: polygon unavailable, not shown</span>`,
+      );
+    }
+    return parts;
+  }
+
+  private hourlyRows(c: WeatherWiseConfig): { f: Forecast; rows: HourlyPoint[] } | null {
+    const f = this.forecast;
+    if (!f) {
+      return null;
+    }
+    const window = selectWindow(f, Math.floor(this.now / 1000), c.hourly_count);
+    if (window.upcoming.length === 0) {
+      return null;
+    }
+    return { f, rows: window.upcoming };
+  }
+
+  private renderHourlyReport(c: WeatherWiseConfig): TemplateResult | typeof nothing {
+    const data = this.hourlyRows(c);
+    if (!data) {
+      return nothing;
+    }
+    const { f, rows } = data;
+    const locale = this.locale();
+    return html`<div class="report-wrap"><table class="report">
+      <thead><tr>
+        <th>Hour</th><th>Conditions</th><th class="num">Temp</th><th class="num">Feels</th>
+        <th class="num">Rain</th><th class="num">Amount</th><th>Wind</th><th class="num">Humidity</th>
+      </tr></thead>
+      <tbody>
+        ${rows.map((p) => {
+          const cond = conditionFor(p.weatherCode, p.isDay);
+          return html`<tr>
+            <td>${formatHour(p.time, f.timezone, locale)}</td>
+            <td><span class="cond"><span class="icon">${conditionIcon(cond.key, 20)}</span>${cond.label}</span></td>
+            <td class="num">${round(p.temperature)}${f.units.temperature}</td>
+            <td class="num">${round(p.apparentTemperature)}${f.units.temperature}</td>
+            <td class="num">${round(p.precipitationProbability)}%</td>
+            <td class="num">${round(p.precipitation, 2)} ${f.units.precipitation}</td>
+            <td>${round(p.windSpeed)} ${f.units.windSpeed} ${compass(p.windBearing)}</td>
+            <td class="num">${round(p.humidity)}%</td>
+          </tr>`;
+        })}
+      </tbody>
+    </table></div>`;
+  }
+
+  private renderDailyReport(c: WeatherWiseConfig): TemplateResult | typeof nothing {
+    const f = this.forecast;
+    if (!f || f.daily.length === 0) {
+      return nothing;
+    }
+    const locale = this.locale();
+    return html`<div class="report-wrap"><table class="report">
+      <thead><tr>
+        <th>Day</th><th>Conditions</th><th class="num">High</th><th class="num">Low</th>
+        <th class="num">Rain</th><th>Sunrise</th><th>Sunset</th>
+      </tr></thead>
+      <tbody>
+        ${f.daily.slice(0, c.daily_count).map((d) => {
+          const cond = conditionFor(d.weatherCode, true);
+          return html`<tr>
+            <td>${formatWeekday(d.time, f.timezone, locale)}</td>
+            <td><span class="cond"><span class="icon">${conditionIcon(cond.key, 20)}</span>${cond.label}</span></td>
+            <td class="num">${round(d.temperatureMax)}${f.units.temperature}</td>
+            <td class="num lo">${round(d.temperatureMin)}${f.units.temperature}</td>
+            <td class="num">${round(d.precipitationProbabilityMax)}%</td>
+            <td>${d.sunrise !== null ? formatTime(d.sunrise, f.timezone, locale) : "--"}</td>
+            <td>${d.sunset !== null ? formatTime(d.sunset, f.timezone, locale) : "--"}</td>
+          </tr>`;
+        })}
+      </tbody>
+    </table></div>`;
   }
 
   private renderHeader(c: WeatherWiseConfig): TemplateResult {
@@ -391,6 +697,7 @@ class WeatherWiseCard extends LitElement {
     if (this.lastError) {
       parts.push(html`<span class="badge error">refresh failed</span><span>${this.lastError}</span>`);
     }
+    parts.push(...this.renderAlertStatus());
     return html`<div class="meta">${parts}</div>`;
   }
 
@@ -413,17 +720,14 @@ class WeatherWiseCard extends LitElement {
   }
 
   private renderHourly(c: WeatherWiseConfig): TemplateResult | typeof nothing {
-    const f = this.forecast;
-    if (!f) {
+    const data = this.hourlyRows(c);
+    if (!data) {
       return nothing;
     }
-    const window = selectWindow(f, Math.floor(this.now / 1000), c.hourly_count);
-    if (window.upcoming.length === 0) {
-      return nothing;
-    }
+    const { f, rows } = data;
     const locale = this.locale();
     return html`<div class="strip">
-      ${window.upcoming.map((p) => {
+      ${rows.map((p) => {
         const cond = conditionFor(p.weatherCode, p.isDay);
         return html`<div class="tile">
           <span class="when">${formatHour(p.time, f.timezone, locale)}</span>
@@ -477,7 +781,7 @@ window.customCards.push({
   type: "weatherwise-card",
   name: "WeatherWise Card",
   description:
-    "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline and hourly strip. Built for kiosk displays.",
+    "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline, local alerts, and hourly and daily forecast strips or tables. Built for kiosk displays.",
   documentationURL: "https://github.com/trooperthorn/ha_card_weatherwise",
 });
 

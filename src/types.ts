@@ -28,6 +28,7 @@ export type ForecastModel = "ecmwf_ifs025" | "gfs_seamless";
 export type TemperatureUnit = "fahrenheit" | "celsius";
 export type WindSpeedUnit = "mph" | "kmh" | "ms" | "kn";
 export type PrecipitationUnit = "mm" | "inch";
+export type Layout = "strips" | "report";
 
 export interface WeatherWiseConfig {
   title?: string;
@@ -53,6 +54,13 @@ export interface WeatherWiseConfig {
   precipitation_unit: PrecipitationUnit;
   refresh_minutes: number;
   hosts: string[];
+  layout: Layout;
+  show_alerts: boolean;
+  alerts_refresh_minutes: number;
+  alerts_max: number;
+  alerts_include_outlooks: boolean;
+  alert_zones: string[];
+  alert_country: string;
 }
 
 export const DEFAULT_ZOOM: Record<ViewPreset, number> = {
@@ -127,4 +135,44 @@ export type ConditionKey =
 export interface Condition {
   key: ConditionKey;
   label: string;
+}
+
+/** GeoJSON positions are [longitude, latitude]; extra ordinates are ignored. */
+export type Ring = number[][];
+
+export type Geometry =
+  | { type: "Polygon"; coordinates: Ring[] }
+  | { type: "MultiPolygon"; coordinates: Ring[][] };
+
+/**
+ * NWS VTEC significance: W warning, A watch, Y advisory, S statement,
+ * F forecast, O outlook. Anything else is kept as the raw string.
+ */
+export type Significance = "W" | "A" | "Y" | "S" | "F" | "O";
+
+export interface Alert {
+  id: string;
+  title: string;
+  product: string;
+  significance: string;
+  emergency: boolean;
+  office: string | null;
+  /** Epoch milliseconds as the feed provides them; null when absent. */
+  issuedAt: number | null;
+  startsAt: number | null;
+  expiresAt: number | null;
+  ugcs: string[];
+  /** [west, south, east, north] */
+  bbox: [number, number, number, number] | null;
+  what: string | null;
+  where: string | null;
+  when: string | null;
+  impacts: string | null;
+  /** Inline geometry when the feed carried one; most zone products do not. */
+  geometry: Geometry | null;
+}
+
+/** An alert that was matched to the configured point, with how it matched. */
+export interface MatchedAlert extends Alert {
+  matchedBy: "zone" | "polygon";
 }

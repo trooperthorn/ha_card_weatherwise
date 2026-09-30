@@ -53,6 +53,44 @@ tokens). The card renders plain elements and its own inline SVG icons.
 Rejected: `ha-icon` with MDI names, which would have given richer icons at
 the cost of a per-release liability.
 
+## 2026-09-30: alerts match by polygon or zone code, never by bounding box
+
+The handoff warned that inventory geometry may be insufficient and that a
+nearby centroid must not be treated as a hit. Verified the same day: only
+storm-based products carry inline polygons; the rest expose a complete
+polygon at `/warnings/archive/<id>-geometry.geojson`. The card uses the
+feed's bounding box only to avoid fetching polygons for the whole country,
+then requires either a configured UGC code in the warning's `ugcs` or a
+point-in-polygon hit on the complete geometry. Rejected: bounding box or
+centroid distance matching (a Texas-wide Flood Watch box covers points the
+watch does not), and requiring zone codes (they are optional because the
+polygon route works without them; a person who knows their zones saves the
+lookups).
+
+## 2026-09-30: alerts are on by default, outlooks are off
+
+Sean wanted alerts on the board this week. The feed is public with
+wildcard CORS and the default point already sat inside an active Flood
+Watch, so the feature defaults on with a 5 minute floor of 2. Hazardous
+Weather Outlooks, Hydrologic Outlooks, and Short Term Forecasts are issued
+routinely and would keep a banner on the board most days, so significance O
+and F are hidden unless asked for.
+
+## 2026-09-30: the report layout is a presentation of the same request
+
+A table of hourly and daily values was wanted alongside the strips. The
+report reads the fields the request already returns (feels-like, rain
+amount, wind, humidity, sunrise, sunset) rather than adding parameters, so
+switching layouts changes no traffic and the two layouts cannot disagree.
+Rejected: a separate card element for the report, which would have
+duplicated the fetch, timers, and status handling.
+
+## 2026-09-30: not submitted to the HACS default store
+
+Sean decided the card stays a custom repository. The HACS validation job
+remains informational, and the terms check that was a precondition for a
+store submission is dropped from the backlog.
+
 ## 2026-09-30: CodeQL ignores `dist/`
 
 The first pull request was blocked by a high-severity CodeQL alert,

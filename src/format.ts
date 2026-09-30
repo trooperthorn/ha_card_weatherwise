@@ -36,6 +36,20 @@ export function formatWeekday(epochSeconds: number, timeZone: string, locale?: s
   }
 }
 
+/** Weekday plus clock time, for alert start and end times. */
+export function formatWhen(epochSeconds: number, timeZone: string | undefined, locale?: string): string {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      weekday: "short",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone,
+    }).format(new Date(epochSeconds * 1000));
+  } catch {
+    return new Date(epochSeconds * 1000).toISOString().slice(0, 16).replace("T", " ");
+  }
+}
+
 export function formatAge(ms: number): string {
   const minutes = Math.round(ms / 60_000);
   if (minutes < 1) {

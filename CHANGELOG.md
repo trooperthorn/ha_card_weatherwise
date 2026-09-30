@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026.09.30.3
+
+- Local alerts. The card polls the WeatherWise warnings feed on its own
+  interval and shows the warnings, watches, advisories, and statements that
+  cover the point, matched by a configured UGC zone code or by
+  point-in-polygon against the warning's complete geometry (inline or
+  fetched from the archive geometry route, never by bounding box). New
+  options `show_alerts` (default true), `alerts_refresh_minutes`,
+  `alerts_max`, `alerts_include_outlooks`, `alert_zones`, `alert_country`.
+  Unmatched-but-unresolvable warnings are named in the status line.
+- Report layout. `layout: report` renders the hourly and daily forecast as
+  tables with feels-like, rain amount, wind, humidity, sunrise, and sunset
+  in place of the strips.
+- The host failover fetch is shared by the forecast, feed, and geometry
+  requests; `HostsFetchError` replaces `ForecastFetchError`.
+
 ## 2026.09.30.2
 
 - The map URL now carries `ui=0` and `autoplay=1` by default. The first
