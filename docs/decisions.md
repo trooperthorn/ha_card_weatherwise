@@ -52,3 +52,16 @@ removals in each release (`ha-textfield`, `ha-fab`, `ha-radio`, size
 tokens). The card renders plain elements and its own inline SVG icons.
 Rejected: `ha-icon` with MDI names, which would have given richer icons at
 the cost of a per-release liability.
+
+## 2026-09-30: CodeQL ignores `dist/`
+
+The first pull request was blocked by a high-severity CodeQL alert,
+`js/bad-tag-filter`, at `dist/weatherwise-card.js` line 257. That line is
+the Lit library's template parser (its HTML comment-end regular expression),
+bundled into the committed build. The card's own source in `src/` contains
+no HTML filtering. CodeQL now analyzes `src/`, `dev/`, and `tests/` and
+ignores `dist/` and `node_modules/` through `.github/codeql/codeql-config.yml`;
+alert 1 was dismissed as won't fix with a comment pointing here. Rejected:
+patching the bundle or pinning an older Lit, which would trade a false
+positive for a real maintenance burden. Dependency advisories for Lit are
+still covered by `npm audit` in the same workflow.

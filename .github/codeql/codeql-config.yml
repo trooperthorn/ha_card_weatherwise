@@ -1,0 +1,7 @@
+# dist/ is the committed build of src/ plus the bundled Lit library. CodeQL
+# analyzes the source it is built from; findings inside the bundle point at
+# third-party code the repository does not author. See docs/decisions.md.
+name: weatherwise-card
+paths-ignore:
+  - dist
+  - node_modules
