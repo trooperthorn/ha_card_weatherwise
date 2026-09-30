@@ -103,7 +103,7 @@ and the message lists every problem at once.
 | `show_hourly` | `true` | Hourly strip |
 | `hourly_count` | `12` | Hours after the current one, 1 to 48 |
 | `show_daily` | `false` | Daily strip |
-| `daily_count` | `5` | Days, 1 to 16; coverage beyond 5 is unverified |
+| `daily_count` | `5` | Days, 1 to 16; both models answer 16, with a few nulls in the last days shown as `--` |
 | `model` | `ecmwf_ifs025` | or `gfs_seamless` |
 | `temperature_unit` | `fahrenheit` | or `celsius` |
 | `wind_speed_unit` | `mph` | `mph`, `kmh`, `ms`, or `kn` |
@@ -211,8 +211,9 @@ Not verified yet:
   report layout were verified by unit tests only, not in a browser.
 - Countries other than USA in the warnings feed, and the feed's own update
   cadence.
-- Map modes other than `RADAR`, and forecast coverage beyond 5 days or 48
-  hours on these models.
+- Map modes other than `RADAR`. Forecast coverage was checked on
+  2026-09-30 to 240 hours and 16 days on both models (complete hourly,
+  a few null daily values in the last days); see `docs/api.md`.
 - WeatherWise's terms for embedding and polling; the site credits
   Open-Meteo and exposes Open-Meteo style routes, but no public API
   contract was found. Keep `refresh_minutes` conservative.

@@ -32,7 +32,7 @@ want 8 or 10.
 | `map_mode` | Passed through as `m=`. Only `RADAR` is verified. An unknown token is the app's problem, not the card's; expect a default view. |
 | `refresh_minutes` | Forecast poll interval, minimum 10. The model runs update a few times a day; 30 is a sensible default and 60 is fine. |
 | `hourly_count` | Hours after the current one. The request asks for two more than this so the current hour is always covered; 48 is the cap the widget code enforces. |
-| `show_daily`, `daily_count` | The daily strip; days beyond 5 are unverified on these models. Sunrise and sunset in the footer come from the daily block regardless. |
+| `show_daily`, `daily_count` | The daily strip or table. Both models answer 16 days; the last day or two can carry null high or rain values, shown as `--`. Sunrise and sunset in the footer come from the daily block regardless. |
 | `model` | `ecmwf_ifs025` (default) or `gfs_seamless`; the route changes with it. |
 | `temperature_unit`, `wind_speed_unit`, `precipitation_unit` | Sent to the API; the labels shown come from the response, so they always match the numbers. |
 | `hosts` | Ordered list of bare https origins, one attempt each per refresh. Put a mirror first if data2 misbehaves. Anything other than the WeatherWise hosts is your own choice; the request shape is Open-Meteo style. The same list serves the warnings feed and geometry routes. |

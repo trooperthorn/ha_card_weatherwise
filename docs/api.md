@@ -61,8 +61,20 @@ GET /api/om/v1/forecast
 Recorded fixture: `tests/fixtures/forecast-ecmwf-24h-5d.json` (values are
 historical evidence, not current weather).
 
-Unverified: coverage beyond 24 hours or 5 days on these models, rate limits,
-`current=` parameters (not used), any endpoint not listed here. The handoff
+Coverage, checked 2026-09-30 with the card's request shape on both routes:
+
+| Request | ECMWF `ecmwf_ifs025` | GFS `gfs_seamless` |
+| --- | --- | --- |
+| 96 hours, 7 days | complete | complete |
+| 168 hours, 10 days | complete | complete |
+| 240 hours, 16 days | hourly complete; daily max temperature null on 1 day and rain chance null on 2 of the last days | hourly complete; daily rain chance null on the last 5 days |
+| 384 hours, 16 days | temperature null on 31 hours and rain chance on 55 hours at the tail | temperature null on 9 hours and rain chance on 123 hours at the tail |
+
+The card caps `forecast_hours` at 48 and `daily_count` at 16; a null in
+the tail renders as `--`, never as zero.
+
+Unverified: rate limits, `current=` parameters (not used), any endpoint not
+listed here. The handoff
 document lists many more routes (radar frames, METARs, outlooks); only the
 warnings routes below are used besides the forecast.
 
