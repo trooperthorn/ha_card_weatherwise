@@ -1,0 +1,549 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "id": "9bc3c0dcd191912b79cd924da574c771",
+    "title": "Flood Watch",
+    "common_id": "KFWD.FA.A.0007",
+    "action": "CON",
+    "office": "KFWD",
+    "product": "FA",
+    "significance": "A",
+    "event_number": 7,
+    "issued_at": "2026-09-30T19:26:00.000Z",
+    "issued_at_ms": 1790796360000,
+    "starts_at": "2026-09-30T21:00:00.000Z",
+    "starts_at_ms": 1790802000000,
+    "expires_at": "2026-10-02T12:00:00.000Z",
+    "expires_at_ms": 1790942400000,
+    "generated_at": "2026-09-30T19:26:46.796Z",
+    "generated_at_ms": 1790796406796,
+    "text": "443\nWGUS64 KFWD 301926\nFFAFWD\n\nFlood Watch\nNational Weather Service Fort Worth TX\n226 PM CDT Wed Sep 30 2026\n\nTXZ091>094-100>105-115>121-129>134-141>146-156>161-174-010730-\n/O.CON.KFWD.FA.A.0007.260930T2100Z-261002T1200Z/\n/00000.0.ER.000000...",
+    "emergency": false,
+    "tags": {
+     "WHAT": "Flooding caused by excessive rainfall continues to be possible.",
+     "WHERE": "Portions of north central and south central Texas, including the following counties, in north central Texas, Bell, Bosque, Collin, Comanche, Cooke, Coryell, Dallas, Denton, Eastland, Ellis, Erath, Falls, Fannin, Grayson, Hamilton, Hill, Hood, Hunt, Jack, Johnson, Kaufman, Lampasas, Limestone, McLennan, Mills, Montague, Navarro, Palo Pinto, Parker, Rockwall, Somervell, Stephens, Tarrant, Wise and Young. In south central Texas, Milam.",
+     "WHEN": "Through Friday morning.",
+     "IMPACTS": "Excessive runoff may result in flooding of rivers, creeks, streams, and other low-lying and flood-prone locations. Low-water crossings may be flooded."
+    },
+    "previous_id": "00a4db3143e8fe52abd7615544381e73",
+    "country_iso": "USA",
+    "ugcs": [
+     "TXZ091",
+     "TXZ092",
+     "TXZ093",
+     "TXZ094",
+     "TXZ100",
+     "TXZ101",
+     "TXZ102",
+     "TXZ103",
+     "TXZ104",
+     "TXZ105",
+     "TXZ115",
+     "TXZ116",
+     "TXZ117",
+     "TXZ118",
+     "TXZ119",
+     "TXZ120",
+     "TXZ121",
+     "TXZ129",
+     "TXZ130",
+     "TXZ131",
+     "TXZ132",
+     "TXZ133",
+     "TXZ134",
+     "TXZ141",
+     "TXZ142",
+     "TXZ143",
+     "TXZ144",
+     "TXZ145",
+     "TXZ146",
+     "TXZ156",
+     "TXZ157",
+     "TXZ158",
+     "TXZ159",
+     "TXZ160",
+     "TXZ161",
+     "TXZ174"
+    ],
+    "states": [
+     {
+      "name": "Texas",
+      "code": "TX"
+     }
+    ],
+    "center": [
+     -97.45841637707917,
+     32.403670145785185
+    ],
+    "area": 81459166564.46648,
+    "bbox": [
+     -99.1191,
+     30.4573,
+     -95.8469,
+     33.9915
+    ],
+    "metadata": {
+     "upstream": "NWWS"
+    },
+    "population": {
+     "homes": 3522471,
+     "people": 8998719
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -102.97,
+       31.26
+      ],
+      [
+       -103.05,
+       31.33
+      ],
+      [
+       -103.01,
+       31.37
+      ],
+      [
+       -103.06,
+       31.38
+      ],
+      [
+       -103.07,
+       31.36
+      ],
+      [
+       -103.08,
+       31.36
+      ],
+      [
+       -103.13,
+       31.41
+      ],
+      [
+       -102.88,
+       31.65
+      ],
+      [
+       -102.81,
+       31.65
+      ],
+      [
+       -102.52,
+       31.43
+      ],
+      [
+       -102.97,
+       31.26
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "id": "a8e61db4a5d5eb20919f702292dbfbc3",
+    "title": "Severe Thunderstorm Warning",
+    "common_id": "KMAF.SV.W.0277",
+    "action": "NEW",
+    "office": "KMAF",
+    "product": "SV",
+    "significance": "W",
+    "event_number": 277,
+    "issued_at": "2026-09-30T19:47:00.000Z",
+    "issued_at_ms": 1790797620000,
+    "starts_at": "2026-09-30T19:47:00.000Z",
+    "starts_at_ms": 1790797620000,
+    "expires_at": "2026-09-30T20:30:00.000Z",
+    "expires_at_ms": 1790800200000,
+    "generated_at": "2026-09-30T19:47:18.373Z",
+    "generated_at_ms": 1790797638373,
+    "text": "013\nWUUS54 KMAF 301947\nSVRMAF\nTXC103-371-475-302030-\n/O.NEW.KMAF.SV.W.0277.260930T1947Z-260930T2030Z/\n\nBULLETIN - IMMEDIATE BROADCAST REQUESTED\nSevere Thunderstorm Warning\nNational Weather Service Midland/Odessa TX\n247 PM CDT Wed Sep 30 202...",
+    "emergency": false,
+    "tags": {
+     "HAZARD": "60 mph wind gusts and quarter size hail.",
+     "SOURCE": "Radar indicated.",
+     "IMPACT": "Hail damage to vehicles is expected. Expect wind damage to roofs, siding, and trees.",
+     "TIME_MOT_LOC": {
+      "time": "1946Z",
+      "direction": 242,
+      "speed": 17,
+      "positions": [
+       [
+        -102.96,
+        31.39
+       ]
+      ]
+     },
+     "HAIL_THREAT": "RADAR INDICATED",
+     "MAX_HAIL_SIZE": "1.00 IN",
+     "WIND_THREAT": "RADAR INDICATED",
+     "MAX_WIND_GUST": "60 MPH"
+    },
+    "previous_id": null,
+    "country_iso": "USA",
+    "ugcs": [
+     "TXC103",
+     "TXC371",
+     "TXC475"
+    ],
+    "states": [
+     {
+      "name": "Texas",
+      "code": "TX"
+     }
+    ],
+    "center": [
+     -102.84603723048077,
+     31.453518146511314
+    ],
+    "area": 1312502849.2305388,
+    "bbox": [
+     -103.13,
+     31.26,
+     -102.52,
+     31.65
+    ],
+    "metadata": {
+     "upstream": "NWWS"
+    },
+    "population": {
+     "homes": 4717,
+     "people": 10760
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -101.93,
+       35.53
+      ],
+      [
+       -101.81,
+       35.62
+      ],
+      [
+       -101.62,
+       35.62
+      ],
+      [
+       -101.72,
+       35.37
+      ],
+      [
+       -102.16,
+       35.36
+      ],
+      [
+       -102.17,
+       35.62
+      ],
+      [
+       -101.93,
+       35.53
+      ]
+     ]
+    ]
+   },
+   "properties": {
+    "id": "521a2ea5b3531cdda1983f868d60ec7f",
+    "title": "Flood Warning",
+    "common_id": "KAMA.FL.W.0001",
+    "action": "EXT",
+    "office": "KAMA",
+    "product": "FL",
+    "significance": "W",
+    "event_number": 1,
+    "issued_at": "2026-09-30T08:54:00.000Z",
+    "issued_at_ms": 1790758440000,
+    "starts_at": "2026-09-30T08:54:00.000Z",
+    "starts_at_ms": 1790758440000,
+    "expires_at": "2026-10-03T06:00:00.000Z",
+    "expires_at_ms": 1791007200000,
+    "generated_at": "2026-09-30T08:54:32.144Z",
+    "generated_at_ms": 1790758472144,
+    "text": "506\nWGUS44 KAMA 300854\nFLWAMA\n\nBULLETIN - IMMEDIATE BROADCAST REQUESTED\nFlood Warning\nNational Weather Service Amarillo TX\n354 AM CDT Wed Sep 30 2026\n\n...Forecast flooding changed from Minor to Moderate severity and\nincreased in duration fo...",
+    "emergency": false,
+    "tags": {
+     "WHAT": "Minor flooding is occurring and moderate flooding is forecast.",
+     "WHERE": "Canadian River at Amarillo 19N.",
+     "WHEN": "Until late Friday night.",
+     "IMPACTS": "At 10.0 feet, Portions of Rosita Creek Flats Recreational Area floods. Primitive campers and recreational vehicles are in imminent danger. Dirt roads that lead to highway 287 from Rosita Creek Flats are impassable."
+    },
+    "previous_id": "893e39436fef8a790253b4192fb27029",
+    "country_iso": "USA",
+    "ugcs": [
+     "TXC375"
+    ],
+    "states": [
+     {
+      "name": "Texas",
+      "code": "TX"
+     }
+    ],
+    "center": [
+     -101.91084699453552,
+     35.48360959319975
+    ],
+    "area": 1105514402.8624098,
+    "bbox": [
+     -102.17,
+     35.36,
+     -101.62,
+     35.62
+    ],
+    "metadata": {
+     "upstream": "NWWS"
+    },
+    "population": {
+     "homes": 186,
+     "people": 408
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "id": "9905d481c373ffe494fc4cedbfbce0ed",
+    "title": "Hydrologic Outlook",
+    "common_id": "KABR.HY.O.b60189ba00b3776e0502ca18d3d20396",
+    "action": "NEW",
+    "office": "KABR",
+    "product": "HY",
+    "significance": "O",
+    "event_number": 0,
+    "issued_at": "2026-09-25T15:04:00.000Z",
+    "issued_at_ms": 1790348640000,
+    "starts_at": "2026-09-25T15:04:00.000Z",
+    "starts_at_ms": 1790348640000,
+    "expires_at": "2026-10-20T19:45:00.000Z",
+    "expires_at_ms": 1792525500000,
+    "generated_at": "2026-09-25T15:04:33.168Z",
+    "generated_at_ms": 1790348673168,
+    "text": "481\nFGUS73 KABR 251504\nESFABR\nMNC011-155-SDC013-017-021-025-029-031-037-039-041-045-049-051-057-\n059-065-069-075-085-089-091-107-109-115-117-119-129-201945-\n\nProbabilistic Hydrologic Outlook\nNational Weather Service Aberdeen SD\n1004 AM CDT ...",
+    "emergency": false,
+    "tags": {
+     "HEADING": "Table 1--Probabilities for minor...moderate and major flooding... Valid Period: Valid Period: 09/28/2026 - 12/27/2026 : Current and Historical : Chances of Exceeding : Flood Categories : as a Percentage (%) Categorical : Flood Stages (FT) : Minor Moderate Major Location Minor Mod Major : CS HS CS HS CS HS -------- ----- ----- ----- : --- --- --- --- --- --- :Elm River Westport 14.0 16.0 19.0 : <5 <5 <5 <5 <5 <5 :James River Columbia 13.0 16.0 18.0 : 14 9 6 5 <5 <5 Stratford 14.0 17.0 18.5 : 16 14 6 5 <5 <5 Ashton 13.0 14.0 16.0 : 11 6 8 6 6 5 Redfield 20.0 22.0 25.0 : 6 5 5 <5 <5 <5 :Snake Creek Ashton 11.5 13.0 16.0 : 11 12 10 11 7 <5 :Turtle Creek :Big Sioux River Watertown 10NW 10.0 11.0 12.0 : <5 <5 <5 <5 <5 <5 Watertown Conifer 9.0 10.0 12.0 : <5 12 <5 <5 <5 <5 Watertown Broadwy 10.5 11.0 13.5 : 5 11 <5 <5 <5 <5 Castlewood 9.0 11.0 16.0 : 14 16 <5 <5 <5 <5 :Grand River Little Eagle 15.0 17.0 21.0 : <5 7 <5 5 <5 <5 :Moreau River White Horse 21.0 23.0 25.0 : <5 7 <5 6 <5 <5 :Bad River Fort Pierre 21.0 25.0 27.0 : <5 <5 <5 <5 <5 <5 :Little Minnesota Peever 17.0 22.0 24.0 : <5 <5 <5 <5 <5 <5 :Minnesota River Big Stone Lake 970.0 971.5 973.5 : <5 <5 <5 <5 <5 <5 Legend CS = Conditional Simulation (Current Outlook) HS = Historical Simulation FT = Feet In Table 2 below...the 95 through 5 percent columns indicate the probability of exceeding the listed stage levels (FT) for the valid time period. ...Table 2--Exceedance Probabilities"
+    },
+    "previous_id": null,
+    "country_iso": "USA",
+    "ugcs": [
+     "MNC011",
+     "MNC155",
+     "SDC013",
+     "SDC017",
+     "SDC021",
+     "SDC025",
+     "SDC029",
+     "SDC031",
+     "SDC037",
+     "SDC039",
+     "SDC041",
+     "SDC045",
+     "SDC049",
+     "SDC051",
+     "SDC057",
+     "SDC059",
+     "SDC065",
+     "SDC069",
+     "SDC075",
+     "SDC085",
+     "SDC089",
+     "SDC091",
+     "SDC107",
+     "SDC109",
+     "SDC115",
+     "SDC117",
+     "SDC119",
+     "SDC129"
+    ],
+    "states": [
+     {
+      "name": "Minnesota",
+      "code": "MN"
+     },
+     {
+      "name": "South Dakota",
+      "code": "SD"
+     }
+    ],
+    "center": [
+     -99.15701423262944,
+     45.05604775435772
+    ],
+    "area": 79002958541.40576,
+    "bbox": [
+     -102.0008,
+     43.4998,
+     -96.1058,
+     46.0219
+    ],
+    "metadata": {
+     "upstream": "NWWS"
+    },
+    "population": {
+     "homes": 87389,
+     "people": 183183
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "id": "745f42a760d015197089ec15a0a33379",
+    "title": "Beach Hazards Statement",
+    "common_id": "KLOX.BH.S.0019",
+    "action": "NEW",
+    "office": "KLOX",
+    "product": "BH",
+    "significance": "S",
+    "event_number": 19,
+    "issued_at": "2026-09-29T20:45:00.000Z",
+    "issued_at_ms": 1790714700000,
+    "starts_at": "2026-09-29T20:45:00.000Z",
+    "starts_at_ms": 1790714700000,
+    "expires_at": "2026-10-01T00:00:00.000Z",
+    "expires_at_ms": 1790812800000,
+    "generated_at": "2026-09-29T20:47:12.601Z",
+    "generated_at_ms": 1790714832601,
+    "text": "Coastal Hazard Message\nNational Weather Service Los Angeles/Oxnard CA\n145 PM PDT Tue Sep 29 2026\n\nCAZ087-354-362-366-010000-\n/O.NEW.KLOX.BH.S.0019.260929T2045Z-261001T0000Z/\nCatalina and Santa Barbara Islands-Ventura County Beaches-\nMalibu ...",
+    "emergency": false,
+    "tags": {
+     "WHAT": "Strong rip currents. Minor tidal overflows, especially during the late morning high tides.",
+     "WHERE": "Catalina and Santa Barbara Islands, Ventura County Beaches, Malibu Coast and Los Angeles County Beaches.",
+     "WHEN": "Through Wednesday afternoon.",
+     "IMPACTS": "Pooling of sea water is possible around high tide at beach and harbor areas that is uncommon with normal tidal ranges. Enhanced beach erosion is also possible. No significant damage is expected. Rip currents can pull swimmers and surfers out to sea."
+    },
+    "previous_id": null,
+    "country_iso": "USA",
+    "ugcs": [
+     "CAZ087",
+     "CAZ354",
+     "CAZ362",
+     "CAZ366"
+    ],
+    "states": [
+     {
+      "name": "California",
+      "code": "CA"
+     }
+    ],
+    "center": [
+     -118.75935313911661,
+     33.817319852986785
+    ],
+    "area": 917832389.0800829,
+    "bbox": [
+     -119.478,
+     33.2992,
+     -118.0946,
+     34.4022
+    ],
+    "metadata": {
+     "upstream": "FORECAST_WEATHER_GOV"
+    },
+    "population": {
+     "homes": 610189,
+     "people": 1447133
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": null,
+   "properties": {
+    "id": "b4db1c848d62cfd6149013d39d946170",
+    "title": "Heat Advisory",
+    "common_id": "KCRP.HT.Y.0022",
+    "action": "NEW",
+    "office": "KCRP",
+    "product": "HT",
+    "significance": "Y",
+    "event_number": 22,
+    "issued_at": "2026-09-30T04:54:00.000Z",
+    "issued_at_ms": 1790744040000,
+    "starts_at": "2026-09-30T18:00:00.000Z",
+    "starts_at_ms": 1790791200000,
+    "expires_at": "2026-10-01T00:00:00.000Z",
+    "expires_at_ms": 1790812800000,
+    "generated_at": "2026-09-30T04:54:24.031Z",
+    "generated_at_ms": 1790744064031,
+    "text": "622\nWWUS74 KCRP 300454\nNPWCRP\n\nURGENT - WEATHER MESSAGE\nNational Weather Service Corpus Christi TX\n1154 PM CDT Tue Sep 29 2026\n\nTXZ241>244-342>344-010000-\n/O.NEW.KCRP.HT.Y.0022.260930T1800Z-261001T0000Z/\nJim Wells-Inland Kleberg-Inland Nuec...",
+    "emergency": false,
+    "tags": {
+     "WHAT": "Heat index values up to 113 expected.",
+     "WHERE": "Coastal Kleberg, Coastal Nueces, Coastal San Patricio, Inland Kleberg, Inland Nueces, Inland San Patricio, and Jim Wells Counties.",
+     "WHEN": "From 1 PM to 7 PM CDT Wednesday.",
+     "IMPACTS": "Hot temperatures and high humidity may cause heat illnesses."
+    },
+    "previous_id": null,
+    "country_iso": "USA",
+    "ugcs": [
+     "TXZ241",
+     "TXZ242",
+     "TXZ243",
+     "TXZ244",
+     "TXZ342",
+     "TXZ343",
+     "TXZ344"
+    ],
+    "states": [
+     {
+      "name": "Texas",
+      "code": "TX"
+     }
+    ],
+    "center": [
+     -97.74205694399309,
+     27.712352998413397
+    ],
+    "area": 8413279313.348578,
+    "bbox": [
+     -98.2355,
+     27.2108,
+     -97.1362,
+     28.1769
+    ],
+    "metadata": {
+     "upstream": "NWWS"
+    },
+    "population": {
+     "homes": 197684,
+     "people": 477347
+    },
+    "geometry": {
+     "type": "REMOTE"
+    }
+   }
+  }
+ ]
+}

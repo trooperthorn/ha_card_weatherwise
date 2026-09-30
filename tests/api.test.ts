@@ -1,10 +1,15 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { fetchForecast, ForecastFetchError } from "../src/api";
+import { fetchForecast, fetchGeometry, fetchWarnings, HostsFetchError } from "../src/api";
 import { parseConfig } from "../src/config";
 
 const FIXTURE = readFileSync(
   new URL("./fixtures/forecast-ecmwf-24h-5d.json", import.meta.url),
+  "utf8",
+);
+const WARNINGS = readFileSync(new URL("./fixtures/warnings-usa-sample.json", import.meta.url), "utf8");
+const GEOMETRY = readFileSync(
+  new URL("./fixtures/warnings-geometry-flood-watch.json", import.meta.url),
   "utf8",
 );
 
@@ -66,7 +71,7 @@ describe("fetchForecast", () => {
       }),
     ).rejects.toMatchObject({
       attempts: ["https://a.example: HTTP 429", "https://b.example: HTTP 429"],
-    } satisfies Partial<ForecastFetchError>);
+    } satisfies Partial<HostsFetchError>);
   });
 
   it("treats an aborted attempt as a timeout and moves on", async () => {
@@ -95,5 +100,66 @@ describe("fetchForecast", () => {
         fetch: async () => jsonResponse(JSON.stringify({ hourly: {} })),
       }),
     ).rejects.toBeInstanceOf(Error);
+  });
+});
+
+describe("fetchWarnings", () => {
+  it("requests the country feed and parses the features", async () => {
+    const urls: string[] = [];
+    const alerts = await fetchWarnings(config, {
+      sleep: noSleep,
+      fetch: async (url) => {
+        urls.push(url);
+        return jsonResponse(WARNINGS);
+      },
+    });
+    expect(urls).toEqual(["https://a.example/warnings/USA.geojson"]);
+    expect(alerts).toHaveLength(6);
+  });
+
+  it("uses the configured country token", async () => {
+    const urls: string[] = [];
+    await fetchWarnings(
+      { ...config, alert_country: "CAN" },
+      {
+        sleep: noSleep,
+        fetch: async (url) => {
+          urls.push(url);
+          return jsonResponse(WARNINGS);
+        },
+      },
+    );
+    expect(urls[0]).toBe("https://a.example/warnings/CAN.geojson");
+  });
+});
+
+describe("fetchGeometry", () => {
+  it("returns the polygon from the archive geometry route", async () => {
+    const urls: string[] = [];
+    const g = await fetchGeometry(config.hosts, "abc123", {
+      sleep: noSleep,
+      fetch: async (url) => {
+        urls.push(url);
+        return jsonResponse(GEOMETRY);
+      },
+    });
+    expect(urls).toEqual(["https://a.example/warnings/archive/abc123-geometry.geojson"]);
+    expect(g?.type).toBe("Polygon");
+  });
+
+  it("returns null instead of throwing when every host fails", async () => {
+    const g = await fetchGeometry(config.hosts, "abc123", {
+      sleep: noSleep,
+      fetch: async () => jsonResponse("", 404),
+    });
+    expect(g).toBeNull();
+  });
+
+  it("returns null for a response without usable geometry", async () => {
+    const g = await fetchGeometry(config.hosts, "abc123", {
+      sleep: noSleep,
+      fetch: async () => jsonResponse(JSON.stringify({ type: "Feature", geometry: null })),
+    });
+    expect(g).toBeNull();
   });
 });

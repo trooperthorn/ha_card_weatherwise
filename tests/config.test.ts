@@ -26,7 +26,46 @@ describe("parseConfig", () => {
       precipitation_unit: "inch",
       refresh_minutes: 30,
       hosts: DEFAULT_HOSTS,
+      layout: "strips",
+      show_alerts: true,
+      alerts_refresh_minutes: 5,
+      alerts_max: 3,
+      alerts_include_outlooks: false,
+      alert_zones: [],
+      alert_country: "USA",
     });
+  });
+
+  it("accepts zone codes as a list or as one string and upper-cases them", () => {
+    expect(parseConfig({ ...POINT, alert_zones: ["TXZ133", "txc139"] }).config?.alert_zones).toEqual([
+      "TXZ133",
+      "TXC139",
+    ]);
+    expect(parseConfig({ ...POINT, alert_zones: "TXZ133, txc139 TXZ119" }).config?.alert_zones).toEqual([
+      "TXZ133",
+      "TXC139",
+      "TXZ119",
+    ]);
+    expect(parseConfig({ ...POINT, alert_zones: "" }).config?.alert_zones).toEqual([]);
+  });
+
+  it("rejects malformed zone codes, layouts, and country tokens", () => {
+    const { errors } = parseConfig({
+      ...POINT,
+      alert_zones: ["TX133", 7],
+      layout: "table",
+      alert_country: "usa",
+      alerts_refresh_minutes: 1,
+      alerts_max: 11,
+    });
+    expect(errors).toEqual([
+      "alert_country: must be an upper-case country token such as USA",
+      "layout: must be one of strips, report",
+      "alerts_refresh_minutes: must be at least 2",
+      "alerts_max: must be at most 10",
+      'alert_zones[0]: "TX133" is not a UGC code such as TXZ133 or TXC139',
+      'alert_zones[1]: "7" is not a UGC code such as TXZ133 or TXC139',
+    ]);
   });
 
   it("uses the state zoom for the state preset and lets zoom override it", () => {

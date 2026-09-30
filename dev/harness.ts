@@ -45,6 +45,39 @@ const scenarios: Record<string, unknown[]> = {
   "forecast only": [
     { type: "custom:weatherwise-card", show_map: false, show_daily: true, ...POINT },
   ],
+  "report layout": [
+    {
+      type: "custom:weatherwise-card",
+      title: "Forecast report",
+      show_map: false,
+      layout: "report",
+      show_daily: true,
+      daily_count: 7,
+      hourly_count: 12,
+      ...POINT,
+    },
+  ],
+  "alerts with outlooks": [
+    {
+      type: "custom:weatherwise-card",
+      title: "Alerts",
+      show_map: false,
+      show_hourly: false,
+      alerts_include_outlooks: true,
+      alerts_max: 10,
+      ...POINT,
+    },
+  ],
+  "alerts by zone": [
+    {
+      type: "custom:weatherwise-card",
+      title: "Alerts by zone",
+      show_map: false,
+      show_hourly: false,
+      alert_zones: "TXZ133, TXC139",
+      ...POINT,
+    },
+  ],
   "unreachable host": [
     {
       type: "custom:weatherwise-card",

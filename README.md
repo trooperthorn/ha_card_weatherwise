@@ -2,9 +2,11 @@
 
 A custom dashboard card for Home Assistant, built for a kiosk display board.
 It embeds the WeatherWise radar map at a configurable zoom and adds a
-modeled-conditions headline, an hourly strip, and an optional daily strip
-from the WeatherWise forecast API. Put two cards on the board: one zoomed
-into the metro area, one pulled back to the whole state.
+modeled-conditions headline, local NWS alerts, an hourly strip, and an
+optional daily strip from the WeatherWise forecast and warnings feeds, or
+hourly and daily report tables in place of the strips. Put two cards on
+the board: one zoomed into the metro area, one pulled back to the whole
+state.
 
 ```yaml
 type: custom:weatherwise-card
@@ -30,10 +32,14 @@ show_daily: true
 | Section | Source | Default |
 | --- | --- | --- |
 | Headline: condition icon, temperature, feels-like, rain chance now and the maximum for the shown hours, wind speed and direction, humidity, the hour the values are valid for | The hourly forecast point valid now | on |
+| Local alerts: warnings, watches, advisories, and statements that cover the point, most severe first, with the end time and the product's WHAT line | The WeatherWise warnings feed, matched by zone code or by point-in-polygon against the warning's complete geometry | on, 3 shown, outlooks hidden |
 | Map | `https://web.weatherwise.app/#map=<zoom>/<lat>/<lon>&m=RADAR&ui=0&autoplay=1` in an iframe | on, 480 px tall, not interactive, app chrome hidden, playing |
 | Hourly strip: hour, icon, temperature, rain chance | Following hourly points | on, 12 hours |
 | Daily strip: weekday, icon, high and low, maximum rain chance | Daily forecast | off, 5 days |
+| Report layout (`layout: report`): hourly table with feels-like, rain chance and amount, wind, humidity; daily table with high, low, rain chance, sunrise, sunset | Same forecast, in place of the strips | strips |
 | Footer: link to WeatherWise, model and grid point, sunrise and sunset | Response metadata and daily block | on |
+
+`examples/report.yaml` is a map-less forecast report with alerts.
 
 Every number is a model forecast, not a station observation. The card
 labels the hour it is valid for and how long ago it was fetched, marks the
@@ -103,7 +109,14 @@ and the message lists every problem at once.
 | `wind_speed_unit` | `mph` | `mph`, `kmh`, `ms`, or `kn` |
 | `precipitation_unit` | `inch` | or `mm` |
 | `refresh_minutes` | `30` | Forecast poll interval, minimum 10 |
-| `hosts` | data2 then data1 | Ordered list of https origins to try, one attempt each |
+| `hosts` | data2 then data1 | Ordered list of https origins to try, one attempt each; also used for the warnings feed |
+| `layout` | `strips` | or `report` for hourly and daily tables |
+| `show_alerts` | `true` | Poll the warnings feed and show alerts covering the point |
+| `alerts_refresh_minutes` | `5` | Alert poll interval, minimum 2 |
+| `alerts_max` | `3` | Alerts rendered, most severe first, 1 to 10 |
+| `alerts_include_outlooks` | `false` | Also show outlooks and short term forecasts |
+| `alert_zones` | none | NWS UGC codes (`TXZ133`, `TXC139`) as a list or comma separated string; a listed code matches without a polygon lookup |
+| `alert_country` | `USA` | Token in the warnings feed path; only USA is verified |
 
 `examples/` holds the two kiosk cards and a complete two-view dashboard.
 `docs/operations.md` explains what each option changes and how to read the
@@ -120,6 +133,13 @@ the failure. The card never reproduces the WeatherWise app's own retry loop.
 Details and the request shape are in `docs/api.md`; the design rationale is
 in `docs/design.md`.
 
+Alerts come from the same hosts: the country warnings feed on its own
+interval, plus one small geometry request per candidate warning whose
+polygon is not inline (cached while the warning is active). A warning is
+shown only when a configured zone code is listed for it or the point lies
+inside its complete polygon; a bounding box hit alone never counts. The
+matching rules are in `docs/design.md`.
+
 ## Development
 
 ```
@@ -132,7 +152,8 @@ npm run build      # dist/weatherwise-card.js, one self-contained file
 ```
 
 The harness mounts the two kiosk cards plus scenarios for Celsius and GFS,
-forecast-only, an unreachable host, and a broken configuration.
+forecast-only, the report layout, alerts with outlooks, alerts by zone, an
+unreachable host, and a broken configuration.
 
 ## Versioning and releases
 
@@ -174,11 +195,22 @@ Verified on 2026-09-30, in the dev harness and unit tests:
   which is why `map_interactive` defaults to `false`.
 - Interval selection, null handling, array-length validation, host
   failover, timeout handling, and the WMO condition mapping.
+- The warnings feed and the per-warning geometry route answer with
+  `Access-Control-Allow-Origin: *` to a Home Assistant origin; the feed's
+  property set, its significance codes, and which products carry inline
+  polygons; the example point lay inside an active Flood Watch polygon that
+  day and the recorded geometry reproduces that in the tests.
+- Point-in-polygon with holes and MultiPolygons, expiry, outlook filtering,
+  zone matching, and the unresolved path, in unit tests against recorded
+  fixtures.
 
 Not verified yet:
 
 - Rendering inside a live Home Assistant dashboard and the visual editor
-  form; the harness stands in for the frontend.
+  form; the harness stands in for the frontend. The alert banners and the
+  report layout were verified by unit tests only, not in a browser.
+- Countries other than USA in the warnings feed, and the feed's own update
+  cadence.
 - Map modes other than `RADAR`, and forecast coverage beyond 5 days or 48
   hours on these models.
 - WeatherWise's terms for embedding and polling; the site credits

@@ -1,0 +1,12 @@
+# Forecast report with local alerts and no map: hourly and daily tables.
+type: custom:weatherwise-card
+title: Forecast
+latitude: 32.391
+longitude: -96.7
+show_map: false
+layout: report
+hourly_count: 12
+show_daily: true
+daily_count: 7
+alert_zones:
+  - TXZ133
