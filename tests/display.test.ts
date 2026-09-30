@@ -4,15 +4,22 @@ import { formatAge, formatHour, formatTime, round } from "../src/format";
 import { mapUrl } from "../src/map-url";
 
 describe("mapUrl", () => {
-  it("reproduces the handoff URL for the state view", () => {
-    expect(mapUrl({ latitude: 32.391, longitude: -96.7, zoom: 5.79, map_mode: "RADAR" })).toBe(
+  const base = { latitude: 32.391, longitude: -96.7, zoom: 5.79, map_mode: "RADAR" };
+
+  it("reproduces the handoff URL for the state view when the app UI is shown", () => {
+    expect(mapUrl({ ...base, map_ui: true, map_autoplay: false })).toBe(
       "https://web.weatherwise.app/#map=5.79/32.391/-96.7&m=RADAR",
     );
   });
-  it("trims coordinate noise", () => {
-    expect(mapUrl({ latitude: 32.39100004, longitude: -96.70000001, zoom: 9, map_mode: "RADAR" })).toBe(
-      "https://web.weatherwise.app/#map=9/32.391/-96.7&m=RADAR",
+  it("hides the app UI and starts playback by default", () => {
+    expect(mapUrl({ ...base, map_ui: false, map_autoplay: true })).toBe(
+      "https://web.weatherwise.app/#map=5.79/32.391/-96.7&m=RADAR&ui=0&autoplay=1",
     );
+  });
+  it("trims coordinate noise", () => {
+    expect(
+      mapUrl({ latitude: 32.39100004, longitude: -96.70000001, zoom: 9, map_mode: "RADAR", map_ui: true, map_autoplay: false }),
+    ).toBe("https://web.weatherwise.app/#map=9/32.391/-96.7&m=RADAR");
   });
 });
 

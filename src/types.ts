@@ -40,6 +40,8 @@ export interface WeatherWiseConfig {
   map_height: number;
   map_reload_minutes: number;
   map_interactive: boolean;
+  map_ui: boolean;
+  map_autoplay: boolean;
   show_conditions: boolean;
   show_hourly: boolean;
   hourly_count: number;

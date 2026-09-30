@@ -30,7 +30,7 @@ show_daily: true
 | Section | Source | Default |
 | --- | --- | --- |
 | Headline: condition icon, temperature, feels-like, rain chance now and the maximum for the shown hours, wind speed and direction, humidity, the hour the values are valid for | The hourly forecast point valid now | on |
-| Map | `https://web.weatherwise.app/#map=<zoom>/<lat>/<lon>&m=RADAR` in an iframe | on, 480 px tall, not interactive |
+| Map | `https://web.weatherwise.app/#map=<zoom>/<lat>/<lon>&m=RADAR&ui=0&autoplay=1` in an iframe | on, 480 px tall, not interactive, app chrome hidden, playing |
 | Hourly strip: hour, icon, temperature, rain chance | Following hourly points | on, 12 hours |
 | Daily strip: weekday, icon, high and low, maximum rain chance | Daily forecast | off, 5 days |
 | Footer: link to WeatherWise, model and grid point, sunrise and sunset | Response metadata and daily block | on |
@@ -90,6 +90,8 @@ and the message lists every problem at once.
 | `show_map` | `true` | Render the embedded map |
 | `map_height` | `480` | Map height in pixels, 120 to 4000 |
 | `map_interactive` | `false` | Allow touch, mouse, and wheel input on the map |
+| `map_ui` | `false` | Show the WeatherWise app controls; off also suppresses its App Updates announcement |
+| `map_autoplay` | `true` | Start radar playback when the map loads |
 | `map_reload_minutes` | `0` | Recreate the iframe on this interval; 0 never |
 | `show_conditions` | `true` | Headline from the hour valid now |
 | `show_hourly` | `true` | Hourly strip |
@@ -182,9 +184,11 @@ Not verified yet:
 - WeatherWise's terms for embedding and polling; the site credits
   Open-Meteo and exposes Open-Meteo style routes, but no public API
   contract was found. Keep `refresh_minutes` conservative.
-- Whether the embedded app shows an update or onboarding overlay on a
-  fresh browser profile. The bundle suppresses onboarding when the URL hash
-  carries more than one parameter, which this card's URL does.
+- That `ui=0` suppresses the App Updates announcement on every profile. The
+  first live install showed the announcement with the app UI on; the bundle
+  only opens that dialog when its `ui` flag is 1, and `ui=0` was confirmed
+  to hide the controls, but the dialog itself was not reproduced in the
+  harness browser.
 
 `docs/README.md` indexes the design, API, operations, decisions, and
 backlog documents.
