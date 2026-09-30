@@ -1,6 +1,7 @@
 /**
  * Builds the WeatherWise map URL. The fragment is zoom/latitude/longitude
- * followed by the map mode; see docs/api.md for what was verified.
+ * followed by the app's own parameters; see docs/api.md for what was
+ * verified about each.
  */
 
 import type { WeatherWiseConfig } from "./types";
@@ -10,9 +11,21 @@ function trim(value: number, digits: number): string {
   return Number(value.toFixed(digits)).toString();
 }
 
-export function mapUrl(
-  config: Pick<WeatherWiseConfig, "latitude" | "longitude" | "zoom" | "map_mode">,
-): string {
-  const fragment = `map=${trim(config.zoom, 2)}/${trim(config.latitude, 4)}/${trim(config.longitude, 4)}&m=${config.map_mode}`;
-  return `${MAP_ORIGIN}/#${fragment}`;
+export type MapUrlConfig = Pick<
+  WeatherWiseConfig,
+  "latitude" | "longitude" | "zoom" | "map_mode" | "map_ui" | "map_autoplay"
+>;
+
+export function mapUrl(config: MapUrlConfig): string {
+  const parts = [
+    `map=${trim(config.zoom, 2)}/${trim(config.latitude, 4)}/${trim(config.longitude, 4)}`,
+    `m=${config.map_mode}`,
+  ];
+  if (!config.map_ui) {
+    parts.push("ui=0");
+  }
+  if (config.map_autoplay) {
+    parts.push("autoplay=1");
+  }
+  return `${MAP_ORIGIN}/#${parts.join("&")}`;
 }

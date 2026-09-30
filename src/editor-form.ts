@@ -38,6 +38,8 @@ export const CONFIG_FORM_SCHEMA: Schema[] = [
       grid([
         { name: "show_map", selector: { boolean: {} } },
         { name: "map_interactive", selector: { boolean: {} } },
+        { name: "map_ui", selector: { boolean: {} } },
+        { name: "map_autoplay", selector: { boolean: {} } },
         { name: "map_mode", selector: { text: {} } },
       ]),
       grid([
@@ -100,6 +102,8 @@ const LABELS: Record<string, string> = {
   zoom: "Zoom (overrides the preset)",
   show_map: "Show the WeatherWise map",
   map_interactive: "Allow touch, mouse, and wheel input on the map",
+  map_ui: "Show the WeatherWise app controls and popups",
+  map_autoplay: "Start radar playback automatically",
   map_mode: "Map mode",
   map_height: "Map height",
   map_reload_minutes: "Reload the map every",
@@ -119,6 +123,8 @@ const HELPERS: Record<string, string> = {
   view: "Metro centers tightly on the point; State pulls back to the whole state. Set zoom to override.",
   map_interactive:
     "Off by default for display boards: a stray touch or wheel event would otherwise pan or zoom the map away until the next reload.",
+  map_ui:
+    "Off by default: the app then hides its mode selector, buttons, and the App Updates announcement that otherwise covers the map on a kiosk.",
   map_mode: "Upper-case token from the WeatherWise URL, RADAR by default. Other modes are unverified.",
   map_reload_minutes: "0 never reloads. A periodic reload guards a kiosk against a stuck embedded page.",
   refresh_minutes: "Minimum 10 minutes. Forecast data is modeled, not measured; it changes on model runs, not by the minute.",

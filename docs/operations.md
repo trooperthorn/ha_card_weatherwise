@@ -27,6 +27,8 @@ want 8 or 10.
 | `map_height` | Fixed pixel height. In a panel view size it to the screen minus the strips; the `getCardSize` estimate follows it for masonry layouts. |
 | `map_interactive` | `false` blocks all pointer input to the iframe. `true` lets viewers pan and zoom; nothing brings the map back except `map_reload_minutes` or a page reload. |
 | `map_reload_minutes` | Recreates the iframe on the interval. Costs a full reload of the WeatherWise app (several MB) each time; 60 or more is a reasonable kiosk value. |
+| `map_ui` | `false` adds `ui=0`, which hides the app's own controls and, per the bundle, its App Updates announcement. Set `true` only on a dashboard used by hand together with `map_interactive: true`. |
+| `map_autoplay` | `true` adds `autoplay=1` so the radar loop plays on load. |
 | `map_mode` | Passed through as `m=`. Only `RADAR` is verified. An unknown token is the app's problem, not the card's; expect a default view. |
 | `refresh_minutes` | Forecast poll interval, minimum 10. The model runs update a few times a day; 30 is a sensible default and 60 is fine. |
 | `hourly_count` | Hours after the current one. The request asks for two more than this so the current hour is always covered; 48 is the cap the widget code enforces. |
@@ -52,8 +54,10 @@ want 8 or 10.
 - The embedded app is a full web application with WebGL. A low-power kiosk
   may need hardware acceleration enabled in its browser for the map to
   render.
-- The embedded app's own controls (mode selector, alert buttons) render
-  inside the frame. With `map_interactive: false` they cannot be pressed.
+- With the defaults the embedded app shows no controls. If you set `map_ui:
+  true`, its mode selector and buttons render inside the frame and, with
+  `map_interactive: false`, cannot be pressed; any announcement it opens
+  then stays on screen until a reload.
 - Two cards means two copies of the app running. If the kiosk struggles,
   alternate two dashboard views (one card each) instead of stacking both.
 - A browser refresh of the dashboard restarts the timers; a Home Assistant

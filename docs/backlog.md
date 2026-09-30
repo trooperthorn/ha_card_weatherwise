@@ -4,9 +4,10 @@
   Assistant dashboard (sections view sizing, theme variables, the
   `getConfigForm` layout with `flatten` sections). The dev harness stands in
   for the frontend until then.
-- 2026-09-30: Confirm the embedded app shows no onboarding or update
-  overlay on a fresh kiosk browser profile. The bundle suppresses onboarding
-  when the hash has more than one parameter; that was read, not observed.
+- 2026-09-30: Confirm on the kiosk that `ui=0` keeps the App Updates
+  announcement away after WeatherWise ships its next release. The bundle
+  gates the dialog on the UI flag; that was read, not observed on a fresh
+  profile.
 - 2026-09-30: Decide whether a companion integration exposing a `weather`
   entity is wanted so the native weather forecast card can be used; the
   mapping contract is in the handoff document that started this repository.

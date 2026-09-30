@@ -15,7 +15,11 @@ style parameters. Treat availability, limits, and terms as unverified.
 | Frame busting | none found in `/assets/v1/index-BUPEwI1g.js` (`top.location`, `self !== top`, `frameElement`) | verified by grep of the 4.7 MB bundle |
 | Hash handling | Mapbox `hash: "map"`; `url_hash` in localStorage restored only when no hash is present | read from the bundle |
 | `m=RADAR` | radar mode | verified |
-| other `m=` values | | unverified |
+| other `m=` values | `SATELLITE`, `MODEL`, `OUTLOOKS`, `COMPOSITE` and more appear in the bundle's mode list | unverified |
+| `ui=0` | hides the app's mode selector, side buttons, and drawer; a WeatherWise watermark remains | verified in the harness |
+| `ui` flag and the App Updates dialog | the bundle calls `showModal()` only when `ui === 1` | read from the bundle; the dialog appeared on a live install with the UI shown |
+| `autoplay=1` | starts radar (or satellite) playback after the layer loads | read from the bundle, playback observed in the harness |
+| `ui_drawer=1`, `watermark=0`, `rs=1` | open the drawer, hide the watermark, fit bounds | present in the bundle, not used by the card |
 | Onboarding overlay | suppressed when the hash has more than one parameter and shown otherwise on a fresh profile | read from the bundle, not observed |
 
 ## Forecast

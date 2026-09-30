@@ -27,6 +27,9 @@ const scenarios: Record<string, unknown[]> = {
     },
   ],
   "metro only": [{ type: "custom:weatherwise-card", view: "metro", hourly_count: 8, ...POINT }],
+  "app ui shown": [
+    { type: "custom:weatherwise-card", view: "metro", map_ui: true, map_autoplay: false, map_interactive: true, ...POINT },
+  ],
   "state, celsius, gfs": [
     {
       type: "custom:weatherwise-card",

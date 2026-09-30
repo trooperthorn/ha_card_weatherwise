@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026.09.30.2
+
+- The map URL now carries `ui=0` and `autoplay=1` by default. The first
+  live install showed WeatherWise's App Updates announcement over the map
+  with no way to dismiss it while input was locked; the app only opens that
+  dialog when its UI flag is on. New options `map_ui` (default false) and
+  `map_autoplay` (default true) control both.
+
 ## 2026.09.30.1
 
 Initial implementation.

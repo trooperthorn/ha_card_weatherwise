@@ -30,6 +30,8 @@ const KNOWN_KEYS = new Set([
   "map_height",
   "map_reload_minutes",
   "map_interactive",
+  "map_ui",
+  "map_autoplay",
   "show_conditions",
   "show_hourly",
   "hourly_count",
@@ -200,6 +202,8 @@ export function parseConfig(raw: unknown): ParseResult {
     map_reload_minutes:
       number(raw, "map_reload_minutes", errors, { min: 0, max: 1440, integer: true, fallback: 0 }) ?? 0,
     map_interactive: boolean(raw, "map_interactive", errors, false),
+    map_ui: boolean(raw, "map_ui", errors, false),
+    map_autoplay: boolean(raw, "map_autoplay", errors, true),
     show_conditions: boolean(raw, "show_conditions", errors, true),
     show_hourly: boolean(raw, "show_hourly", errors, true),
     hourly_count: number(raw, "hourly_count", errors, { min: 1, max: MAX_HOURLY, integer: true, fallback: 12 }) ?? 12,

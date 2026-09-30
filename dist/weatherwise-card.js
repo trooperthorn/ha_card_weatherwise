@@ -58,23 +58,23 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 		}
 		return n;
 	}
-}, h = (e, t) => !l(e, t), oe = {
+}, oe = (e, t) => !l(e, t), se = {
 	attribute: !0,
 	type: String,
 	converter: m,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: h
+	hasChanged: oe
 };
 Symbol.metadata ??= Symbol("metadata"), f.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var g = class extends HTMLElement {
+var h = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = oe) {
+	static createProperty(e, t = se) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && u(this.prototype, e, r);
@@ -100,7 +100,7 @@ var g = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? oe;
+		return this.elementProperties.get(e) ?? se;
 	}
 	static _$Ei() {
 		if (this.hasOwnProperty(p("elementProperties"))) return;
@@ -187,7 +187,7 @@ var g = class extends HTMLElement {
 	requestUpdate(e, t, n, r = !1, i) {
 		if (e !== void 0) {
 			let a = this.constructor;
-			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? h)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
+			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,10 +251,10 @@ var g = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[p("elementProperties")] = /* @__PURE__ */ new Map(), g[p("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: g }), (f.reactiveElementVersions ??= []).push("2.1.2");
+h.elementStyles = [], h.shadowRootOptions = { mode: "open" }, h[p("elementProperties")] = /* @__PURE__ */ new Map(), h[p("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: h }), (f.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var se = globalThis, ce = (e) => e, _ = se.trustedTypes, le = _ ? _.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ue = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, y = "?" + v, de = `<${y}>`, b = document, x = () => b.createComment(""), S = (e) => e === null || typeof e != "object" && typeof e != "function", C = Array.isArray, fe = (e) => C(e) || typeof e?.[Symbol.iterator] == "function", w = "[ 	\n\f\r]", T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, pe = /-->/g, me = />/g, E = RegExp(`>|${w}(?:([^\\s"'>=/]+)(${w}*=${w}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), he = /'/g, ge = /"/g, _e = /^(?:script|style|textarea|title)$/i, ve = (e) => (t, ...n) => ({
+var g = globalThis, ce = (e) => e, _ = g.trustedTypes, le = _ ? _.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ue = "$lit$", v = `lit$${Math.random().toFixed(9).slice(2)}$`, y = "?" + v, de = `<${y}>`, b = document, x = () => b.createComment(""), S = (e) => e === null || typeof e != "object" && typeof e != "function", C = Array.isArray, fe = (e) => C(e) || typeof e?.[Symbol.iterator] == "function", w = "[ 	\n\f\r]", T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, pe = /-->/g, me = />/g, E = RegExp(`>|${w}(?:([^\\s"'>=/]+)(${w}*=${w}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), he = /'/g, ge = /"/g, _e = /^(?:script|style|textarea|title)$/i, ve = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
@@ -489,8 +489,8 @@ var Se = class {
 	U: Te,
 	B: Ce,
 	F: Ee
-}, Oe = se.litHtmlPolyfillSupport;
-Oe?.(M, P), (se.litHtmlVersions ??= []).push("3.3.3");
+}, Oe = g.litHtmlPolyfillSupport;
+Oe?.(M, P), (g.litHtmlVersions ??= []).push("3.3.3");
 var ke = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
@@ -498,7 +498,7 @@ var ke = (e, t, n) => {
 		r._$litPart$ = i = new P(t.insertBefore(x(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, I = globalThis, L = class extends g {
+}, I = globalThis, L = class extends h {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -530,7 +530,7 @@ var je = {
 	type: String,
 	converter: m,
 	reflect: !1,
-	hasChanged: h
+	hasChanged: oe
 }, Me = (e = je, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
@@ -776,7 +776,7 @@ async function Qe(e, t = {}) {
 var $e = {
 	metro: 9,
 	state: 5.79
-}, U = ["https://data2.weatherwise.app", "https://data1.weatherwise.app"], et = "https://web.weatherwise.app", tt = /* @__PURE__ */ new Set(/* @__PURE__ */ "type.title.latitude.longitude.view.zoom.map_mode.show_map.map_height.map_reload_minutes.map_interactive.show_conditions.show_hourly.hourly_count.show_daily.daily_count.model.temperature_unit.wind_speed_unit.precipitation_unit.refresh_minutes.hosts.view_layout.layout_options.grid_options.visibility".split(".")), nt = /* @__PURE__ */ new Set(["metro", "state"]), rt = /* @__PURE__ */ new Set(["ecmwf_ifs025", "gfs_seamless"]), it = /* @__PURE__ */ new Set(["fahrenheit", "celsius"]), at = /* @__PURE__ */ new Set([
+}, U = ["https://data2.weatherwise.app", "https://data1.weatherwise.app"], et = "https://web.weatherwise.app", tt = /* @__PURE__ */ new Set(/* @__PURE__ */ "type.title.latitude.longitude.view.zoom.map_mode.show_map.map_height.map_reload_minutes.map_interactive.map_ui.map_autoplay.show_conditions.show_hourly.hourly_count.show_daily.daily_count.model.temperature_unit.wind_speed_unit.precipitation_unit.refresh_minutes.hosts.view_layout.layout_options.grid_options.visibility".split(".")), nt = /* @__PURE__ */ new Set(["metro", "state"]), rt = /* @__PURE__ */ new Set(["ecmwf_ifs025", "gfs_seamless"]), it = /* @__PURE__ */ new Set(["fahrenheit", "celsius"]), at = /* @__PURE__ */ new Set([
 	"mph",
 	"kmh",
 	"ms",
@@ -862,6 +862,8 @@ function ut(e) {
 			fallback: 0
 		}) ?? 0,
 		map_interactive: G(e, "map_interactive", t, !1),
+		map_ui: G(e, "map_ui", t, !1),
+		map_autoplay: G(e, "map_autoplay", t, !0),
 		show_conditions: G(e, "show_conditions", t, !0),
 		show_hourly: G(e, "show_hourly", t, !0),
 		hourly_count: W(e, "hourly_count", t, {
@@ -1051,6 +1053,14 @@ var J = (e) => ({
 				selector: { boolean: {} }
 			},
 			{
+				name: "map_ui",
+				selector: { boolean: {} }
+			},
+			{
+				name: "map_autoplay",
+				selector: { boolean: {} }
+			},
+			{
 				name: "map_mode",
 				selector: { text: {} }
 			}
@@ -1170,6 +1180,8 @@ var J = (e) => ({
 	zoom: "Zoom (overrides the preset)",
 	show_map: "Show the WeatherWise map",
 	map_interactive: "Allow touch, mouse, and wheel input on the map",
+	map_ui: "Show the WeatherWise app controls and popups",
+	map_autoplay: "Start radar playback automatically",
 	map_mode: "Map mode",
 	map_height: "Map height",
 	map_reload_minutes: "Reload the map every",
@@ -1186,6 +1198,7 @@ var J = (e) => ({
 }, gt = {
 	view: "Metro centers tightly on the point; State pulls back to the whole state. Set zoom to override.",
 	map_interactive: "Off by default for display boards: a stray touch or wheel event would otherwise pan or zoom the map away until the next reload.",
+	map_ui: "Off by default: the app then hides its mode selector, buttons, and the App Updates announcement that otherwise covers the map on a kiosk.",
 	map_mode: "Upper-case token from the WeatherWise URL, RADAR by default. Other modes are unverified.",
 	map_reload_minutes: "0 never reloads. A periodic reload guards a kiosk against a stuck embedded page.",
 	refresh_minutes: "Minimum 10 minutes. Forecast data is modeled, not measured; it changes on model runs, not by the minute."
@@ -1263,7 +1276,8 @@ function kt(e, t) {
 	return Number(e.toFixed(t)).toString();
 }
 function At(e) {
-	return `${et}/#${`map=${kt(e.zoom, 2)}/${kt(e.latitude, 4)}/${kt(e.longitude, 4)}&m=${e.map_mode}`}`;
+	let t = [`map=${kt(e.zoom, 2)}/${kt(e.latitude, 4)}/${kt(e.longitude, 4)}`, `m=${e.map_mode}`];
+	return e.map_ui || t.push("ui=0"), e.map_autoplay && t.push("autoplay=1"), `${et}/#${t.join("&")}`;
 }
 //#endregion
 //#region src/styles.ts
@@ -1637,6 +1651,6 @@ Mt = $, Mt.styles = [jt, o`
 	name: "WeatherWise Card",
 	description: "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline and hourly strip. Built for kiosk displays.",
 	documentationURL: "https://github.com/trooperthorn/ha_card_weatherwise"
-}), console.info("%c WEATHERWISE-CARD %c v2026.09.30.1 ", "background: #444; color: #fff; border-radius: 3px 0 0 3px; padding: 2px 0;", "background: #38bdf8; color: #111; border-radius: 0 3px 3px 0; padding: 2px 0;");
+}), console.info("%c WEATHERWISE-CARD %c v2026.09.30.2 ", "background: #444; color: #fff; border-radius: 3px 0 0 3px; padding: 2px 0;", "background: #38bdf8; color: #111; border-radius: 0 3px 3px 0; padding: 2px 0;");
 //#endregion
 export { $ as WeatherWiseCard };

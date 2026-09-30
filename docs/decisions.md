@@ -26,6 +26,16 @@ several levels and it stayed there. On a display board a stray touch does
 the same. Blocking pointer events by default makes the configured framing
 the steady state; people who want to pan set the option to true.
 
+## 2026-09-30: the app UI is hidden by default (`ui=0`)
+
+The first live install showed WeatherWise's App Updates announcement over
+both maps, and with input locked it could not be dismissed. The bundle
+reads a `ui` hash parameter and only opens that dialog when it is 1, so the
+card sends `ui=0` unless `map_ui` is true. Rejected: leaving the UI on and
+asking users to dismiss the dialog once, because the app re-shows it on
+every release it ships, and a kiosk profile would need a hand each time.
+`autoplay=1` was added at the same time so the radar loop plays on load.
+
 ## 2026-09-30: one attempt per host per refresh
 
 The WeatherWise app's data client retries across its two hosts with a 30

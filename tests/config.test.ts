@@ -16,6 +16,8 @@ describe("parseConfig", () => {
       map_height: 480,
       map_reload_minutes: 0,
       map_interactive: false,
+      map_ui: false,
+      map_autoplay: true,
       hourly_count: 12,
       show_daily: false,
       model: "ecmwf_ifs025",
