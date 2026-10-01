@@ -29,7 +29,11 @@ want 8 or 10.
 | `map_reload_minutes` | Recreates the iframe on the interval. Costs a full reload of the WeatherWise app (several MB) each time; 60 or more is a reasonable kiosk value. |
 | `map_ui` | `false` adds `ui=0`, which hides the app's own controls and, per the bundle, its App Updates announcement. Set `true` only on a dashboard used by hand together with `map_interactive: true`. |
 | `map_autoplay` | `true` adds `autoplay=1` so the radar loop plays on load. |
-| `map_mode` | Passed through as `m=`. Only `RADAR` is verified. An unknown token is the app's problem, not the card's; expect a default view. |
+| `map_mode` | `RADAR`, `COMPOSITE`, `SATELLITE`, `MODEL`, or `OUTLOOKS`, sent as `m=`. Radar is one site; Composite is the national mosaic and suits the state view. |
+| `composite_product`, `satellite`, `satellite_product`, `model_source`, `model_field` | Product ids for their own mode only; ignored in any other mode. Empty leaves the app's default. An id the app does not know falls back to its default without an error. |
+| `map_url` | A URL copied from the WeatherWise app. The card reads its mode and layer parameters. The model run is dropped so the latest run loads. Anything outside the allowlist in `docs/api.md` is ignored. |
+| `map_url_camera` | `true` frames the map with the pasted URL's zoom and center. The forecast and alerts keep using `latitude` and `longitude`. |
+| `map_params` | YAML mapping of allowlisted URL parameters, for views the dropdowns do not cover: a radar station (`rt`, `rp`), an outlook (`oid` with `ost`), a pinned model run (`mn`). |
 | `refresh_minutes` | Forecast poll interval, minimum 10. The model runs update a few times a day; 30 is a sensible default and 60 is fine. |
 | `hourly_count` | Hours after the current one. The request asks for two more than this so the current hour is always covered; 48 is the cap the widget code enforces. |
 | `show_daily`, `daily_count` | The daily strip or table. Both models answer 16 days; the last day or two can carry null high or rain values, shown as `--`. Sunrise and sunset in the footer come from the daily block regardless. |

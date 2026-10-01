@@ -91,6 +91,22 @@ Sean decided the card stays a custom repository. The HACS validation job
 remains informational, and the terms check that was a precondition for a
 store submission is dropped from the backlog.
 
+## 2026-09-30: map views are selected by building the app's URL
+
+Sean observed that every mode, product, and model choice in the WeatherWise
+app only rewrites the URL, and wanted to choose views by selection instead
+of typing configuration. The bundle confirms the fragment is the app's
+state store, so the card offers a mode dropdown, product dropdowns for the
+common composite, satellite, and model choices, and a field that accepts a
+URL copied from the app. Rejected: reproducing the full catalogs (about
+sixty models, each with regions and fields) as dropdowns, which would go
+stale with every app release; the pasted URL covers them exactly. Rejected:
+passing the fragment through unfiltered, because the app also reads
+`token`, `email`, and server-override parameters from it; only an allowlist
+of view parameters with plain-token values is ever sent. The model run is
+dropped from a pasted URL because a copied run is hours from stale and the
+app loads the latest when it is absent.
+
 ## 2026-09-30: CodeQL ignores `dist/`
 
 The first pull request was blocked by a high-severity CodeQL alert,
