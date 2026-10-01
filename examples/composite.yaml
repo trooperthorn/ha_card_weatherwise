@@ -1,0 +1,11 @@
+# State view on the national MRMS mosaic instead of a single radar site.
+type: custom:weatherwise-card
+title: State radar
+view: state
+latitude: 32.391
+longitude: -96.7
+map_mode: COMPOSITE
+composite_product: SeamlessHSR
+show_conditions: false
+show_hourly: false
+show_daily: true

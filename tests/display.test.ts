@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { compass, conditionFor } from "../src/conditions";
 import { formatAge, formatHour, formatTime, round } from "../src/format";
-import { mapUrl } from "../src/map-url";
+import { mapUrl, parseMapUrl } from "../src/map-url";
 
 describe("mapUrl", () => {
-  const base = { latitude: 32.391, longitude: -96.7, zoom: 5.79, map_mode: "RADAR" };
+  const base = { map_latitude: 32.391, map_longitude: -96.7, zoom: 5.79, map_mode: "RADAR", map_params: {} };
 
   it("reproduces the handoff URL for the state view when the app UI is shown", () => {
     expect(mapUrl({ ...base, map_ui: true, map_autoplay: false })).toBe(
@@ -18,8 +18,49 @@ describe("mapUrl", () => {
   });
   it("trims coordinate noise", () => {
     expect(
-      mapUrl({ latitude: 32.39100004, longitude: -96.70000001, zoom: 9, map_mode: "RADAR", map_ui: true, map_autoplay: false }),
+      mapUrl({ map_latitude: 32.39100004, map_longitude: -96.70000001, zoom: 9, map_mode: "RADAR", map_params: {}, map_ui: true, map_autoplay: false }),
     ).toBe("https://web.weatherwise.app/#map=9/32.391/-96.7&m=RADAR");
+  });
+});
+
+describe("map modes and parameters", () => {
+  const base = { map_latitude: 32.391, map_longitude: -96.7, zoom: 6, map_ui: false, map_autoplay: true };
+
+  it("emits allowlisted parameters in a fixed order between the mode and the card flags", () => {
+    expect(
+      mapUrl({ ...base, map_mode: "MODEL", map_params: { mp: "REFC_0_atmosphere_instant", mid: "HRRR", mr: "CONUS" } }),
+    ).toBe(
+      "https://web.weatherwise.app/#map=6/32.391/-96.7&m=MODEL&mid=HRRR&mr=CONUS&mp=REFC_0_atmosphere_instant&ui=0&autoplay=1",
+    );
+  });
+
+  it("reads the mode, camera, and layer from a pasted URL and drops the model run", () => {
+    const parsed = parseMapUrl(
+      "https://web.weatherwise.app/#map=6.1/29.882/-97.866&m=OUTLOOKS&mid=HRRR&mr=CONUS&mn=2026_10_01_00_00_00&mp=REFC_0_atmosphere_instant",
+    );
+    expect(parsed).toEqual({
+      mode: "OUTLOOKS",
+      camera: { zoom: 6.1, latitude: 29.882, longitude: -97.866 },
+      params: { mid: "HRRR", mr: "CONUS", mp: "REFC_0_atmosphere_instant" },
+    });
+  });
+
+  it("ignores parameters outside the allowlist, including account and server overrides", () => {
+    const parsed = parseMapUrl(
+      "https://web.weatherwise.app/#map=6.49/30.898/-97.442&m=composite&token=abc&email=a@b.c&data_server=https://evil.example&ui=1&cp=VIL&sp=<script>",
+    );
+    expect(parsed).toMatchObject({ mode: "COMPOSITE", params: { cp: "VIL" } });
+    expect(Object.keys((parsed as { params: object }).params)).toEqual(["cp"]);
+  });
+
+  it("rejects other sites, unknown modes, and non-URLs", () => {
+    expect(parseMapUrl("https://example.com/#map=6/1/1&m=RADAR")).toBe("must start with https://web.weatherwise.app");
+    expect(parseMapUrl("https://web.weatherwise.app/#m=HOME")).toBe('has an unknown mode "HOME"');
+    expect(parseMapUrl("radar please")).toBe("is not a URL");
+  });
+
+  it("keeps a URL without a usable camera", () => {
+    expect(parseMapUrl("https://web.weatherwise.app/#map=99/1/1&m=RADAR")).toEqual({ mode: "RADAR", params: {} });
   });
 });
 

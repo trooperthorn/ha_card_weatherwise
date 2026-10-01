@@ -94,12 +94,66 @@ describe("parseConfig", () => {
       "typo: unknown option",
       "latitude: must be a number",
       "view: must be one of metro, state",
-      "map_mode: must be an upper-case token such as RADAR",
+      "map_mode: must be one of RADAR, COMPOSITE, SATELLITE, MODEL, OUTLOOKS",
       "hourly_count: must be at least 1",
       "refresh_minutes: must be at least 10",
       "hosts[0]: must be a bare https origin such as https://data2.weatherwise.app",
       'hosts[1]: "not a url" is not a URL',
       "hosts[2]: must be a bare https origin such as https://data2.weatherwise.app",
+    ]);
+  });
+
+  it("centers the map on the forecast point with no extra parameters by default", () => {
+    const c = parseConfig(POINT).config!;
+    expect(c).toMatchObject({ map_latitude: 32.391, map_longitude: -96.7, map_params: {} });
+  });
+
+  it("applies a product option only in its own mode", () => {
+    const options = { composite_product: "VIL", satellite: "GOES-18", satellite_product: "RGB-sandwich", model_source: "GFS" };
+    expect(parseConfig({ ...POINT, ...options }).config?.map_params).toEqual({});
+    expect(parseConfig({ ...POINT, ...options, map_mode: "COMPOSITE" }).config?.map_params).toEqual({ cp: "VIL" });
+    expect(parseConfig({ ...POINT, ...options, map_mode: "SATELLITE" }).config?.map_params).toEqual({
+      sid: "GOES-18",
+      sp: "RGB-sandwich",
+    });
+    expect(parseConfig({ ...POINT, ...options, map_mode: "MODEL" }).config?.map_params).toEqual({ mid: "GFS" });
+  });
+
+  it("takes mode and layer from a pasted URL but keeps the card's framing unless asked", () => {
+    const map_url =
+      "https://web.weatherwise.app/#map=6.1/29.882/-97.866&m=MODEL&mid=HRRR&mr=CONUS&mn=2026_10_01_00_00_00&mp=REFC_0_atmosphere_instant";
+    const kept = parseConfig({ ...POINT, map_url }).config!;
+    expect(kept.map_mode).toBe("MODEL");
+    expect(kept.map_params).toEqual({ mid: "HRRR", mr: "CONUS", mp: "REFC_0_atmosphere_instant" });
+    expect([kept.zoom, kept.map_latitude, kept.map_longitude]).toEqual([9, 32.391, -96.7]);
+    const framed = parseConfig({ ...POINT, map_url, map_url_camera: true }).config!;
+    expect([framed.zoom, framed.map_latitude, framed.map_longitude]).toEqual([6.1, 29.882, -97.866]);
+    expect([framed.latitude, framed.longitude]).toEqual([32.391, -96.7]);
+  });
+
+  it("lets explicit options override the pasted URL", () => {
+    const c = parseConfig({
+      ...POINT,
+      map_url: "https://web.weatherwise.app/#map=6/30/-97&m=MODEL&mid=HRRR",
+      model_source: "GFS",
+      map_params: { mr: "CONUS", mn: "2026_10_01_00_00_00" },
+    }).config!;
+    expect(c.map_params).toEqual({ mid: "GFS", mr: "CONUS", mn: "2026_10_01_00_00_00" });
+    expect(parseConfig({ ...POINT, map_url: "https://web.weatherwise.app/#m=MODEL", map_mode: "RADAR" }).config?.map_mode).toBe("RADAR");
+  });
+
+  it("rejects unsupported parameters, unsafe values, and foreign URLs", () => {
+    const { errors } = parseConfig({
+      ...POINT,
+      map_url: "https://example.com/#m=RADAR",
+      map_params: { token: "x", cp: "a b", rt: "KFWS" },
+      satellite_product: "<b>",
+    });
+    expect(errors).toEqual([
+      "map_url: must start with https://web.weatherwise.app",
+      "map_params.token: not a supported parameter",
+      "map_params.cp: must be a plain token",
+      "satellite_product: must be a plain token",
     ]);
   });
 

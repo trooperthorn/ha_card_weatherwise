@@ -37,6 +37,11 @@ export interface WeatherWiseConfig {
   view: ViewPreset;
   zoom: number;
   map_mode: string;
+  /** Map center; the forecast point unless a pasted URL's camera is used. */
+  map_latitude: number;
+  map_longitude: number;
+  /** Resolved fragment parameters: pasted URL, then map_params, then the product options. */
+  map_params: Record<string, string>;
   show_map: boolean;
   map_height: number;
   map_reload_minutes: number;

@@ -4,6 +4,7 @@
  */
 
 import { COUNTRY_RE, UGC_RE } from "./alerts";
+import { isMapParamKey, MAP_MODES, MAP_PARAM_VALUE_RE, parseMapUrl, type ParsedMapUrl } from "./map-url";
 import type {
   ForecastModel,
   Layout,
@@ -28,6 +29,14 @@ const KNOWN_KEYS = new Set([
   "view",
   "zoom",
   "map_mode",
+  "map_url",
+  "map_url_camera",
+  "map_params",
+  "composite_product",
+  "satellite",
+  "satellite_product",
+  "model_source",
+  "model_field",
   "show_map",
   "map_height",
   "map_reload_minutes",
@@ -64,7 +73,20 @@ const TEMPERATURE_UNITS: ReadonlySet<string> = new Set(["fahrenheit", "celsius"]
 const WIND_UNITS: ReadonlySet<string> = new Set(["mph", "kmh", "ms", "kn"]);
 const PRECIPITATION_UNITS: ReadonlySet<string> = new Set(["mm", "inch"]);
 const LAYOUTS: ReadonlySet<string> = new Set(["strips", "report"]);
-const MAP_MODE_RE = /^[A-Z0-9_-]{1,32}$/;
+const MAP_MODE_SET: ReadonlySet<string> = new Set(MAP_MODES);
+
+/**
+ * Product options and the fragment parameter each one sets. An option only
+ * applies in its own mode, so a card switched back to RADAR does not carry
+ * a stale satellite product in its URL.
+ */
+const PRODUCT_OPTIONS: ReadonlyArray<{ option: string; param: string; mode: string }> = [
+  { option: "composite_product", param: "cp", mode: "COMPOSITE" },
+  { option: "satellite", param: "sid", mode: "SATELLITE" },
+  { option: "satellite_product", param: "sp", mode: "SATELLITE" },
+  { option: "model_source", param: "mid", mode: "MODEL" },
+  { option: "model_field", param: "mp", mode: "MODEL" },
+];
 
 export const MIN_REFRESH_MINUTES = 10;
 export const MIN_ALERTS_REFRESH_MINUTES = 2;
@@ -223,14 +245,58 @@ export function parseConfig(raw: unknown): ParseResult {
   const view = choice<ViewPreset>(raw, "view", VIEWS, errors, "metro");
   const zoom = number(raw, "zoom", errors, { min: 1, max: 18, fallback: DEFAULT_ZOOM[view] });
 
-  let mapMode = "RADAR";
+  let pasted: ParsedMapUrl = { params: {} };
+  if (raw.map_url !== undefined && raw.map_url !== null && raw.map_url !== "") {
+    const parsed = typeof raw.map_url === "string" ? parseMapUrl(raw.map_url) : "must be a string";
+    if (typeof parsed === "string") {
+      errors.push(`map_url: ${parsed}`);
+    } else {
+      pasted = parsed;
+    }
+  }
+
+  let mapMode = pasted.mode ?? "RADAR";
   if (raw.map_mode !== undefined) {
-    if (typeof raw.map_mode !== "string" || !MAP_MODE_RE.test(raw.map_mode)) {
-      errors.push("map_mode: must be an upper-case token such as RADAR");
+    if (typeof raw.map_mode !== "string" || !MAP_MODE_SET.has(raw.map_mode)) {
+      errors.push(`map_mode: must be one of ${MAP_MODES.join(", ")}`);
     } else {
       mapMode = raw.map_mode;
     }
   }
+
+  const mapParams: Record<string, string> = { ...pasted.params };
+  if (raw.map_params !== undefined && raw.map_params !== null) {
+    if (!isRecord(raw.map_params)) {
+      errors.push("map_params: must be a mapping of WeatherWise URL parameters");
+    } else {
+      for (const [key, value] of Object.entries(raw.map_params)) {
+        if (!isMapParamKey(key)) {
+          errors.push(`map_params.${key}: not a supported parameter`);
+        } else if (
+          (typeof value !== "string" && typeof value !== "number") ||
+          !MAP_PARAM_VALUE_RE.test(String(value))
+        ) {
+          errors.push(`map_params.${key}: must be a plain token`);
+        } else {
+          mapParams[key] = String(value);
+        }
+      }
+    }
+  }
+  for (const { option, param, mode } of PRODUCT_OPTIONS) {
+    const value = raw[option];
+    if (value === undefined || value === null || value === "") {
+      continue;
+    }
+    if (typeof value !== "string" || !MAP_PARAM_VALUE_RE.test(value)) {
+      errors.push(`${option}: must be a plain token`);
+    } else if (mode === mapMode) {
+      mapParams[param] = value;
+    }
+  }
+
+  const useCamera = boolean(raw, "map_url_camera", errors, false) && pasted.camera !== undefined;
+  const camera = useCamera ? pasted.camera : undefined;
 
   let alertCountry = "USA";
   if (raw.alert_country !== undefined) {
@@ -246,8 +312,11 @@ export function parseConfig(raw: unknown): ParseResult {
     latitude: latitude ?? 0,
     longitude: longitude ?? 0,
     view,
-    zoom: zoom ?? DEFAULT_ZOOM[view],
+    zoom: camera?.zoom ?? zoom ?? DEFAULT_ZOOM[view],
     map_mode: mapMode,
+    map_latitude: camera?.latitude ?? latitude ?? 0,
+    map_longitude: camera?.longitude ?? longitude ?? 0,
+    map_params: mapParams,
     show_map: boolean(raw, "show_map", errors, true),
     map_height: number(raw, "map_height", errors, { min: 120, max: 4000, integer: true, fallback: 480 }) ?? 480,
     map_reload_minutes:

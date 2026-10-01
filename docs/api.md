@@ -15,12 +15,42 @@ style parameters. Treat availability, limits, and terms as unverified.
 | Frame busting | none found in `/assets/v1/index-BUPEwI1g.js` (`top.location`, `self !== top`, `frameElement`) | verified by grep of the 4.7 MB bundle |
 | Hash handling | Mapbox `hash: "map"`; `url_hash` in localStorage restored only when no hash is present | read from the bundle |
 | `m=RADAR` | radar mode | verified |
-| other `m=` values | `SATELLITE`, `MODEL`, `OUTLOOKS`, `COMPOSITE` and more appear in the bundle's mode list | unverified |
+| `m=` values | the bundle's list is `HOME, RADAR, COMPOSITE, SATELLITE, MODEL, OUTLOOKS`; the value is upper-cased, split on commas, and filtered against that list, falling back to `RADAR` | read from the bundle 2026-09-30; `COMPOSITE` and `OUTLOOKS` URLs were copied from the running app by Sean the same day |
 | `ui=0` | hides the app's mode selector, side buttons, and drawer; a WeatherWise watermark remains | verified in the harness |
 | `ui` flag and the App Updates dialog | the bundle calls `showModal()` only when `ui === 1` | read from the bundle; the dialog appeared on a live install with the UI shown |
 | `autoplay=1` | starts radar (or satellite) playback after the layer loads | read from the bundle, playback observed in the harness |
 | `ui_drawer=1`, `watermark=0`, `rs=1` | open the drawer, hide the watermark, fit bounds | present in the bundle, not used by the card |
 | Onboarding overlay | suppressed when the hash has more than one parameter and shown otherwise on a fresh profile | read from the bundle, not observed |
+
+### Per-mode fragment parameters
+
+Read from `/assets/v1/index-BUPEwI1g.js` on 2026-09-30. The app writes
+these into the fragment as the view changes and restores from them on
+load, which is why a URL copied from the app reproduces the view. Each
+store validates the ids against its own catalog and silently keeps its
+default when one does not match.
+
+| Mode | Parameters | Defaults when absent | Notes |
+| --- | --- | --- | --- |
+| RADAR | `rt` station id, `rp` product code | no station (`rt` "0"), product "" | the product must be in the station's product list |
+| SATELLITE | `sid` satellite, `sr` region, `sp` product | `GOES-19`, `CONUS`, `RGB-geo_color` | ids seen: `GOES-18`, `RGB-true_color`, `RGB-sandwich`, `RGB-air_mass`, `RGB-day_convection`, `ABI-L1b-C02`, `ABI-L1b-C09`, `ABI-L1b-C13` |
+| COMPOSITE | `cid` composite, `cr` region, `cp` product | `USA/MRMS`, `CONUS`, `SeamlessHSR` | ids seen: `SeamlessHSRPRT`, `VIL`, `EchoTop_18`, `MESH`, `MESH_Max_60min`, `RotationTrack60min`, `CREF_1HR_MAX`, and about forty more |
+| MODEL | `mid` model, `mr` region, `mn` run, `mp` field | `HRRR`, `CONUS`, latest run (""), `REFC_0_atmosphere_instant` | about sixty model ids; field ids differ per model; `mn` is a run timestamp such as `2026_10_01_00_00_00` |
+| OUTLOOKS | `oid` outlook, `ost` step | none | both are required together; ids look like `USA/SPC/CONVECTIVE/CATEGORICAL`; `USA/RHY/...` outlooks need a paid tier |
+| any | `ui`, `ui_drawer`, `watermark`, `autoplay`, `rs` | see the table above | |
+
+The card passes through only `rt, rp, sid, sr, sp, cid, cr, cp, mid, mr,
+mn, mp, oid, ost, watermark, ui_drawer`. The app also reads `token`,
+`email`, `data_server`, `tiles_server`, `hctrackid`, and deep-link keys for
+warnings, discussions, and tropical systems; the card never sends those.
+
+Not reachable from the fragment: dark mode, time format, the basemap
+style, the data picker, and every keyboard shortcut. Those live in the
+embedded app's own storage or need key events inside the frame, and a
+cross-origin page cannot supply either.
+
+Status: the parameter names, defaults, and ids are read from the bundle.
+Rendering of each mode inside the card's iframe has not been observed.
 
 ## Forecast
 

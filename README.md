@@ -53,6 +53,28 @@ back to zoom 5.79, the zoom from the WeatherWise URL this card was built
 from. `zoom` overrides either preset. The map is centered on `latitude` and
 `longitude`, which are also the forecast point.
 
+## Map modes and layers
+
+The WeatherWise app keeps its whole view in the URL, so the card selects a
+view by building that URL. Pick the mode and product from the dropdowns in
+the visual editor, or set the view up in the WeatherWise app, copy the
+address, and paste it into `map_url`:
+
+```yaml
+type: custom:weatherwise-card
+latitude: 32.391
+longitude: -96.7
+view: state
+map_url: https://web.weatherwise.app/#map=6.49/30.898/-97.442&m=COMPOSITE
+```
+
+Precedence is pasted URL, then `map_params`, then the dropdown options,
+then `map_mode`. A product option applies only in its own mode. The model
+run in a pasted URL is dropped so the app loads the latest run. The card
+keeps its own center and zoom unless `map_url_camera` is true. Dark mode,
+time format, basemap style, and the app's keyboard shortcuts are not in
+the URL and cannot be set from the card.
+
 By default the embedded map ignores touch, mouse, and wheel input, because
 on a display board a stray touch or scroll pans or zooms the map away and
 it stays there until the next reload. Set `map_interactive: true` for a
@@ -92,7 +114,13 @@ and the message lists every problem at once.
 | `title` | "Metro radar" or "State radar" | Card header |
 | `view` | `metro` | `metro` (zoom 9) or `state` (zoom 5.79) |
 | `zoom` | from `view` | 1 to 18, overrides the preset |
-| `map_mode` | `RADAR` | The `m=` token in the WeatherWise URL; only RADAR is verified |
+| `map_mode` | `RADAR` | `RADAR`, `COMPOSITE`, `SATELLITE`, `MODEL`, or `OUTLOOKS` |
+| `composite_product` | app default | Composite mode product id, such as `VIL` or `MESH`; a dropdown in the editor |
+| `satellite`, `satellite_product` | app default | Satellite mode: `GOES-19` or `GOES-18`, and a product id such as `RGB-sandwich` |
+| `model_source`, `model_field` | app default | Model mode: a model id such as `HRRR` or `GFS`, and a field id |
+| `map_url` | none | A URL copied from the WeatherWise app; the card takes the mode and layer from it |
+| `map_url_camera` | `false` | Also take the position and zoom from `map_url` |
+| `map_params` | none | Mapping of extra WeatherWise URL parameters from the allowlist in `docs/api.md` |
 | `show_map` | `true` | Render the embedded map |
 | `map_height` | `480` | Map height in pixels, 120 to 4000 |
 | `map_interactive` | `false` | Allow touch, mouse, and wheel input on the map |
@@ -211,7 +239,9 @@ Not verified yet:
   report layout were verified by unit tests only, not in a browser.
 - Countries other than USA in the warnings feed, and the feed's own update
   cadence.
-- Map modes other than `RADAR`. Forecast coverage was checked on
+- Rendering of map modes other than `RADAR` inside the card. The mode
+  list, the per-mode URL parameters, and the product ids come from the
+  app's bundle and from URLs copied out of the running app. Forecast coverage was checked on
   2026-09-30 to 240 hours and 16 days on both models (complete hourly,
   a few null daily values in the last days); see `docs/api.md`.
 - WeatherWise's terms for embedding and polling; the site credits

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026.09.30.4
+
+- Map modes by selection. `map_mode` is a dropdown of RADAR, COMPOSITE,
+  SATELLITE, MODEL, and OUTLOOKS, and is now validated against that list.
+  New product options `composite_product`, `satellite`,
+  `satellite_product`, `model_source`, and `model_field` apply in their own
+  mode.
+- `map_url` accepts a URL copied from the WeatherWise app and takes the
+  mode and layer from it; `map_url_camera` also takes its framing.
+  `map_params` passes allowlisted URL parameters from YAML. Account, token,
+  and server-override parameters are never forwarded.
+
 ## 2026.09.30.3
 
 - Local alerts. The card polls the WeatherWise warnings feed on its own

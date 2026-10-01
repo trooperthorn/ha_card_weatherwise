@@ -42,6 +42,37 @@ const scenarios: Record<string, unknown[]> = {
       ...POINT,
     },
   ],
+  "composite and satellite": [
+    {
+      type: "custom:weatherwise-card",
+      title: "MRMS precipitation type",
+      view: "state",
+      map_mode: "COMPOSITE",
+      composite_product: "SeamlessHSRPRT",
+      show_hourly: false,
+      ...POINT,
+    },
+    {
+      type: "custom:weatherwise-card",
+      title: "GOES East sandwich",
+      view: "state",
+      map_mode: "SATELLITE",
+      satellite_product: "RGB-sandwich",
+      show_hourly: false,
+      ...POINT,
+    },
+  ],
+  "pasted model url": [
+    {
+      type: "custom:weatherwise-card",
+      title: "HRRR reflectivity",
+      map_url:
+        "https://web.weatherwise.app/#map=6.1/29.882/-97.866&m=MODEL&mid=HRRR&mr=CONUS&mn=2026_10_01_00_00_00&mp=REFC_0_atmosphere_instant",
+      map_url_camera: true,
+      show_hourly: false,
+      ...POINT,
+    },
+  ],
   "forecast only": [
     { type: "custom:weatherwise-card", show_map: false, show_daily: true, ...POINT },
   ],
