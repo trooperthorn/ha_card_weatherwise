@@ -1,4 +1,4 @@
-//#region node_modules/@lit/reactive-element/css-tag.js
+// node_modules/@lit/reactive-element/css-tag.js
 var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, n = Symbol(), r = /* @__PURE__ */ new WeakMap(), i = class {
 	constructor(e, t, r) {
 		if (this._$cssResult$ = !0, r !== n) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -252,8 +252,7 @@ var h = class extends HTMLElement {
 	firstUpdated(e) {}
 };
 h.elementStyles = [], h.shadowRootOptions = { mode: "open" }, h[p("elementProperties")] = /* @__PURE__ */ new Map(), h[p("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: h }), (f.reactiveElementVersions ??= []).push("2.1.2");
-//#endregion
-//#region node_modules/lit-html/lit-html.js
+// node_modules/lit-html/lit-html.js
 var ce = globalThis, le = (e) => e, g = ce.trustedTypes, ue = g ? g.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, de = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, fe = "?" + _, pe = `<${fe}>`, v = document, y = () => v.createComment(""), b = (e) => e === null || typeof e != "object" && typeof e != "function", me = Array.isArray, he = (e) => me(e) || typeof e?.[Symbol.iterator] == "function", x = "[ 	\n\f\r]", S = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ge = /-->/g, _e = />/g, C = RegExp(`>|${x}(?:([^\\s"'>=/]+)(${x}*=${x}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ve = /'/g, ye = /"/g, be = /^(?:script|style|textarea|title)$/i, xe = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
@@ -523,8 +522,7 @@ var Ne = (e, t, n) => {
 M._$litElement$ = !0, M.finalized = !0, Pe.litElementHydrateSupport?.({ LitElement: M });
 var Fe = Pe.litElementPolyfillSupport;
 Fe?.({ LitElement: M }), (Pe.litElementVersions ??= []).push("4.2.2");
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/property.js
+// node_modules/@lit/reactive-element/decorators/property.js
 var Ie = {
 	attribute: !0,
 	type: String,
@@ -560,8 +558,7 @@ function Re(e) {
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/state.js
+// node_modules/@lit/reactive-element/decorators/state.js
 function N(e) {
 	return Re({
 		...e,
@@ -569,8 +566,7 @@ function N(e) {
 		attribute: !1
 	});
 }
-//#endregion
-//#region node_modules/lit-html/directive.js
+// node_modules/lit-html/directive.js
 var ze = (e) => (...t) => ({
 	_$litDirective$: e,
 	values: t
@@ -720,11 +716,7 @@ async function dt(e, t) {
 			continue;
 		}
 		let t = e.geometry;
-		if (t === null && (t = await s(e.id)), t === null) {
-			u.push(e);
-			continue;
-		}
-		it(r, n, t) && l.push({
+		t === null && (t = await s(e.id)), t === null ? u.push(e) : it(r, n, t) && l.push({
 			...e,
 			matchedBy: "polygon"
 		});
@@ -734,8 +726,7 @@ async function dt(e, t) {
 		unresolved: u
 	};
 }
-//#endregion
-//#region src/forecast.ts
+// src/forecast.ts
 var ft = [
 	"temperature_2m",
 	"apparent_temperature",
@@ -821,11 +812,7 @@ function _t(e, t) {
 		let e = i.time, t = Object.fromEntries(pt.map((t) => [t, ht(i, t, e.length, n)]));
 		for (let [r, i] of e.entries()) {
 			let e = R(i);
-			if (e === null) {
-				n.push(`daily.time[${r}] is not a number`);
-				continue;
-			}
-			c.push({
+			e === null ? n.push(`daily.time[${r}] is not a number`) : c.push({
 				time: e,
 				temperatureMax: R(t.temperature_2m_max[r]),
 				temperatureMin: R(t.temperature_2m_min[r]),
@@ -920,8 +907,7 @@ async function Et(e, t, n = {}) {
 		return null;
 	}
 }
-//#endregion
-//#region src/types.ts
+// src/types.ts
 var Dt = {
 	metro: 9,
 	state: 5.79
@@ -988,8 +974,7 @@ function Lt(e) {
 	for (let [e, t] of n.entries()) e !== "mn" && Pt(e) && Nt.test(t) && (r.params[e] = t);
 	return r;
 }
-//#endregion
-//#region src/config.ts
+// src/config.ts
 var Rt = /* @__PURE__ */ new Set(/* @__PURE__ */ "type.title.latitude.longitude.view.zoom.map_mode.map_url.map_url_camera.map_params.composite_product.satellite.satellite_product.model_source.model_field.show_map.map_height.map_reload_minutes.map_interactive.map_ui.map_autoplay.show_conditions.show_hourly.hourly_count.show_daily.daily_count.model.temperature_unit.wind_speed_unit.precipitation_unit.refresh_minutes.hosts.layout.show_alerts.alerts_refresh_minutes.alerts_max.alerts_include_outlooks.alert_zones.alert_country.view_layout.layout_options.grid_options.visibility".split(".")), zt = /* @__PURE__ */ new Set(["metro", "state"]), Bt = /* @__PURE__ */ new Set(["ecmwf_ifs025", "gfs_seamless"]), Vt = /* @__PURE__ */ new Set(["fahrenheit", "celsius"]), Ht = /* @__PURE__ */ new Set([
 	"mph",
 	"kmh",
@@ -1054,11 +1039,7 @@ function Jt(e, t) {
 			t.push(`hosts[${e}]: "${i}" is not a URL`);
 			continue;
 		}
-		if (n.protocol !== "https:" || n.pathname !== "/" || n.search || n.hash) {
-			t.push(`hosts[${e}]: must be a bare https origin such as https://data2.weatherwise.app`);
-			continue;
-		}
-		r.push(n.origin);
+		n.protocol !== "https:" || n.pathname !== "/" || n.search || n.hash ? t.push(`hosts[${e}]: must be a bare https origin such as https://data2.weatherwise.app`) : r.push(n.origin);
 	}
 	return r.length > 0 ? r : [...Ot];
 }
@@ -1070,13 +1051,7 @@ function Yt(e, t) {
 	else if (Array.isArray(n)) r = n;
 	else return t.push("alert_zones: must be a list of UGC codes such as TXZ133"), [];
 	let i = [];
-	for (let [e, n] of r.entries()) {
-		if (typeof n != "string" || !Ge.test(n.trim().toUpperCase())) {
-			t.push(`alert_zones[${e}]: "${String(n)}" is not a UGC code such as TXZ133 or TXC139`);
-			continue;
-		}
-		i.push(n.trim().toUpperCase());
-	}
+	for (let [e, n] of r.entries()) typeof n != "string" || !Ge.test(n.trim().toUpperCase()) ? t.push(`alert_zones[${e}]: "${String(n)}" is not a UGC code such as TXZ133 or TXC139`) : i.push(n.trim().toUpperCase());
 	return i;
 }
 function Xt(e) {
@@ -1192,8 +1167,7 @@ function Xt(e) {
 function Zt(e) {
 	return e.show_conditions || e.show_hourly || e.show_daily;
 }
-//#endregion
-//#region src/conditions.ts
+// src/conditions.ts
 var Qt = {
 	"clear-day": "Clear",
 	"clear-night": "Clear",
@@ -1279,8 +1253,7 @@ function $t(e) {
 		"NW"
 	][Math.round((e % 360 + 360) % 360 / 45) % 8] ?? "";
 }
-//#endregion
-//#region src/editor-form.ts
+// src/editor-form.ts
 var K = (e) => ({
 	name: "",
 	type: "grid",
@@ -1754,8 +1727,7 @@ function rn() {
 		computeHelper: (e) => nn[e.name]
 	};
 }
-//#endregion
-//#region src/format.ts
+// src/format.ts
 function an(e, t, n) {
 	try {
 		return new Intl.DateTimeFormat(n, {
@@ -1806,8 +1778,7 @@ function cn(e) {
 function J(e, t = 0) {
 	return e === null || !Number.isFinite(e) ? "--" : e.toFixed(t);
 }
-//#endregion
-//#region src/icons.ts
+// src/icons.ts
 var ln = T`<circle cx="12" cy="12" r="4" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></g>`, un = T`<path fill="currentColor" d="M14.5 2.5a9.5 9.5 0 1 0 7 15.6A8 8 0 0 1 14.5 2.5z"/>`, dn = T`<path fill="currentColor" d="M6.5 19a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.6 9.1 4 4 0 0 1 17.5 19H6.5z"/>`, fn = T`<path fill="currentColor" d="M9 20a3.5 3.5 0 0 1-.5-6.96A5 5 0 0 1 18.2 12 3.2 3.2 0 0 1 18 20H9z"/>`, pn = (e) => T`<g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="${e}" x2="7" y2="${e + 3}"/><line x1="12" y1="${e}" x2="11" y2="${e + 3}"/><line x1="16" y1="${e}" x2="15" y2="${e + 3}"/></g>`, Y = T`<path fill="currentColor" d="M6.5 15a4 4 0 0 1-.5-7.97A5.5 5.5 0 0 1 16.6 6 3.6 3.6 0 0 1 17.2 15H6.5z"/>`, mn = {
 	"clear-day": ln,
 	"clear-night": un,
@@ -1826,8 +1797,7 @@ var ln = T`<circle cx="12" cy="12" r="4" fill="currentColor"/><g stroke="current
 function X(e, t = 24) {
 	return T`<svg viewBox="0 0 24 24" width="${t}" height="${t}" aria-hidden="true">${mn[e]}</svg>`;
 }
-//#endregion
-//#region src/styles.ts
+// src/styles.ts
 var hn = o`
   :host {
     --wwc-bg: var(--ha-card-background, var(--card-background-color, #14161c));
@@ -1841,16 +1811,14 @@ var hn = o`
     --wwc-radius: var(--ha-card-border-radius, 12px);
   }
 `;
-//#endregion
-//#region \0@oxc-project+runtime@0.152.0/helpers/esm/decorate.js
+// \0@oxc-project+runtime@0.155.0/helpers/esm/decorate.js
 function Z(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
 	return i > 3 && a && Object.defineProperty(t, n, a), a;
 }
-//#endregion
-//#region src/weatherwise-card.ts
+// src/weatherwise-card.ts
 var gn, Q = 6e4, _n = 2;
 function vn(e) {
 	return e instanceof St ? e.attempts.join("; ") : e.message;
@@ -2018,7 +1986,7 @@ var $ = class extends M {
 	}
 	renderAlertStatus() {
 		let e = [];
-		return this.config?.show_alerts ? (this.alertsError ? e.push(w`<span class="badge error">alerts unavailable</span><span>${this.alertsError}</span>`) : this.alertsFetchedAt !== void 0 && this.alerts && e.push(w`<span>${this.alerts.length === 0 ? "no local alerts" : `${this.alerts.length} local alert${this.alerts.length === 1 ? "" : "s"}`}</span>`), this.unresolvedAlerts.length > 0 && e.push(w`<span class="badge stale">unresolved</span><span>${this.unresolvedAlerts.map((e) => e.title).join(", ")}: polygon unavailable, not shown</span>`), e) : e;
+		return this.config?.show_alerts && (this.alertsError ? e.push(w`<span class="badge error">alerts unavailable</span><span>${this.alertsError}</span>`) : this.alertsFetchedAt !== void 0 && this.alerts && e.push(w`<span>${this.alerts.length === 0 ? "no local alerts" : `${this.alerts.length} local alert${this.alerts.length === 1 ? "" : "s"}`}</span>`), this.unresolvedAlerts.length > 0 && e.push(w`<span class="badge stale">unresolved</span><span>${this.unresolvedAlerts.map((e) => e.title).join(", ")}: polygon unavailable, not shown</span>`)), e;
 	}
 	hourlyRows(e) {
 		let t = this.forecast;
@@ -2416,5 +2384,4 @@ gn = $, gn.styles = [hn, o`
 	description: "Embedded WeatherWise radar map at metro or state zoom with a modeled-conditions headline, local alerts, and hourly and daily forecast strips or tables. Built for kiosk displays.",
 	documentationURL: "https://github.com/trooperthorn/ha_card_weatherwise"
 }), console.info("%c WEATHERWISE-CARD %c v2026.09.30.4 ", "background: #444; color: #fff; border-radius: 3px 0 0 3px; padding: 2px 0;", "background: #38bdf8; color: #111; border-radius: 0 3px 3px 0; padding: 2px 0;");
-//#endregion
 export { $ as WeatherWiseCard };
