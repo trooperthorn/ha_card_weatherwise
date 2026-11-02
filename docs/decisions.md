@@ -119,3 +119,28 @@ alert 1 was dismissed as won't fix with a comment pointing here. Rejected:
 patching the bundle or pinning an older Lit, which would trade a false
 positive for a real maintenance burden. Dependency advisories for Lit are
 still covered by `npm audit` in the same workflow.
+
+## 2026-10-11: analytics errors from the embedded app are not suppressed
+
+A kiosk whose DNS blocks trackers logs `ERR_NAME_NOT_RESOLVED` for
+`static.cloudflareinsights.com/beacon.min.js` and `cdn.usefathom.com`. Both
+requests come from the WeatherWise page inside the iframe, not from the
+card: Cloudflare injects the beacon tag into the served HTML, and the app
+bundle loads Fathom and calls `trackPageview` on every map load with no URL
+switch, no `data-honor-dnt`, and no embed check. Fathom's only opt-out is a
+`blockFathomTracking` key in the app origin's `localStorage`, which a
+cross-origin card cannot write.
+
+Rejected options, verified the same day:
+
+- `sandbox` cannot filter hosts, and without `allow-same-origin` the app
+  loses `localStorage` while Fathom still sends.
+- The iframe `csp` attribute makes Chrome refuse the frame unless the page
+  answers with `Allow-CSP-From`; web.weatherwise.app does not.
+- Console messages for failed loads cannot be suppressed from script in any
+  frame.
+
+The errors are harmless; the map renders. To hide them, filter the console
+(`-cloudflareinsights -usefathom`) or enable "Hide network" in DevTools
+console settings. Allowing the two hosts in the DNS filter removes the
+errors only by letting the analytics through.
